@@ -46,9 +46,8 @@ handy_list handy_create_list   ()
 bool   handy_list_contain      ( handy_list * l, void * item ) // TODO
 {
     handy_Obj iter = (*l)->first;
-    for( int i = 1; i <= (*l)->size; i++ )
+    for( int i = 0; i < (*l)->size; i++ )
     {
-        printf( "sizeof : %d \n", iter->size );
         if( memcmp( iter->data, item, iter->size ) == 0 )
             return true;
         iter = iter->next;
@@ -59,11 +58,13 @@ bool   handy_list_add_front    ( handy_list * l, void * item )
 {
     if( (*l)->size == 0 )
     {
-        (*l)->first = malloc( sizeof( handy_Obj * ) );
-        (*l)->first->data = item;
-        (*l)->first->size = sizeof( item );
+        handy_Obj temp = malloc( sizeof( * temp ) );
 
-        (*l)->last  = (*l)->first;
+        temp->data = item;
+        temp->size = sizeof( item );
+
+        (*l)->last  = (*l)->first = temp;
+
         (*l)->size++;
 
         return true;
@@ -88,14 +89,15 @@ bool   handy_list_add_back     ( handy_list * l, void * item )
 {
     if( (*l)->size == 0 )
     {
-        (*l)->first = malloc( sizeof( handy_Obj * ) );
+        handy_Obj temp = malloc( sizeof( * temp ) );
 
-        (*l)->first->data = item;
-        (*l)->first->size = sizeof( item );
+        temp->data = item;
+        temp->size = sizeof( item );
 
-        (*l)->last  = (*l)->first;
+        (*l)->last  = (*l)->first = temp;
 
         (*l)->size++;
+
         return true;
     }
     else if ( (*l)->size > 0 )
@@ -119,11 +121,7 @@ bool   handy_list_add_at       ( handy_list * l, void *item, int at )
 {
     if( at < 0 || at > (*l)->size + 1 )
         return false;
-    else if( at == 0 )
-        return ((*l)->add_front(l, item));
-    else if( at == (*l)->size )
-        return ( (*l)->add_back(l, item) );
-    else if( at > 0 && at < (*l)->size )
+    else
     {
         handy_Obj iter;
         iter = (*l)->first;
@@ -132,21 +130,28 @@ bool   handy_list_add_at       ( handy_list * l, void *item, int at )
         temp->data = item;
         temp->size = sizeof( item );
 
-        for( int i = 1; i <= (*l)->size; i++ )
+        for( int i = 0; i < (*l)->size; i++ )
         {
             if( i == at )
             {
-                handy_Obj nodePrev = iter->prev;
-                handy_Obj nodeNext = iter->next;
+                if( at == 0 )
+                    return ((*l)->add_front(l, item));
+                else if( at == (*l)->size )
+                    return ( (*l)->add_back(l, item) );
+                else
+                {
+                    handy_Obj nodePrev = iter->prev;
+                    handy_Obj nodeNext = iter->next;
 
-                nodePrev->next = temp;
-                nodeNext->prev = temp;
+                    nodePrev->next = temp;
+                    nodeNext->prev = temp;
 
-                temp->prev = nodePrev;
-                temp->next = nodeNext;
+                    temp->prev = nodePrev;
+                    temp->next = nodeNext;
 
-                (*l)->size++;
-                return true;
+                    (*l)->size++;
+                    return true;
+                }
             }
             iter = iter->next;
         }
@@ -187,18 +192,23 @@ void * handy_list_get_back     ( handy_list * l )
 }
 void * handy_list_get_at       ( handy_list * l, int at )
 {
-    if( at < 0 || at > (*l)->size )
+    if( at < 0 || at >= (*l)->size  )
         return NULL;
-    else if( at >= 0 && at <= (*l)->size )
+    else
     {
         handy_Obj iter;
         iter = (*l)->first;
 
-        for( int i = 1; i <= (*l)->size; i++ )
+        for( int i = 0; i < (*l)->size; i++ )
         {
             if( i == at )
             {
-                return iter->data;
+                if( i == 0 )
+                    return ((*l)->get_front(l) );
+                else if( i == (*l)->size - 1 )
+                    return ((*l)->get_back(l) );
+                else
+                    return iter->data;
             }
             iter = iter->next;
         }
@@ -208,9 +218,7 @@ void * handy_list_get_at       ( handy_list * l, int at )
 void * handy_list_remove_front ( handy_list * l )
 {
     if( (*l)->size == 0 )
-    {
         return NULL;
-    }
     else if( (*l)->size == 1 )
     {
         handy_Obj  temp = (*l)->first;
@@ -228,7 +236,6 @@ void * handy_list_remove_front ( handy_list * l )
         return temp->data;
     }
     return NULL;
-
 }
 void * handy_list_remove_back  ( handy_list * l )
 {
@@ -254,41 +261,36 @@ void * handy_list_remove_back  ( handy_list * l )
     }
     return NULL;
 }
-void * handy_list_remove_at    ( handy_list * l, int at )   // surely need some fixing
+void * handy_list_remove_at    ( handy_list * l, int at )// TODO surely need some fixing
 {
-    if( at < 0 || at > (*l)->size + 1 )
-        return NULL;
+    handy_Obj iter;
+    iter = (*l)->first;
 
-    else if( at == 0 )
+    for( int i = 0; i < (*l)->size; i++ )
     {
-        return ((*l)->remove_front(l) );
-    }
-
-    else if( at == (*l)->size )
-    {
-        return  ( (*l)->remove_back(l) );
-    }
-
-    else if( at > 0 && at < (*l)->size )
-    {
-        handy_Obj iter;
-        iter = (*l)->first;
-
-        for( int i = 1; i <= (*l)->size; i++ )
+        if( i == at )
         {
-            if( i == at )
+            if( i == 0 )
+                return ((*l)->remove_front(l) );
+            else if( i == (*l)->size - 1 )
+                return ((*l)->remove_back(l) );
+            else if( at < 0 || at >= (*l)->size  )
+                return NULL;
+            else
             {
                 iter->prev->next = iter->next;
                 iter->next->prev = iter->prev;
                 (*l)->size--;
                 return iter->data;
             }
-            iter = iter->next;
+
         }
+        iter = iter->next;
     }
+
     return NULL;
 }
-void * handy_list_reverse      (handy_list  * l)       // surely this is not correct
+void * handy_list_reverse      (handy_list  * l)        // TODO surely this is not correct
 {
     handy_Obj temp = (*l)->first;
 
@@ -297,12 +299,12 @@ void * handy_list_reverse      (handy_list  * l)       // surely this is not cor
 
     handy_Obj iter = (*l)->first->next;
 
-    // here were are simply re-nameing the next and prev
+    // here were are simply re-naming the next and prev
     // node of thge structure.
     for( int i = 0; i < (*l)->size; i++ )
     {
         // looks not write!!!
-        // need recchecking
+        // need re-checking
         iter->next = iter->prev;
         iter->prev = iter->next;
 
@@ -313,7 +315,7 @@ void * handy_list_pop          ( handy_list * l )
 {
     return handy_list_remove_front( l );
 }
-void   handy_list_free         ( handy_list * l )    // need to handel this
+void   handy_list_free         ( handy_list * l )       // TODO need to handel this
 {
     // handle l and free
 }
