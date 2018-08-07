@@ -6,6 +6,9 @@ bool   handy_list_add_back    ( handy_list * l, void * item );
 bool   handy_list_add_at      ( handy_list * l, void * item, int at );
 bool   handy_list_push        ( handy_list * l, void * item );
 bool   handy_list_empty       ( handy_list * l );
+
+void * handy_list_to_string   ( handy_list * l );
+
 void * handy_list_get_front   ( handy_list * l );
 void * handy_list_get_back    ( handy_list * l );
 void * handy_list_get_at      ( handy_list * l, int at );
@@ -30,6 +33,8 @@ handy_list handy_create_list   ()
     temp_list->push          = handy_list_push;
     temp_list->empty         = handy_list_empty;
 
+    temp_list->to_string     = handy_list_to_string;
+
     temp_list->get_front     = handy_list_get_front;
     temp_list->get_back      = handy_list_get_back;
     temp_list->get_at        = handy_list_get_at;
@@ -48,7 +53,7 @@ bool   handy_list_contain      ( handy_list * l, void * item ) // TODO
     handy_Obj iter = (*l)->first;
     for( int i = 0; i < (*l)->size; i++ )
     {
-        if( memcmp( iter->data, item, iter->size ) == 0 )
+        if( memcmp( iter->data, item, sizeof( iter->data ) ) == 0 )
             return true;
         iter = iter->next;
     }
@@ -58,9 +63,9 @@ bool   handy_list_add_front    ( handy_list * l, void * item )
 {
     if( (*l)->size == 0 )
     {
-        handy_Obj temp = malloc( sizeof( * temp ) );
+        handy_Obj temp = malloc( sizeof( *temp ) );
 
-        temp->data = item;
+       	temp->data = item;
         temp->size = sizeof( item );
 
         (*l)->last  = (*l)->first = temp;
@@ -71,7 +76,7 @@ bool   handy_list_add_front    ( handy_list * l, void * item )
     }
     else if ( (*l)->size > 0 )
     {
-        handy_Obj temp = malloc( sizeof( * temp ) );
+        handy_Obj temp = malloc( sizeof( *temp ) );
 
         temp->size = sizeof( item );;
         temp->data = item;
@@ -166,6 +171,25 @@ bool   handy_list_empty        ( handy_list * l )
 {
     return (*l)->size == 0 ? true : false;
 }
+
+void * handy_list_to_string   ( handy_list * l )    // TODO
+{
+    if( (*l)->size <= 0 )
+    {
+        return "[]";
+    }
+    handy_str_return = malloc( (*l)->size * (*l)->first->size );
+    
+    handy_str_return[0] = (void *)'[';
+
+    for( int i = 1; i < (*l)->size - 1; i++ )
+    {
+      	handy_str_return[i] = (*l)->get_at(l, i );
+    }
+    handy_str_return[(*l)->size] = (void *)']';
+    return handy_str_return;
+}
+
 void * handy_list_get_front    ( handy_list * l )
 {
     if( (*l)->size == 0 )
@@ -318,6 +342,11 @@ void * handy_list_pop          ( handy_list * l )
 void   handy_list_free         ( handy_list * l )       // TODO need to handel this
 {
     // handle l and free
+    while( (*l)->size > 0 )
+    {
+        free( (*l)->first );
+        (*l)->remove_front(l);
+    }
 }
 void * handy_list_top          ( handy_list * l )
 {

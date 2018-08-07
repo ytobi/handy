@@ -25,6 +25,8 @@ struct handy_obj
     handy_Obj next;
     handy_Obj prev;
 };
+
+char * handy_str_return;
 #endif
 
 struct list_struct
@@ -36,6 +38,7 @@ struct list_struct
     bool (*push)            ( handy_list * l, void * item );
     bool (*empty)           ( handy_list * l );
 
+    char * (*to_string)     ( handy_list * l );
     void * (*get_front)     ( handy_list * l );
     void * (*get_back)      ( handy_list * l );
     void * (*get_at)        ( handy_list * l, int at );
