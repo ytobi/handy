@@ -53,7 +53,7 @@ bool   handy_list_contain      ( handy_list * l, void * item ) // TODO
     handy_Obj iter = (*l)->first;
     for( int i = 0; i < (*l)->size; i++ )
     {
-        if( memcmp( iter->data, item, sizeof( iter->data ) ) == 0 )
+        if( memcmp( &(iter->data), &item, sizeof( iter->data ) ) == 0 )
             return true;
         iter = iter->next;
     }
