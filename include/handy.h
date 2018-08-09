@@ -8,4 +8,6 @@
 
 #include "handy_sick.h"
 
+#include "handy_string.h"
+
 #endif //HANDY_HANDY_H

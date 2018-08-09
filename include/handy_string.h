@@ -11,7 +11,7 @@ typedef struct string_struct  * handy_string;
 
 struct string_struct
 {
-    bool (*init)            ( handy_string * s, char * data );
+    bool (*add_string)      ( handy_string * s, char * data, size_t size );
     bool (*equal)           ( handy_string * s1, handy_string s2 );
     bool (*equal_str)       ( handy_string * s, char * str );
 
@@ -39,6 +39,6 @@ struct string_struct
     int size;
 };
 
-handy_string handy_create_string( char * str );
+handy_string handy_create_string();
 
 #endif //HANDY_HANDY_STRING_H

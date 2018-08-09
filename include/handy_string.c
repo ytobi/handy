@@ -4,7 +4,7 @@
 
 #include "handy_string.h"
 
-bool handy_init            ( handy_string * s, char * data );
+bool handy_add_string      ( handy_string * s, char * data,  size_t size );
 bool handy_equal           ( handy_string * s1, handy_string s2 );
 bool handy_equal_str       ( handy_string * s, char * str );
 
@@ -26,16 +26,15 @@ void handy_free            ( handy_string * s );
 int  handy_length          ( handy_string * s );
 
 
-handy_string handy_create_string( char * s )
+handy_string handy_create_string( )
 {
     handy_string temp = malloc( sizeof(*temp) );
 
-    temp->data = malloc( sizeof(s) + sizeof(char) );
-    temp->data = s;
-    temp->size = sizeof(s) / sizeof(char);
-    temp->data[temp->size + 1] = '\0';
+    temp->data = malloc( sizeof(char) );
+    temp->size = 0;
+    temp->data[0] = '\0';
 
-    temp->init = handy_init;
+    temp->add_string = handy_add_string;
     temp->equal = handy_equal;
     temp->equal_str = handy_equal_str;
     temp->contain_char = handy_contain_char;
@@ -45,11 +44,21 @@ handy_string handy_create_string( char * s )
     return temp;
 }
 
-bool handy_init            ( handy_string * s, char * str )
+bool handy_add_string      ( handy_string * s, char * str, size_t size )
 {
-    (*s)->data = malloc( sizeof(s) + sizeof(char) );
-    (*s)->data = str;
-    (*s)->data[sizeof(s) + sizeof(char)] = '\0';
+    char * temp_hold = malloc( (*s)->size * sizeof(char) );
+    memcpy( &temp_hold, &((*s)->data), ((*s)->size) );
+
+
+    if( realloc( ((*s)->data), (size + (*s)->size) ) == NULL ) // TODO
+        return false;
+
+    memcpy( &((*s)->data), &temp_hold, ((*s)->size) );
+    memcpy( &((*s)->data), &str, size );
+
+    (*s)->size += size;
+
+    free( temp_hold );
 }
 bool handy_equal           ( handy_string * s1, handy_string s2 )
 {
