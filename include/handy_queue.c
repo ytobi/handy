@@ -32,7 +32,7 @@ bool   handy_queue_contain    ( handy_queue * l, void * item )
     handy_Obj iter = (*l)->first;
     for( int i = 0; i < (*l)->size; i++ )
     {
-        if( memcmp( iter->data, item, iter->size ) == 0 )
+        if( memcmp( &iter->data, &item, iter->size ) == 0 )
             return true;
         iter = iter->next;
     }

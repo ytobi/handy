@@ -49,8 +49,7 @@ bool handy_add_string      ( handy_string * s, char * str, size_t size )
     char * temp_hold = malloc( (*s)->size * sizeof(char) );
     memcpy( &temp_hold, &((*s)->data), ((*s)->size) );
 
-
-    if( realloc( ((*s)->data), (size + (*s)->size) ) == NULL ) // TODO
+    if( ((*s)->data = realloc( ((*s)->data), (size + (*s)->size) )) == NULL ) // TODO
         return false;
 
     memcpy( &((*s)->data), &temp_hold, ((*s)->size) );
