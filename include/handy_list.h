@@ -35,7 +35,6 @@ struct list_struct
     bool (*add_front)       ( handy_list * l, void * item );
     bool (*add_back)        ( handy_list * l, void * item );
     bool (*add_at)          ( handy_list * l, void * item, int at );
-    bool (*push)            ( handy_list * l, void * item );
     bool (*empty)           ( handy_list * l );
 
     char * (*to_string)     ( handy_list * l );
@@ -46,9 +45,7 @@ struct list_struct
     void * (*remove_back)   ( handy_list * l );
     void * (*reverse)       ( handy_list * l );
     void * (*remove_at)     ( handy_list * l, int at );
-    void * (*pop)           ( handy_list * l );
     void   (*free)          ( handy_list * l );
-    void * (*top)           ( handy_list * l );
 
     handy_Obj first;
     handy_Obj last;

@@ -4,7 +4,6 @@ bool   handy_list_contain     ( handy_list * l, void * item );
 bool   handy_list_add_front   ( handy_list * l, void * item );
 bool   handy_list_add_back    ( handy_list * l, void * item );
 bool   handy_list_add_at      ( handy_list * l, void * item, int at );
-bool   handy_list_push        ( handy_list * l, void * item );
 bool   handy_list_empty       ( handy_list * l );
 
 void * handy_list_to_string   ( handy_list * l );
@@ -16,8 +15,6 @@ void * handy_list_remove_front( handy_list * l );
 void * handy_list_remove_back ( handy_list * l );
 void * handy_list_remove_at   ( handy_list * l, int at );
 void * handy_list_reverse     ( handy_list * l );
-void * handy_list_pop         ( handy_list * l );
-void * handy_list_top         ( handy_list * l );
 void   handy_list_free        ( handy_list * l );
 
 handy_list handy_create_list   ()
@@ -30,7 +27,6 @@ handy_list handy_create_list   ()
     temp_list->add_front     = handy_list_add_front;
     temp_list->add_back      = handy_list_add_back;
     temp_list->add_at        = handy_list_add_at;
-    temp_list->push          = handy_list_push;
     temp_list->empty         = handy_list_empty;
 
     temp_list->to_string     = handy_list_to_string;
@@ -42,9 +38,7 @@ handy_list handy_create_list   ()
     temp_list->remove_back   = handy_list_remove_back;
     temp_list->reverse       = handy_list_reverse;
     temp_list->remove_at     = handy_list_remove_at;
-    temp_list->pop           = handy_list_pop;
     temp_list->free          = handy_list_free;
-    temp_list->top           = handy_list_top;
 
     return temp_list;
 }
@@ -53,7 +47,7 @@ bool   handy_list_contain      ( handy_list * l, void * item ) // TODO
     handy_Obj iter = (*l)->first;
     for( int i = 0; i < (*l)->size; i++ )
     {
-        if( memcmp( &(iter->data), &item, iter->data ) == 0 )
+        if( memcmp( &(iter->data), &item, iter->size ) == 0 )
             return true;
         iter = iter->next;
     }
@@ -163,15 +157,10 @@ bool   handy_list_add_at       ( handy_list * l, void *item, int at )
     }
     return false;
 }
-bool   handy_list_push         ( handy_list * l, void * item )
-{
-    return handy_list_add_front( l, item );
-}
 bool   handy_list_empty        ( handy_list * l )
 {
     return (*l)->size == 0 ? true : false;
 }
-
 void * handy_list_to_string   ( handy_list * l )    // TODO
 {
     if( (*l)->size <= 0 )
@@ -189,7 +178,6 @@ void * handy_list_to_string   ( handy_list * l )    // TODO
     handy_str_return[(*l)->size] = (void *)']';
     return handy_str_return;
 }
-
 void * handy_list_get_front    ( handy_list * l )
 {
     if( (*l)->size == 0 )
@@ -316,28 +304,6 @@ void * handy_list_remove_at    ( handy_list * l, int at )// TODO surely need som
 }
 void * handy_list_reverse      (handy_list  * l)        // TODO surely this is not correct
 {
-    handy_Obj temp = (*l)->first;
-
-    (*l)->first = (*l)->last;
-    (*l)->last = temp;
-
-    handy_Obj iter = (*l)->first->next;
-
-    // here were are simply re-naming the next and prev
-    // node of thge structure.
-    for( int i = 0; i < (*l)->size; i++ )
-    {
-        // looks not write!!!
-        // need re-checking
-        iter->next = iter->prev;
-        iter->prev = iter->next;
-
-        iter = iter->prev;
-    }
-}
-void * handy_list_pop          ( handy_list * l )
-{
-    return handy_list_remove_front( l );
 }
 void   handy_list_free         ( handy_list * l )       // TODO need to handel this
 {
@@ -347,8 +313,4 @@ void   handy_list_free         ( handy_list * l )       // TODO need to handel t
         free( (*l)->first );
         (*l)->remove_front(l);
     }
-}
-void * handy_list_top          ( handy_list * l )
-{
-    return handy_list_get_front( l );
 }
