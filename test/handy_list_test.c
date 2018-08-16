@@ -2,7 +2,7 @@
 #include "../include/handy.h"
 
 
-void TestCreate( CuTest * tc )
+void TestListCreate( CuTest * tc )
 {
 	handy_list list = handy_create_list();
 	CuAssertPtrNotNull( tc, list );
@@ -16,7 +16,7 @@ void TestCreate( CuTest * tc )
 	list->free(&list);
 	free( list );
 }
-void TestAdd( CuTest * tc )
+void TestListAdd( CuTest * tc )
 {
 	handy_list list = handy_create_list();
 	char * input = strdup("hello, world!");
@@ -44,7 +44,7 @@ void TestAdd( CuTest * tc )
 	list->free(&list);
 	free( list );
 }
-void TestContain( CuTest * tc )
+void TestListContain( CuTest * tc )
 {
     handy_list list = handy_create_list();
 
@@ -56,7 +56,7 @@ void TestContain( CuTest * tc )
     list->free( &list );
     free( list );
 }
-void TestRemove( CuTest * tc )
+void TestListRemove( CuTest * tc )
 {
     handy_list list = handy_create_list();
 
@@ -79,17 +79,29 @@ void TestRemove( CuTest * tc )
     int expectedSize = 7;
     CuAssertIntEquals( tc, expectedSize, actualSize );
 
+    actualAt = list->remove_at( &list, 0 );
+    expectedAt = 1;
+    CuAssertIntEquals( tc, expectedAt, actualAt );
+
+    actualAt = list->remove_at( &list, list->size - 1 );
+    expectedAt = 8;
+    CuAssertIntEquals( tc, expectedAt, actualAt );
+
     list->free( &list );
     free( list );
 }
+void TestListReverse( CuTest * tc )
+{}
 
 CuSuite * HandyListGetSuit()
 {
 	CuSuite * suite = CuSuiteNew();
-	SUITE_ADD_TEST( suite, TestAdd );
-	SUITE_ADD_TEST( suite, TestCreate );
-    SUITE_ADD_TEST( suite, TestContain );
-    SUITE_ADD_TEST( suite, TestRemove );
+	SUITE_ADD_TEST( suite, TestListAdd );
+	SUITE_ADD_TEST( suite, TestListCreate );
+    SUITE_ADD_TEST( suite, TestListContain );
+    SUITE_ADD_TEST( suite, TestListRemove );
+    SUITE_ADD_TEST( suite, TestListReverse );
+
 	return suite;
 }
 

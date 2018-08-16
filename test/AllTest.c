@@ -2,6 +2,8 @@
 #include "../include/handy.h"
 
 CuSuite * HandyListGetSuit();
+CuSuite * HandyStackGetSuit();
+CuSuite * HandyQueueGetSuit();
 
 void RunAllTests(void)
 {
@@ -9,6 +11,8 @@ void RunAllTests(void)
 	CuSuite * suite = CuSuiteNew();
 	
 	CuSuiteAddSuite( suite, HandyListGetSuit() );
+	CuSuiteAddSuite( suite, HandyStackGetSuit() );
+	CuSuiteAddSuite( suite, HandyQueueGetSuit() );
 	
 	CuSuiteRun( suite );
 	CuSuiteSummary( suite, output );

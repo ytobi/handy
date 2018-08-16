@@ -1,36 +1,36 @@
 
 #include "handy_queue.h"
 
-bool   handy_queue_contain    ( handy_queue * l, void * item );
-bool   handy_queue_enqueue    ( handy_queue * l, void * item );
-bool   handy_queue_empty      ( handy_queue * l );
-void * handy_queue_reverse    ( handy_queue * l );
-void * handy_queue_dequeue    ( handy_queue * l );
-void   handy_queue_free       ( handy_queue * l );
-void * handy_queue_front      ( handy_queue * l );
-void * handy_queue_back       ( handy_queue * l );
+bool   handy_queue_contain    ( handy_queue * q, void * item );
+bool   handy_queue_enqueue    ( handy_queue * q, void * item );
+bool   handy_queue_empty      ( handy_queue * q );
+void * handy_queue_reverse    ( handy_queue * q );
+void * handy_queue_dequeue    ( handy_queue * q );
+void   handy_queue_free       ( handy_queue * q );
+void * handy_queue_front      ( handy_queue * q );
+void * handy_queue_back       ( handy_queue * q );
 
 handy_queue handy_create_queue()
 {
-    struct queue_struct *  temp_list = malloc( sizeof(*temp_list) );
+    struct queue_struct *  temp_queue = malloc( sizeof(*temp_queue) );
 
-    temp_list->size = 0;
+    temp_queue->size = 0;
 
-    temp_list->contain       = handy_queue_contain;
-    temp_list->enqueue       = handy_queue_enqueue;
-    temp_list->empty         = handy_queue_empty;
-    temp_list->reverse       = handy_queue_reverse;
-    temp_list->dequeue       = handy_queue_dequeue;
-    temp_list->free          = handy_queue_free;
-    temp_list->front         = handy_queue_front;
-    temp_list->back          = handy_queue_back;
+    temp_queue->contain       = handy_queue_contain;
+    temp_queue->enqueue       = handy_queue_enqueue;
+    temp_queue->empty         = handy_queue_empty;
+    temp_queue->reverse       = handy_queue_reverse;
+    temp_queue->dequeue       = handy_queue_dequeue;
+    temp_queue->free          = handy_queue_free;
+    temp_queue->front         = handy_queue_front;
+    temp_queue->back          = handy_queue_back;
 
-    return temp_list;
+    return temp_queue;
 }
-bool   handy_queue_contain    ( handy_queue * l, void * item )
+bool   handy_queue_contain    ( handy_queue * q, void * item )
 {
-    handy_Obj iter = (*l)->first;
-    for( int i = 0; i < (*l)->size; i++ )
+    handy_Obj iter = (*q)->first;
+    for( int i = 0; i < (*q)->size; i++ )
     {
         if( memcmp( &iter->data, &item, iter->size ) == 0 )
             return true;
@@ -38,92 +38,98 @@ bool   handy_queue_contain    ( handy_queue * l, void * item )
     }
     return false;
 }
-bool   handy_queue_enqueue    ( handy_queue * l, void * item )
+bool   handy_queue_enqueue    ( handy_queue * q, void * item )
 {
-    if( (*l)->size == 0 )
+    if( (*q)->size == 0 )
     {
-        (*l)->first = malloc( sizeof( handy_Obj *) );
-        (*l)->first->data = item;
-        (*l)->first->size = sizeof( item );
+        handy_Obj temp = malloc( sizeof( * temp ) );
 
-        (*l)->last  = (*l)->first;
-        (*l)->size++;
+        temp->data = item;
+        temp->size = sizeof( item );
+
+        (*q)->last  = (*q)->first = temp;
+
+        (*q)->size++;
+
         return true;
     }
-    else if ( (*l)->size > 0 )
+    else if ( (*q)->size > 0 )
     {
         handy_Obj temp = malloc( sizeof( * temp ) );
 
         temp->size = sizeof( item );
         temp->data = item;
-        temp->next = (*l)->first;
 
-        (*l)->first->prev = temp;
-        (*l)->first = temp;
-        (*l)->size++;
+        temp->prev = (*q)->last;
+        (*q)->last->next = temp;
+
+        (*q)->last = temp;
+        (*q)->size++;
 
         return true;
     }
     return false;
 }
-bool   handy_queue_empty      ( handy_queue * l )
+bool   handy_queue_empty      ( handy_queue * q )
 {
-    return (*l)->size == 0 ? true : false;
+    return (*q)->size == 0 ? true : false;
 }
-void * handy_queue_reverse    ( handy_queue * l )
+void * handy_queue_reverse    ( handy_queue * q )   // TODO
 {
     return NULL;
 }
-void * handy_queue_dequeue    ( handy_queue * l )
+void * handy_queue_dequeue    ( handy_queue * q )
 {
-    if( (*l)->size == 0 )
-    {
+    if( (*q)->size == 0 )
         return NULL;
-    }
-    else if( (*l)->size == 1 )
+    else if( (*q)->size == 1 )
     {
-        handy_Obj  temp = (*l)->last;
-        (*l)->first = (*l)->last = NULL;
-        (*l)->size--;
+        handy_Obj  temp = (*q)->first;
+        (*q)->first = (*q)->last = NULL;
+        (*q)->size--;
 
-        printf(" - %s - \n", (char *)temp->data );
         return temp->data;
     }
-    else if( (*l)->size > 1 )
+    else if( (*q)->size > 1 )
     {
-        handy_Obj temp = (*l)->last;
-        (*l)->last = (*l)->last->prev;
+        handy_Obj temp = (*q)->first;
+        (*q)->first = (*q)->first->next;
 
-        (*l)->size--;
+        (*q)->size--;
         return temp->data;
     }
     return NULL;
 }
-void   handy_queue_free       ( handy_queue * l )
+void   handy_queue_free       ( handy_queue * q )
 {
-    return;
+    // free every item in list and then remove them from the queue
+    while( (*q)->size > 0 )
+    {
+        free( (*q)->first );
+        (*q)->dequeue(q);
+    }
 }
-void * handy_queue_front      ( handy_queue * l )
+void * handy_queue_front      ( handy_queue * q )
 {
-    if( (*l)->size == 0 )
+    if( (*q)->size == 0 )
     {
         return NULL;
     }
-    else if( (*l)->size > 0 )
+    else if( (*q)->size > 0 )
     {
-        return  (*l)->first->data;
+        return  (*q)->first->data;
     }
     return NULL;
 }
-void * handy_queue_back       ( handy_queue * l )
+void * handy_queue_back       ( handy_queue * q )
 {
-    if( (*l)->size == 0 )
+    if( (*q)->size == 0 )
     {
         return NULL;
     }
-    else if( (*l)->size > 0 )
+    else if( (*q)->size > 0 )
     {
-        return  (*l)->last->data;
+        return  (*q)->last->data;
     }
     return NULL;
 }

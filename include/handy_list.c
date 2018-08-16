@@ -273,41 +273,60 @@ void * handy_list_remove_back  ( handy_list * l )
     }
     return NULL;
 }
-void * handy_list_remove_at    ( handy_list * l, int at )// TODO surely need some fixing
+void * handy_list_remove_at    ( handy_list * l, int at )
 {
     handy_Obj iter;
     iter = (*l)->first;
 
-    for( int i = 0; i < (*l)->size; i++ )
+    if( at == 0 )
+        return ((*l)->remove_front(l) );
+    else if( at == (*l)->size - 1 )
+        return ((*l)->remove_back(l) );
+    else if( at < 0 || at >= (*l)->size  )
+        return NULL;
+    else if( at > 0 || at < (*l)->size - 1 )
     {
-        if( i == at )
+        for( int i = 0; i < (*l)->size; i++ )
         {
-            if( i == 0 )
-                return ((*l)->remove_front(l) );
-            else if( i == (*l)->size - 1 )
-                return ((*l)->remove_back(l) );
-            else if( at < 0 || at >= (*l)->size  )
-                return NULL;
-            else
+            if( i == at )
             {
                 iter->prev->next = iter->next;
                 iter->next->prev = iter->prev;
                 (*l)->size--;
                 return iter->data;
             }
-
+            iter = iter->next;
         }
-        iter = iter->next;
     }
 
     return NULL;
 }
 void * handy_list_reverse      (handy_list  * l)        // TODO surely this is not correct
 {
+    // The front point the end, and next and prev of every node
+    // reversed.
+
+    handy_Obj ahead = (*l)->first->next;
+    handy_Obj hold = malloc( sizeof(*hold) );
+
+    do
+    {
+        memcpy( &hold, &(ahead->next), sizeof(*hold) );
+        ahead->next = ahead->prev;
+        ahead->prev = hold;
+        ahead = hold->next;
+    }while( ahead != NULL );
+
+    for( int i = 0; i < (*l)->size; i++ )
+    {
+        printf("item: %d \n", (*l)->get_at(l, i) );
+    }
+
+    return NULL;
 }
-void   handy_list_free         ( handy_list * l )       // TODO need to handel this
+void   handy_list_free         ( handy_list * l )
 {
-    // handle l and free
+    // free every item in list and then remove them from the list
     while( (*l)->size > 0 )
     {
         free( (*l)->first );

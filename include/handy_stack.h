@@ -26,15 +26,15 @@ struct handy_obj
 
 struct stack_struct
 {
-    bool (*contain)         ( handy_stack * l, void * item );
-    bool (*push)            ( handy_stack * l, void * item );
-    bool (*empty)           ( handy_stack * l );
+    bool (*contain)         ( handy_stack * s, void * item );
+    bool (*push)            ( handy_stack * s, void * item );
+    bool (*empty)           ( handy_stack * s );
 
-    void * (*reverse)       ( handy_stack * l );
-    void * (*pop)           ( handy_stack * l );
-    void   (*free)          ( handy_stack * l );
-    void * (*top)           ( handy_stack * l );
-    void * (*end)           ( handy_stack * l );
+    void * (*reverse)       ( handy_stack * s );
+    void * (*pop)           ( handy_stack * s );
+    void   (*free)          ( handy_stack * s );
+    void * (*top)           ( handy_stack * s );
+    void * (*bottom)        ( handy_stack * s );
 
     handy_Obj first;
     handy_Obj last;
