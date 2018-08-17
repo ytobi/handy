@@ -81,7 +81,37 @@ void TestStackPop( CuTest * tc )
     free( stack );
 }
 void TestStackReverse( CuTest * tc )
-{}
+{
+    handy_stack stack = handy_create_stack();
+    CuAssertPtrNotNull( tc, stack );
+
+    stack->push( &stack, "Handy" ); // bottom
+    stack->push( &stack, "is" );
+    stack->push( &stack, "name" );
+    stack->push( &stack, "my" );
+    stack->push( &stack, "world," );
+    stack->push( &stack, "Hello" ); // top
+
+    // now stack has been reversed
+    stack->reverse( &stack );
+
+    char * actualStr = "Hello";
+    char * expectedStr = stack->bottom( &stack );
+    CuAssertStrEquals( tc, expectedStr, actualStr );
+
+    actualStr = "Handy";
+    expectedStr = stack->top( &stack );
+    CuAssertStrEquals( tc, expectedStr, actualStr );
+
+    actualStr = "Hello";
+    expectedStr = stack->pop( &stack );
+    CuAssertStrEquals( tc, expectedStr, actualStr );
+
+
+
+    stack->free(&stack);
+    free( stack );
+}
 
 CuSuite * HandyStackGetSuit()
 {

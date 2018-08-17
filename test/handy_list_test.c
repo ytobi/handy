@@ -91,7 +91,33 @@ void TestListRemove( CuTest * tc )
     free( list );
 }
 void TestListReverse( CuTest * tc )
-{}
+{
+    handy_list list = handy_create_list();
+    CuAssertPtrNotNull( tc, list );
+
+    list->add_back( &list, "Handy" ); // first
+    list->add_back( &list, "is" );
+    list->add_back( &list, "name" );
+    list->add_back( &list, "my" );
+    list->add_back( &list, "world," );
+    list->add_back( &list, "Hello" ); // last
+
+    // now list has been reversed
+    list->reverse( &list );
+
+    char * actualStr = "Hello";
+    char * expectedStr = list->get_front( &list );
+
+    CuAssertStrEquals( tc, expectedStr, actualStr );
+
+    actualStr = "Handy";
+    expectedStr = list->get_back( &list );
+
+    CuAssertStrEquals( tc, expectedStr, actualStr );
+
+    list->free(&list);
+    free( list );
+}
 
 CuSuite * HandyListGetSuit()
 {

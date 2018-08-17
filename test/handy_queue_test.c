@@ -32,12 +32,12 @@ void TestQueueEnqueue( CuTest * tc )
     CuAssertIntEquals( tc, expectedSize, actualSize );
 
     // we test getting item at back
-    char * actualGetString = queue->front(&queue);
+    char * actualGetString = (char *)queue->front(&queue);
     char * expectedGetString = "hello, world!";
     CuAssertStrEquals( tc, expectedGetString, actualGetString );
 
     // test removing item at back
-    char * actualRemoveString = queue->dequeue(&queue);
+    char * actualRemoveString = (char *)queue->dequeue(&queue);
     char * expectedRemoveString = "hello, world!";
     CuAssertStrEquals( tc, expectedRemoveString, actualRemoveString );
 
@@ -63,11 +63,11 @@ void TestQueueDequeue( CuTest * tc )
     for( int i = 0; i < 10; i++ )
         queue->enqueue( &queue, i );
 
-    int actualBack = queue->front( &queue );
+    int actualBack = (int)queue->front( &queue );
     int expectedBack = 0;
     CuAssertIntEquals( tc, expectedBack, actualBack );
 
-    int actualFront = queue->dequeue( &queue );
+    int actualFront = (int)queue->dequeue( &queue );
     int expectedFront = 0;
     CuAssertIntEquals( tc, expectedFront, actualFront );
 
@@ -79,7 +79,33 @@ void TestQueueDequeue( CuTest * tc )
     free( queue );
 }
 void TestQueueReverse( CuTest * tc )
-{}
+{
+    handy_queue queue = handy_create_queue();
+    CuAssertPtrNotNull( tc, queue );
+
+    queue->enqueue( &queue, "Handy" ); // front
+    queue->enqueue( &queue, "is" );
+    queue->enqueue( &queue, "name" );
+    queue->enqueue( &queue, "my" );
+    queue->enqueue( &queue, "world," );
+    queue->enqueue( &queue, "Hello" ); // back
+
+    // Now the queue has been reversed
+    queue->reverse( &queue );
+
+    char * actualStr = "Hello";
+    char * expectedStr = queue->dequeue( &queue );
+
+    CuAssertStrEquals( tc, expectedStr, actualStr );
+
+    actualStr = "Handy";
+    expectedStr = queue->back( &queue );
+
+    CuAssertStrEquals( tc, expectedStr, actualStr );
+
+    queue->free(&queue);
+    free( queue );
+}
 
 CuSuite * HandyQueueGetSuit()
 {
