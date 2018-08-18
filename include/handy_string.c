@@ -2,7 +2,7 @@
 #include "handy.h"
 
 bool handy_add_string      ( handy_string * s, char * data,  size_t size );
-bool handy_equal           ( handy_string * s1, handy_string s2 );
+bool handy_equal           ( handy_string * s1, handy_string * s2 );
 bool handy_equal_str       ( handy_string * s, char * str );
 
 bool handy_copy            ( handy_string * des, handy_string * src );
@@ -85,13 +85,13 @@ bool handy_copy             ( handy_string * des, handy_string * src )
     }
     return false;
 }
-bool handy_equal            ( handy_string * s1, handy_string s2 )
+bool handy_equal            ( handy_string * s1, handy_string * s2 )
 {
-    return  (strcmp( (*s1)->data, (*s2).data ) == 0 )? true: false;
+    return  strncmp( (*s1)->data, ((*s2)->data), (*s2)->size ) == 0;
 }
 bool handy_equal_str        ( handy_string * s1, char * s2 )
 {
-    return  ( strcmp( (*s1)->data, s2 ) == 0 )? true: false;
+    return  strncmp( (*s1)->data, s2, strlen( s2) ) == 0;
 }
 bool handy_contain_char     ( handy_string * s, char c )
 {

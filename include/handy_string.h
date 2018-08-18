@@ -12,7 +12,7 @@ typedef struct string_struct  * handy_string;
 struct string_struct
 {
     bool (*add_string)      ( handy_string * s, char * data, size_t size );
-    bool (*equal)           ( handy_string * s1, handy_string s2 );
+    bool (*equal)           ( handy_string * s1, handy_string * s2 );
     bool (*equal_str)       ( handy_string * s, char * str );
 
     bool (*contain_char)    ( handy_string * s, char c );
