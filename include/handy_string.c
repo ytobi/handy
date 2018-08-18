@@ -75,11 +75,11 @@ bool handy_copy             ( handy_string * des, handy_string * src )
     if( new )
     {
         (*des)->data = new;
-        for( int i = 0; i < ((*src)->size - 1); i++ )
+        for( int i = 0; i < (*src)->size; i++ )
         {
             (*des)->data[(*des)->size + i] = (*src)->data[i];
         }
-        (*des)->size += ((*src)->size - 1);
+        (*des)->size += (*src)->size;
 
         return true;
     }
@@ -104,17 +104,18 @@ bool handy_contain_char     ( handy_string * s, char c )
 }
 bool handy_contain_str      ( handy_string * s, char * str )
 {
-    int len = sizeof(str) / sizeof(char);
+    size_t len = strlen( str );
     for( int i = 0; i < (*s)->size; i++ )
     {
         if( (*s)->data[i] == str[0] )
         {
             for( int j = 0; j < len; j++ )
             {
-                if((*s)->data[i + j] != str[j] )
-                    continue;
+                if((*s)->data[i + j] == str[j] && j == (len - 1) )
+                {
+                    return true;
+                }
             }
-            return true;
         }
     }
     return false;
@@ -249,7 +250,7 @@ void handy_free             ( handy_string * s )
 }
 int  handy_length           ( handy_string * s )
 {
-    return (*s)->size - 1;
+    return (*s)->size;
 }
 bool  handy_null            ( handy_string * s )
 {
