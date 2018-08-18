@@ -74,9 +74,26 @@ bool   handy_queue_empty      ( handy_queue * q )
 {
     return (*q)->size == 0 ? true : false;
 }
-void * handy_queue_reverse    ( handy_queue * q )   // TODO
+void * handy_queue_reverse    ( handy_queue * q )
 {
-    return NULL;
+    // The front point the end, and next and prev of every node
+    // reversed.
+
+    handy_Obj hold_front = (*q)->first;
+    handy_Obj hold_back = (*q)->last;
+
+    void * temp_data;
+
+    // exchange front and back till we reach middle
+    for( int i = 0 ; i < ((*q)->size / 2); i++ )
+    {
+        temp_data = hold_front->data;
+        hold_front->data = hold_back->data;
+        hold_back->data = temp_data;
+
+        hold_front = hold_front->next;
+        hold_back = hold_back->prev;
+    }
 }
 void * handy_queue_dequeue    ( handy_queue * q )
 {

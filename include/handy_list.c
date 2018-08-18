@@ -6,7 +6,7 @@ bool   handy_list_add_back    ( handy_list * l, void * item );
 bool   handy_list_add_at      ( handy_list * l, void * item, int at );
 bool   handy_list_empty       ( handy_list * l );
 
-void * handy_list_to_string   ( handy_list * l );
+char * handy_list_to_string   ( handy_list * l );
 
 void * handy_list_get_front   ( handy_list * l );
 void * handy_list_get_back    ( handy_list * l );
@@ -42,7 +42,7 @@ handy_list handy_create_list   ()
 
     return temp_list;
 }
-bool   handy_list_contain      ( handy_list * l, void * item ) // TODO
+bool   handy_list_contain      ( handy_list * l, void * item )
 {
     handy_Obj iter = (*l)->first;
     for( int i = 0; i < (*l)->size; i++ )
@@ -161,21 +161,23 @@ bool   handy_list_empty        ( handy_list * l )
 {
     return (*l)->size == 0 ? true : false;
 }
-void * handy_list_to_string   ( handy_list * l )    // TODO
+char * handy_list_to_string   ( handy_list * l )    // TODO
 {
     if( (*l)->size <= 0 )
     {
         return "[]";
     }
-    handy_str_return = malloc( (*l)->size * (*l)->first->size );
-    
-    handy_str_return[0] = (void *)'[';
+    char * handy_str_return = malloc( ((*l)->size + 3) * (*l)->first->size );
 
-    for( int i = 1; i < (*l)->size - 1; i++ )
+    handy_str_return[0] = '[';
+
+    for( int i = 0; i <= (*l)->size; i++ )
     {
-      	handy_str_return[i] = (*l)->get_at(l, i );
+        handy_str_return[i + 1] = (*l)->get_at(l,  i ) + ' ' - ' ';
     }
-    handy_str_return[(*l)->size] = (void *)']';
+    handy_str_return[(*l)->size + 1] = ']';
+    handy_str_return[(*l)->size + 2] = '\0';
+
     return handy_str_return;
 }
 void * handy_list_get_front    ( handy_list * l )
@@ -301,28 +303,26 @@ void * handy_list_remove_at    ( handy_list * l, int at )
 
     return NULL;
 }
-void * handy_list_reverse      (handy_list  * l)        // TODO surely this is not correct
+void * handy_list_reverse      (handy_list  * l)
 {
     // The front point the end, and next and prev of every node
     // reversed.
 
-    handy_Obj ahead = (*l)->first->next;
-    handy_Obj hold = malloc( sizeof(*hold) );
+    handy_Obj hold_first = (*l)->first;
+    handy_Obj hold_last = (*l)->last;
 
-    do
-    {
-        memcpy( &hold, &(ahead->next), sizeof(*hold) );
-        ahead->next = ahead->prev;
-        ahead->prev = hold;
-        ahead = hold->next;
-    }while( ahead != NULL );
+    void * temp_data;
 
-    for( int i = 0; i < (*l)->size; i++ )
+    // exchange front and back till we reach middle
+    for( int i = 0 ; i < ((*l)->size / 2); i++ )
     {
-        printf("item: %d \n", (*l)->get_at(l, i) );
+        temp_data = hold_first->data;
+        hold_first->data = hold_last->data;
+        hold_last->data = temp_data;
+
+        hold_first = hold_first->next;
+        hold_last = hold_last->prev;
     }
-
-    return NULL;
 }
 void   handy_list_free         ( handy_list * l )
 {

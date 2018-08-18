@@ -73,9 +73,26 @@ bool   handy_stack_empty      ( handy_stack * s )
 {
     return (*s)->size == 0 ? true : false;
 }
-void * handy_stack_reverse    ( handy_stack * s )   // TODO
+void * handy_stack_reverse    ( handy_stack * s )
 {
-    return NULL;
+    // The front point the end, and next and prev of every node
+    // reversed.
+
+    handy_Obj hold_top = (*s)->first;
+    handy_Obj hold_bottom = (*s)->last;
+
+    void * temp_data;
+
+    // exchange front and back till we reach middle
+    for( int i = 0 ; i < ((*s)->size / 2); i++ )
+    {
+        temp_data = hold_top->data;
+        hold_top->data = hold_bottom->data;
+        hold_top->data = temp_data;
+
+        hold_top = hold_top->next;
+        hold_bottom = hold_bottom->prev;
+    }
 }
 void * handy_stack_pop        ( handy_stack * s )
 {

@@ -125,4 +125,3 @@ CuSuite * HandyStackGetSuit()
 
     return suite;
 }
-

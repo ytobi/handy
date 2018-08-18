@@ -130,4 +130,3 @@ CuSuite * HandyListGetSuit()
 
 	return suite;
 }
-

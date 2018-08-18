@@ -9,5 +9,6 @@
 #include "handy_sick.h"
 
 #include "handy_string.h"
+#include "handy_vector.h"
 
 #endif //HANDY_HANDY_H

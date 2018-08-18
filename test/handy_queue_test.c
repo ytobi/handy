@@ -119,4 +119,3 @@ CuSuite * HandyQueueGetSuit()
 
     return suite;
 }
-

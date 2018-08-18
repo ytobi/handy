@@ -21,18 +21,17 @@ struct string_struct
     bool (*add_back)        ( handy_string * s, char c );
     bool (*add_at)          ( handy_string * s, char c, int at );
     bool (*null)            ( handy_string * s );
+    bool (*copy)            ( handy_string * des, handy_string * src );
 
     char (*get_front)       ( handy_string * s );
     char (*get_back)        ( handy_string * s );
     char (*get_at)          ( handy_string * s, int at );
-    void * (*delete_front)  ( handy_string * s );
-    void * (*delete_back)   ( handy_string * s );
-    void (*delete_at)       ( handy_string * s, int at );
-    void (*reverse)         ( handy_string * s );
+    bool (*delete_front)    ( handy_string * s );
+    bool (*delete_back)     ( handy_string * s );
+    bool (*delete_at)       ( handy_string * s, int at );
+    bool (*reverse)         ( handy_string * s );
     void (*free)            ( handy_string * s );
     int  (*length)          ( handy_string * s );
-
-    handy_string (*concat)  ( handy_string * s1, handy_string * s2 );
 
     char * data;
 
