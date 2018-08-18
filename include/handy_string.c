@@ -28,7 +28,7 @@ handy_string handy_create_string( )
     handy_string temp = malloc( sizeof(*temp) );
 
     temp->data = malloc( sizeof(char) );
-    temp->size = 1;
+    temp->size = 0;
     temp->data[0] = '\0';
 
     temp->add_string    = handy_add_string;
