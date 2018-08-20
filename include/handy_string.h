@@ -11,7 +11,7 @@ typedef struct string_struct  * handy_string;
 
 struct string_struct
 {
-    bool (*add_string)      ( handy_string * s, char * data, size_t size );
+    bool (*append)      ( handy_string * s, char * data );
     bool (*equal)           ( handy_string * s1, handy_string * s2 );
     bool (*equal_str)       ( handy_string * s, char * str );
 
@@ -23,6 +23,7 @@ struct string_struct
     bool (*null)            ( handy_string * s );
     bool (*copy)            ( handy_string * des, handy_string * src );
 
+    char * (*string)        ( handy_string * s );
     char (*get_front)       ( handy_string * s );
     char (*get_back)        ( handy_string * s );
     char (*get_at)          ( handy_string * s, int at );
