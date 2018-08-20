@@ -297,43 +297,51 @@ void CuSuiteSummary(CuSuite* testSuite, CuString* summary)
 	for (i = 0 ; i < testSuite->count ; ++i)
 	{
 		CuTest* testCase = testSuite->list[i];
-		CuStringAppend(summary, testCase->failed ? "F" : ".");
+		// CuStringAppend(summary, testCase->failed ? "\x1B[31mF\x1B[0m" : "\x1B[32m.\x1B[0m");
 	}
-	CuStringAppend(summary, "\n\n");
+	CuStringAppend(summary, "\n");
 }
 
 void CuSuiteDetails(CuSuite* testSuite, CuString* details)
 {
 	int i;
 	int failCount = 0;
+	int count = 0;
 
 	if (testSuite->failCount == 0)
 	{
 		int passCount = testSuite->count - testSuite->failCount;
 		const char* testWord = passCount == 1 ? "test" : "tests";
-		CuStringAppendFormat(details, "OK (%d %s)\n", passCount, testWord);
+		CuStringAppendFormat(details, "\x1B[32m OK (%d %s) \x1B[0m \n", passCount, testWord);
 	}
 	else
 	{
 		if (testSuite->failCount == 1)
-			CuStringAppend(details, "There was 1 failure:\n");
+			CuStringAppend(details, "\x1B[31m There was 1 failure: \x1B[0m \n");
 		else
-			CuStringAppendFormat(details, "There were %d failures:\n", testSuite->failCount);
+			CuStringAppendFormat(details, "\x1B[31m There were %d failures: \x1B[0m \n", testSuite->failCount);
 
 		for (i = 0 ; i < testSuite->count ; ++i)
 		{
 			CuTest* testCase = testSuite->list[i];
 			if (testCase->failed)
 			{
+				count++;
 				failCount++;
-				CuStringAppendFormat(details, "%d) %s: %s\n",
-					failCount, testCase->name, testCase->message);
+				CuStringAppendFormat(details, "%3d. %s %s: %s\n",
+					count, "\x1B[31m[failed]\x1B[0m", testCase->name, testCase->message);
+			}
+			else
+			{
+				count++;
+				CuStringAppendFormat(details, "%3d. %s %s\n",
+					count, "\x1B[32m[passed]\x1B[0m", testCase->name );
 			}
 		}
-		CuStringAppend(details, "\n!!!FAILURES!!!\n");
+		CuStringAppend(details, "\n\x1B[31m!!!FAILURES!!!\x1B[0m\n");
 
 		CuStringAppendFormat(details, "Runs: %d ",   testSuite->count);
-		CuStringAppendFormat(details, "Passes: %d ", testSuite->count - testSuite->failCount);
-		CuStringAppendFormat(details, "Fails: %d\n",  testSuite->failCount);
+		CuStringAppendFormat(details, "\x1B[32m Passes: %d \x1B[0m ", testSuite->count - testSuite->failCount);
+		CuStringAppendFormat(details, "\x1B[31m Fails: %d \x1B[0m \n",  testSuite->failCount);
 	}
 }
