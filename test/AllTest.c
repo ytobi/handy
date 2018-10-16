@@ -4,6 +4,7 @@
 CuSuite * HandyListGetSuit();
 CuSuite * HandyStackGetSuit();
 CuSuite * HandyQueueGetSuit();
+CuSuite * HandyStringGetSuit();
 
 void RunAllTests(void)
 {
@@ -13,7 +14,8 @@ void RunAllTests(void)
 	CuSuiteAddSuite( suite, HandyListGetSuit() );
 	CuSuiteAddSuite( suite, HandyStackGetSuit() );
 	CuSuiteAddSuite( suite, HandyQueueGetSuit() );
-	
+	CuSuiteAddSuite( suite, HandyStringGetSuit() );
+
 	CuSuiteRun( suite );
 	CuSuiteSummary( suite, output );
 	CuSuiteDetails( suite, output );

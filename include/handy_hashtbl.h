@@ -3,52 +3,37 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
+#include "handy_list.h"
 
 #ifndef HANDY_HANDY_HASHTBL_H
 #define HANDY_HANDY_HASHTBL_H
 
 typedef struct hashtbl_struct * handy_hashtbl;
 
-#ifndef HANDY_OBJ_H
-#define HANDY_OBJ_H
-typedef struct handy_obj * handy_Obj;
-struct handy_obj
+#ifndef HASHTBL_OBJ_H
+#define HASHTBL_OBJ_H
+typedef struct _hashtbl_obj * hashtbl_obj;
+
+struct _hashtbl_obj
 {
-    void  * data;
-    void  * key;
-
-    size_t size;
-
-    handy_Obj next;
-    handy_Obj prev;
+    void * value;
+    void * key;
 };
 #endif
 
 struct hashtbl_struct
 {
-    bool (*contain)         ( handy_hashtbl * l, void * key, size_t size );
-    bool (*add_front)       ( handy_hashtbl * l, void * item, void * key, size_t size );
-    bool (*add_back)        ( handy_hashtbl * l, void * item, void * key, size_t size );
-    bool (*add_at)          ( handy_hashtbl * l, void * item, void * key, int at, size_t size );
-    bool (*push)            ( handy_hashtbl * l, void * item, void * key, size_t size );
+    bool (*contain)         ( handy_hashtbl * l, void * key );
+    bool (*add)             ( handy_hashtbl * l, void * key, void * item );
     bool (*empty)           ( handy_hashtbl * l );
 
-    void * (*get_front)     ( handy_hashtbl * l, size_t size );
-    void * (*get_back)      ( handy_hashtbl * l, size_t size );
-    void * (*get_at)        ( handy_hashtbl * l, int at, size_t size );
-    void * (*remove_front)  ( handy_hashtbl * l, size_t size );
-    void * (*remove_back)   ( handy_hashtbl * l, size_t size );
-    void * (*reverse)       ( handy_hashtbl * l );
-    void * (*remove_at)     ( handy_hashtbl * l, void * key, size_t size );
-    void * (*pop)           ( handy_hashtbl * l, size_t size );
+    void * (*get)           ( handy_hashtbl * l, void * key );
+    void * (*remove)        ( handy_hashtbl * l, void * key );
     void   (*free)          ( handy_hashtbl * l );
-    void * (*top)           ( handy_hashtbl * l, size_t size );
-    void * (*hash_function) ( handy_hashtbl * h1, handy_hashtbl * h2 );
-
-    handy_Obj first;
-    handy_Obj last;
 
     int size;
+
+    handy_list * bucket;
 };
 
 extern handy_hashtbl handy_create_hashtbl();

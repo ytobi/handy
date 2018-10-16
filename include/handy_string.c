@@ -8,18 +8,18 @@ bool handy_equal_str       ( handy_string * s, char * str );
 bool handy_copy            ( handy_string * des, handy_string * src );
 bool handy_contain_char    ( handy_string * s, char c );
 bool handy_contain_str     ( handy_string * s, char * str );
-bool handy_add_front       ( handy_string * s, char c );
-bool handy_add_back        ( handy_string * s, char c );
-bool handy_add_at          ( handy_string * s, char c, int at );
-bool handy_null            ( handy_string * s );
+bool handy_add_char_front  ( handy_string * s, char c );
+bool handy_add_char_back   ( handy_string * s, char c );
+bool handy_add_char_at     ( handy_string * s, char c, int at );
+bool handy_is_null         ( handy_string * s );
 
 char * handy_get_string    ( handy_string * s );
-char handy_get_front       ( handy_string * s );
-char handy_get_back        ( handy_string * s );
-char handy_get_at          ( handy_string * s, int at );
-bool handy_delete_front    ( handy_string * s );
-bool handy_delete_back     ( handy_string * s );
-bool handy_delete_at       ( handy_string * s, int at );
+char handy_get_front_char  ( handy_string * s );
+char handy_get_back_char   ( handy_string * s );
+char handy_get_char_at     ( handy_string * s, int at );
+bool handy_delete_front_char( handy_string * s );
+bool handy_delete_back_char( handy_string * s );
+bool handy_delete_char_at  ( handy_string * s, int at );
 bool handy_reverse         ( handy_string * s );
 void handy_free            ( handy_string * s );
 int  handy_length          ( handy_string * s );
@@ -37,18 +37,18 @@ handy_string handy_create_string( )
     temp->equal_str     = handy_equal_str;
     temp->contain_char  = handy_contain_char;
     temp->contain_str   = handy_contain_str;
-    temp->add_front     = handy_add_front;
-    temp->add_back      = handy_add_back;
-    temp->add_at        = handy_add_at;
-    temp->null          = handy_null;
+    temp->add_char_front= handy_add_char_front;
+    temp->add_char_back = handy_add_char_back;
+    temp->add_char_at   = handy_add_char_at;
+    temp->is_null       = handy_is_null;
     temp->copy          = handy_copy;
     temp->string        = handy_get_string;
-    temp->get_front     = handy_get_front;
-    temp->get_back      = handy_get_back;
-    temp->get_at        = handy_get_at;
-    temp->delete_front  = handy_delete_front;
-    temp->delete_back   = handy_delete_back;
-    temp->delete_at     = handy_delete_at;
+    temp->get_front_char= handy_get_front_char;
+    temp->get_back_char = handy_get_back_char;
+    temp->get_char_at   = handy_get_char_at;
+    temp->delete_front_char= handy_delete_front_char;
+    temp->delete_back_char= handy_delete_back_char;
+    temp->delete_char_at= handy_delete_char_at;
     temp->reverse       = handy_reverse;
     temp->free          = handy_free;
     temp->length        = handy_length;
@@ -147,7 +147,7 @@ bool handy_contain_str      ( handy_string * s, char * str )
     }
     return false;
 }
-bool handy_add_front        ( handy_string * s, char c )
+bool handy_add_char_front   ( handy_string * s, char c )
 {
     // for protection sake
     (*s)->size = (*s)->length(s);
@@ -168,7 +168,7 @@ bool handy_add_front        ( handy_string * s, char c )
     }
     return false;
 }
-bool handy_add_back         ( handy_string * s, char c )
+bool handy_add_char_back    ( handy_string * s, char c )
 {
     // for protection sake
     (*s)->size = (*s)->length(s);
@@ -186,7 +186,7 @@ bool handy_add_back         ( handy_string * s, char c )
     }
     return false;
 }
-bool handy_add_at           ( handy_string * s, char c, int at )
+bool handy_add_char_at      ( handy_string * s, char c, int at )
 {
     // for protection sake
     (*s)->size = (*s)->length(s);
@@ -212,22 +212,22 @@ bool handy_add_at           ( handy_string * s, char c, int at )
     }
     return false;
 }
-char * handy_get_string    ( handy_string * s )
+char * handy_get_string     ( handy_string * s )
 {
     return (*s)->data;
 }
-char handy_get_front        ( handy_string * s )
+char handy_get_front_char   ( handy_string * s )
 {
     return (*s)->data[0];
 }
-char handy_get_back         ( handy_string * s )
+char handy_get_back_char    ( handy_string * s )
 {
     // for protection sake
     (*s)->size = (*s)->length(s);
 
     return (*s)->data[(*s)->size ];
 }
-char handy_get_at           ( handy_string * s, int at )
+char handy_get_char_at      ( handy_string * s, int at )
 {
     // for protection sake
     (*s)->size = (*s)->length(s);
@@ -236,7 +236,7 @@ char handy_get_at           ( handy_string * s, int at )
         return '\0';
     return (*s)->data[at];
 }
-bool handy_delete_front     ( handy_string * s )
+bool handy_delete_front_char( handy_string * s )
 {
     // for protection sake
     (*s)->size = (*s)->length(s);
@@ -256,7 +256,7 @@ bool handy_delete_front     ( handy_string * s )
     }
     return false;
 }
-bool handy_delete_back      ( handy_string * s )
+bool handy_delete_back_char ( handy_string * s )
 {
     // for protection sake
     (*s)->size = (*s)->length(s);
@@ -271,7 +271,7 @@ bool handy_delete_back      ( handy_string * s )
     }
     return false;
 }
-bool handy_delete_at        ( handy_string * s, int at )
+bool handy_delete_char_at   ( handy_string * s, int at )
 {
     // for protection sake
     (*s)->size = (*s)->length(s);
@@ -311,7 +311,7 @@ int  handy_length           ( handy_string * s )
 
     return (*s)->data == NULL? 0: strlen( ((*s)->data) );
 }
-bool  handy_null            ( handy_string * s )
+bool  handy_is_null         ( handy_string * s )
 {
     // for protection sake
     (*s)->size = (*s)->length(s);

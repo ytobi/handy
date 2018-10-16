@@ -1,6 +1,6 @@
 #include "handy_list.h"
 
-bool   handy_list_contain     ( handy_list * l, void * item );
+int   handy_list_contain     ( handy_list * l, void * item );
 bool   handy_list_add_front   ( handy_list * l, void * item );
 bool   handy_list_add_back    ( handy_list * l, void * item );
 bool   handy_list_add_at      ( handy_list * l, void * item, int at );
@@ -42,16 +42,16 @@ handy_list handy_create_list   ()
 
     return temp_list;
 }
-bool   handy_list_contain      ( handy_list * l, void * item )
+int   handy_list_contain      ( handy_list * l, void * item )
 {
     handy_Obj iter = (*l)->first;
     for( int i = 0; i < (*l)->size; i++ )
     {
         if( memcmp( &(iter->data), &item, iter->size ) == 0 )
-            return true;
+            return i;
         iter = iter->next;
     }
-    return false;
+    return -1;
 }
 bool   handy_list_add_front    ( handy_list * l, void * item )
 {

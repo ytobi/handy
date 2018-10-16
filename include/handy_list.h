@@ -31,7 +31,7 @@ char * handy_str_return;
 
 struct list_struct
 {
-    bool (*contain)         ( handy_list * l, void * item );
+    int (*contain)         ( handy_list * l, void * item );
     bool (*add_front)       ( handy_list * l, void * item );
     bool (*add_back)        ( handy_list * l, void * item );
     bool (*add_at)          ( handy_list * l, void * item, int at );

@@ -2,7 +2,8 @@
 #include <stdlib.h>
 #include <stdio.h>
 
-#include <zconf.h>
+// #include <zconf.h>
+#include <unistd.h>
 #include <errno.h>
 #include <memory.h>
 #include <sys/types.h>
@@ -22,37 +23,37 @@ typedef struct handy_server_struct * handy_server;
 
 struct handy_client_struct
 {
-    bool   (*connect)  ( handy_client * c );
-    void   (*disconnect)( handy_client * c );
-    char * (*name)     ( handy_client * c );
-    char * (*ip)       ( handy_client * c );
-    char * (*port)     ( handy_client * c );
-    char * (*family)   ( handy_client * c );
-    char * (*type)     ( handy_client * c );
-    char * (*recv)     ( handy_server * c );
-    int    (*send)     ( handy_server * c,  char * msg );
-    char * (*error_msg)( handy_client * c );
+    bool    (*connect)  ( handy_client * c );
+    void    (*disconnect)( handy_client * c );
+    char *  (*name)     ( handy_client * c );
+    char *  (*ip)       ( handy_client * c );
+    char *  (*port)     ( handy_client * c );
+    char *  (*family)   ( handy_client * c );
+    char *  (*type)     ( handy_client * c );
+    char *  (*recv)     ( handy_server * c );
+    int     (*send)     ( handy_server * c,  char * msg );
+    char *  (*error_msg)( handy_client * c );
 
     char * error_message;
     char * recv_message;
 
-    struct addrinfo * client_struct;
+    struct addrinfo * destination_struct;
 
-    int conn_fd;
+    int connection_fd;
 };
 
 struct handy_server_struct
 {
-    bool   (*connect)  ( handy_server * s );
-    void   (*disconnect)( handy_server * s );
-    char * (*name)     ( handy_server * s );
-    char * (*ip)       ( handy_server * s );
-    char * (*port)     ( handy_server * s );
-    char * (*family)   ( handy_server * s );
-    char * (*type)     ( handy_server * s );
-    char * (*recv)     ( handy_server * s );
-    int    (*send)     ( handy_server * s,  char * msg );
-    char * (*error_msg)( handy_server * s );
+    bool    (*connect)  ( handy_server * s );
+    void    (*disconnect)( handy_server * s );
+    char *  (*name)     ( handy_server * s );
+    char *  (*ip)       ( handy_server * s );
+    char *  (*port)     ( handy_server * s );
+    char *  (*family)   ( handy_server * s );
+    char *  (*type)     ( handy_server * s );
+    char *  (*recv)     ( handy_server * s );
+    int     (*send)     ( handy_server * s,  char * msg );
+    char *  (*error_msg)( handy_server * s );
 
     char * error_message;
     char * recv_message;
@@ -62,7 +63,7 @@ struct handy_server_struct
     struct addrinfo client_struct;
 
     int sick_fd;
-    int conn_fd;
+    int connection_fd;
 };
 
 handy_client handy_create_client ( char * destination, char * port );
