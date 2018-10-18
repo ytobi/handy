@@ -31,12 +31,13 @@ struct string_struct
     bool (*delete_back_char)( handy_string * s );
     bool (*delete_char_at)  ( handy_string * s, int at );
     bool (*reverse)         ( handy_string * s );
+    int (*word_count)       ( handy_string * s, char * delimiter );
     void (*free)            ( handy_string * s );
     int  (*length)          ( handy_string * s );
 
-    char * data;
+    char * _data;
 
-    int size;
+    int _size;
 };
 
 handy_string handy_create_string();
