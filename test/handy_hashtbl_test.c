@@ -9,11 +9,11 @@ void TestHashtblAdd( CuTest * tc )
     // check if return of function to create list
     // actually created
 
-    int actualReturn = table->add( &table, "123", (void *)"Hello, world!" );
+    int actualReturn = table->add( &table, "123", "Hello, world!" );
     int expectedReturn = 1; // true
     CuAssertIntEquals( tc, expectedReturn, actualReturn );
 
-    table->free(&table);
+    table->free( &table );
     free( table );
 }
 void TestHashtblContain( CuTest * tc )
@@ -24,10 +24,10 @@ void TestHashtblContain( CuTest * tc )
     // check if return of function to create list
     // actually created
 
-    table->add( &table, "123", (void *)"Hello,!" );
+    table->add( &table, "123", "Hello,!" );
     CuAssertTrue( tc, table->contain(&table, "123") );
 
-    table->add( &table, "124", (void *)" world!" );
+    table->add( &table, "124", " world!" );
     CuAssertTrue( tc, table->contain(&table, "124") );
 
     table->free(&table);
@@ -41,10 +41,10 @@ void TestHashtblGet( CuTest * tc )
     // check if return of function to create list
     // actually created
 
-    table->add( &table, "123", (void *)"Hello,!" );
-    table->add( &table, "124", (void *)" world!" );
+    table->add( &table, "123", "Hello,!" );
+    table->add( &table, "124", " world!" );
 
-    char * actualReturn = (char *)table->get( &table, "124" );
+    char * actualReturn = table->get( &table, "124" );
     char * expectReturn = " world!";
     CuAssertStrEquals( tc, expectReturn, actualReturn );
 
@@ -59,19 +59,18 @@ void TestHashtblRemove( CuTest * tc )
     // check if return of function to create list
     // actually created
 
-    // I actually don't know why it is insisting for me to cast!
-    table->add( &table, "123", (void *)"Hello,!" );
-    table->add( &table, "124", (void *)" world!" );
+    table->add( &table, "123", "Hello,!" );
+    table->add( &table, "124", " world!" );
 
-    char * actualReturn = (char *)table->get( &table, "124" );
-    char * expectReturn = (char *)" world!";
+    char * actualReturn = table->get( &table, "124" );
+    char * expectReturn = " world!";
     CuAssertStrEquals( tc, expectReturn, actualReturn );
 
     table->free(&table);
     free( table );
 }
 
-CuSuite * HandyListGetSuit()
+CuSuite * HandyHashtblGetSuit()
 {
     CuSuite * suite = CuSuiteNew();
     SUITE_ADD_TEST( suite, TestHashtblAdd );

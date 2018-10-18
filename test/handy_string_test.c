@@ -9,7 +9,7 @@ void TestStringCreate( CuTest * tc )
 
     // check if return of function to create string
     // actually created
-    int actualSize = string->size;
+    int actualSize = string->length( &string );
     int expectedSize = 0;
     CuAssertIntEquals( tc, expectedSize, actualSize );
 
@@ -24,9 +24,9 @@ void TestStringEqual( CuTest * tc )
     CuAssertPtrNotNull( tc, string1 );
     CuAssertPtrNotNull( tc, string2 );
 
-    // when created string1 and string2 should equal NULL
-    CuAssertTrue( tc, string1->data ==  NULL );
-    CuAssertTrue( tc, string2->data ==  NULL );
+    // when created string1 and string2 should equal( size == 0 )
+    CuAssertTrue( tc, string1->is_null(&string1) );
+    CuAssertTrue( tc, string2->is_null(&string1) );
 
     string1->append( &string1, "string1" );
     string2->append( &string2, "string1" );
@@ -60,14 +60,14 @@ void TestStringEqualStr( CuTest * tc )
     CuAssertTrue( tc, string2->equal_str(&string2, "") );
 
     string1->append( &string1, "string1" );
-    string2->append( &string2, "string2" );
+    string2->append( &string2, "string1" );
 
     // concatinating a null string to string1 should still equal string1
     string1->append( &string1, "");
-    CuAssertTrue( tc, string1->equal_str( &string1, string1->string) );
+    CuAssertTrue( tc, string1->equal_str( &string1, string1->string(&string1)) );
 
     // string1 and string2 initialise thesame, should be equal.
-    CuAssertTrue( tc, string1->equal_str( &string1, &string2) );
+    CuAssertTrue( tc, string1->equal_str( &string1, string2->string(&string2) ) );
 
     // adding "10" to string one should equal concatinating string1 to "10"
     string1->append( &string1, "10" );
@@ -130,30 +130,29 @@ void TestStringAddBack( CuTest * tc )
     char * input = strdup("hello, world!");
 
     // test response, if positive and hence item was added
-    int actualResponse = string->append(&string, input);
-    int expectedResponse = 1;
-    CuAssertIntEquals( tc, expectedResponse, actualResponse );
+    bool actualResponse = string->append(&string, input);
+    CuAssertTrue( tc, actualResponse );
 
     // We test the size if a change in size
-    int actualSize = string->size;
+    int actualSize = string->length( &string );
     int expectedSize = strlen( input );
     CuAssertIntEquals( tc, expectedSize, actualSize );
 
     //  add  a single char a test every bahavoir and result for addition
-    string->add_char_front( string, 'A' );
-    actualResponse = string->get_front_char( &string );
-    expectedResponse = 'A';
-    CuAssertIntEquals( tc, expectedResponse, actualResponse );
+    string->add_char_front( &string, 'A' );
+    char actualChar = string->get_front_char( &string );
+    char expectedChar = 'A';
+    CuAssertIntEquals( tc, expectedChar, actualChar );
 
     // added single char check if length increase by one
-    actualSize = string->size;
+    actualSize = string->length( &string );
     expectedSize = strlen( input ) + 1;
     CuAssertIntEquals( tc, expectedSize, actualSize );
 
-    string->add_char_back( string, 'A' );
-    actualResponse = string->get_back_char( &string );
-    expectedResponse = 'A';
-    CuAssertIntEquals( tc, expectedResponse, actualResponse );
+    string->add_char_back( &string, 'A' );
+    actualChar = string->get_back_char( &string );
+    expectedChar = 'A';
+    CuAssertIntEquals( tc, expectedChar, actualChar );
 
     string->free(&string);
     free( string );

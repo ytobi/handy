@@ -8,7 +8,7 @@
 #ifndef HANDY_HANDY_HASHTBL_H
 #define HANDY_HANDY_HASHTBL_H
 
-typedef struct hashtbl_struct * handy_hashtbl;
+typedef struct _hashtbl_struct * handy_hashtbl;
 
 #ifndef HASHTBL_OBJ_H
 #define HASHTBL_OBJ_H
@@ -21,17 +21,16 @@ struct _hashtbl_obj
 };
 #endif
 
-struct hashtbl_struct
+struct _hashtbl_struct
 {
-    bool (*contain)         ( handy_hashtbl * l, void * key );
-    bool (*add)             ( handy_hashtbl * l, void * key, void * item );
-    bool (*empty)           ( handy_hashtbl * l );
+    bool (*contain)         ( handy_hashtbl * l, char * key );
+    bool (*add)             ( handy_hashtbl * l, char * key, void * item );
 
-    void * (*get)           ( handy_hashtbl * l, void * key );
-    void * (*remove)        ( handy_hashtbl * l, void * key );
+    void * (*get)           ( handy_hashtbl * l, char * key );
+    void * (*remove)        ( handy_hashtbl * l, char * key );
     void   (*free)          ( handy_hashtbl * l );
 
-    int size;
+    int _size;
 
     handy_list * bucket;
 };

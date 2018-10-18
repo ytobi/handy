@@ -21,7 +21,7 @@ bool handy_delete_front_char( handy_string * s );
 bool handy_delete_back_char( handy_string * s );
 bool handy_delete_char_at  ( handy_string * s, int at );
 bool handy_reverse         ( handy_string * s );
-bool handy_word_count      ( handy_string * s, char * delimiter );
+int handy_word_count      ( handy_string * s, char * delimiter );
 void handy_free            ( handy_string * s );
 int  handy_length          ( handy_string * s );
 
@@ -30,7 +30,7 @@ handy_string handy_create_string( )
     handy_string temp = malloc( sizeof(*temp) );
 
     temp->_data = malloc( sizeof(char) );
-    temp->__size = 0;
+    temp->_size = 0;
     temp->_data = NULL;
 
     temp->append        = handy_append;
@@ -99,14 +99,16 @@ bool handy_copy             ( handy_string * des, handy_string * src )
 }
 bool handy_equal            ( handy_string * s1, handy_string * s2 )
 {
-    // for protection sake
-    (*s2)->_size = (*s2)->length(s2);
-
-    return  strncmp( (*s1)->_data, ((*s2)->_data), (*s2)->_size ) == 0;
+    if( (*s1)->length(s1) == (*s2)->length(s2) )
+        return  strncmp( (*s1)->_data, ((*s2)->_data), (*s2)->length(s2) ) == 0;
+    return false;
 }
 bool handy_equal_str        ( handy_string * s1, char * s2 )
 {
-    return  strncmp( (*s1)->_data, s2, strlen( s2) ) == 0;
+    if( (*s1)->length(s1) == strlen(s2))
+        return  strncmp( (*s1)->_data, s2, strlen(s2) ) == 0;
+    return false;
+    // return  strncmp( (*s1)->_data, s2, strlen( s2) ) == 0;
 }
 bool handy_contain_char     ( handy_string * s, char c )
 {
@@ -304,8 +306,9 @@ bool handy_reverse          ( handy_string * s )
         (*s)->_data[(*s)->_size - i] = temp_data;
     }
 }
-bool handy_word_count      ( handy_string * s, char * delimiter )
+int handy_word_count        ( handy_string * s, char * delimiter )
 {
+    // count the number of words in between a delimiter
     int word_count = 0;
     int found_word = 0;
 
@@ -319,7 +322,7 @@ bool handy_word_count      ( handy_string * s, char * delimiter )
             {
                 if( (*s)->_data[i + j] == delimiter[j] )
                 {
-                    found_word = 1;
+                    found_word++;
                 }
                 else
                 {
@@ -335,6 +338,8 @@ bool handy_word_count      ( handy_string * s, char * delimiter )
             }
         }
     }
+
+    return word_count + 1;
 }
 void handy_free             ( handy_string * s )
 {
