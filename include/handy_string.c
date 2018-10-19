@@ -1,3 +1,4 @@
+#include <ctype.h>
 #include "handy_string.h"
 #include "handy.h"
 
@@ -12,6 +13,9 @@ bool handy_add_char_front  ( handy_string * s, char c );
 bool handy_add_char_back   ( handy_string * s, char c );
 bool handy_add_char_at     ( handy_string * s, char c, int at );
 bool handy_is_null         ( handy_string * s );
+
+void handy_to_upper        ( handy_string * s );
+void handy_to_lower        ( handy_string * s );
 
 char * handy_get_string    ( handy_string * s );
 char handy_get_front_char  ( handy_string * s );
@@ -42,6 +46,8 @@ handy_string handy_create_string( )
     temp->add_char_back = handy_add_char_back;
     temp->add_char_at   = handy_add_char_at;
     temp->is_null       = handy_is_null;
+    temp->to_upper      = handy_to_upper;
+    temp->to_lower      = handy_to_lower;
     temp->copy          = handy_copy;
     temp->string        = handy_get_string;
     temp->get_front_char= handy_get_front_char;
@@ -357,4 +363,17 @@ bool  handy_is_null         ( handy_string * s )
 
     return (*s)->_size == 0? true: false;
 }
-
+void handy_to_upper        ( handy_string *s )
+{
+    for( int i = 0; i < (*s)->_size; i++ )
+    {
+        (*s)->_data[i] = (char)toupper((*s)->_data[i]);
+    }
+}
+void handy_to_lower        ( handy_string *s )
+{
+    for( int i = 0; i < (*s)->_size; i++ )
+    {
+        (*s)->_data[i] = (char)tolower((*s)->_data[i]);
+    }
+}
