@@ -78,90 +78,72 @@ void TestStringEqualStr( CuTest * tc )
     free( string1 );
     free( string2 );
 }
-void TestStringAddFront( CuTest * tc )
+void TestStringAddCharFront( CuTest * tc )
 {
-    handy_string string = handy_create_string();
-    CuAssertPtrNotNull( tc, string );
+    handy_string str = handy_create_string();
+    CuAssertTrue( tc, str->add_char_front(&str, "B") );
+    CuAssertTrue( tc, str->length(&str) == 1 );
+
+    CuAssertTrue( tc, str->add_char_front(&str, "A") );
+    CuAssertTrue( tc, str->length(&str) == 2 );
+
+    str->free( &str );
+    free( str );
+}
+void TestStringAddCharBack( CuTest * tc )
+{
+    handy_string str = handy_create_string();
 
     // test response, if positive and hence item was added
-    int actualResponse = string->add_char_front( &string, 'i' );
-    int expectedResponse = 1; // true
-    CuAssertIntEquals( tc, expectedResponse, actualResponse );
+    CuAssertTrue( tc, str->add_char_back(&str, 'A') );
+    CuAssertTrue( tc, str->length(&str) == 1 );
 
-    // We test the size if a change in size
-    int actualSize = string->length( &string );
-    int expectedSize = 1;
-    CuAssertIntEquals( tc, expectedSize, actualSize );
+    CuAssertTrue( tc, str->add_char_back(&str, 'B') );
+    CuAssertTrue( tc, str->length(&str) == 2 );
 
-    //  add char as letter or number is accepted
-    actualResponse = string->add_char_front( &string, 95 );
-    expectedResponse = 1; // true;
-    CuAssertIntEquals( tc, expectedResponse, actualResponse );
-
-
-    //  add char as letter or number is accepted, false is 0
-    actualResponse = string->add_char_front( &string, false );
-    expectedResponse = 1; // true;
-    CuAssertIntEquals( tc, expectedResponse, actualResponse );
-
-    // size should change as added numeric data sucessfull
-    actualSize = string->length( &string );
-    expectedSize = 3;
-    CuAssertIntEquals( tc, expectedSize, actualSize );
-
-    actualResponse = string->add_char_front( &string, 'H' );
-    expectedResponse = 1; // true
-    CuAssertIntEquals( tc, expectedResponse, actualResponse );
-
-    // size should change, as added "H" data successfully
-    actualSize = string->length( &string );
-    expectedSize = 2;
-    CuAssertIntEquals( tc, expectedSize, actualSize );
-
-    // final string is "Hi", added "i" and "H"
-    CuAssertStrEquals( tc, "Hi", string->string(&string) );
-
-    string->free( &string );
-    free( string );
+    str->free(&str);
+    free( str );
 }
-void TestStringAddBack( CuTest * tc )
+void TestStringAddCharAt( CuTest * tc )
 {
-    handy_string string = handy_create_string();
-    char * input = strdup("hello, world!");
+    handy_string str = handy_create_string();
 
-    // test response, if positive and hence item was added
-    bool actualResponse = string->append(&string, input);
-    CuAssertTrue( tc, actualResponse );
+    // This is a possible valid location since str length is 0
+    CuAssertTrue( tc, str->add_char_at( &str, 'A', 0 ) );
 
-    // We test the size if a change in size
-    int actualSize = string->length( &string );
-    int expectedSize = strlen( input );
-    CuAssertIntEquals( tc, expectedSize, actualSize );
+    // This is NOT a possible valid location since str length is 10
+    CuAssertTrue( tc, !str->add_char_at( &str, 'B', 10 ) );
 
-    //  add  a single char a test every bahavoir and result for addition
-    string->add_char_front( &string, 'A' );
-    char actualChar = string->get_front_char( &string );
-    char expectedChar = 'A';
-    CuAssertIntEquals( tc, expectedChar, actualChar );
-
-    // added single char check if length increase by one
-    actualSize = string->length( &string );
-    expectedSize = strlen( input ) + 1;
-    CuAssertIntEquals( tc, expectedSize, actualSize );
-
-    string->add_char_back( &string, 'A' );
-    actualChar = string->get_back_char( &string );
-    expectedChar = 'A';
-    CuAssertIntEquals( tc, expectedChar, actualChar );
-
-    string->free(&string);
-    free( string );
+    str->free(&str);
+    free(str);
 }
-void TestStringAddAt( CuTest * tc ) // TODO
+void TestStringContainChar( CuTest * tc ) // TODO fail
 {
+    handy_string str = handy_create_string();
+    str->append(&str, "Hello, World" );
+
+    // return postion of first occurrence aka 0
+    CuAssertTrue( tc, str->contain_char( &str, 'H') == 0 );
+
+    // return -1 for not found
+    CuAssertTrue( tc, !str->contain_char( &str, 'A') == -1 );
+
+    str->free(&str);
+    free(str);
 }
-void TestStringContain( CuTest * tc ) // TODO
+void TestStringContainStr( CuTest * tc ) // TODO
 {
+    handy_string str = handy_create_string();
+    str->append(&str, "Hello, World" );
+
+    // return postion of first occurrence aka 0
+    CuAssertIntEquals( tc, 0, str->contain_str( &str, "Hello" ) );
+
+    // return 7 for world
+    CuAssertIntEquals( tc, 7, str->contain_str( &str, "World" ) );
+
+    str->free(&str);
+    free(str);
 }
 void TestStringGet( CuTest * tc ) // TODO
 {
@@ -179,8 +161,11 @@ CuSuite * HandyStringGetSuit()
     SUITE_ADD_TEST( suite, TestStringCreate );
     SUITE_ADD_TEST( suite, TestStringEqual );
     SUITE_ADD_TEST( suite, TestStringEqualStr );
-    SUITE_ADD_TEST( suite, TestStringAddFront );
-    SUITE_ADD_TEST( suite, TestStringAddBack );
+    SUITE_ADD_TEST( suite, TestStringAddCharFront );
+    SUITE_ADD_TEST( suite, TestStringAddCharBack );
+    SUITE_ADD_TEST( suite, TestStringAddCharAt );
+    SUITE_ADD_TEST( suite, TestStringContainChar );
+    SUITE_ADD_TEST( suite, TestStringContainStr );
 
     return suite;
 }

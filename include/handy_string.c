@@ -7,8 +7,8 @@ bool handy_equal           ( handy_string * s1, handy_string * s2 );
 bool handy_equal_str       ( handy_string * s, char * str );
 
 bool handy_copy            ( handy_string * des, handy_string * src );
-bool handy_contain_char    ( handy_string * s, char c );
-bool handy_contain_str     ( handy_string * s, char * str );
+int handy_contain_char     ( handy_string * s, char c );
+int handy_contain_str      ( handy_string * s, char * str );
 bool handy_add_char_front  ( handy_string * s, char c );
 bool handy_add_char_back   ( handy_string * s, char c );
 bool handy_add_char_at     ( handy_string * s, char c, int at );
@@ -25,7 +25,7 @@ bool handy_delete_front_char( handy_string * s );
 bool handy_delete_back_char( handy_string * s );
 bool handy_delete_char_at  ( handy_string * s, int at );
 bool handy_reverse         ( handy_string * s );
-int handy_word_count      ( handy_string * s, char * delimiter );
+int handy_word_count       ( handy_string * s, char * delimiter );
 void handy_free            ( handy_string * s );
 int  handy_length          ( handy_string * s );
 
@@ -64,7 +64,7 @@ handy_string handy_create_string( )
     return temp;
 }
 
-bool handy_append       ( handy_string * s, char * str )
+bool handy_append           ( handy_string * s, char * str )
 {
     // for protection sake
     (*s)->_size = (*s)->length(s);
@@ -116,7 +116,7 @@ bool handy_equal_str        ( handy_string * s1, char * s2 )
     return false;
     // return  strncmp( (*s1)->_data, s2, strlen( s2) ) == 0;
 }
-bool handy_contain_char     ( handy_string * s, char c )
+int handy_contain_char     ( handy_string * s, char c )
 {
     // for protection sake
     (*s)->_size = (*s)->length(s);
@@ -124,11 +124,11 @@ bool handy_contain_char     ( handy_string * s, char c )
     for( int i = 0; i < (*s)->_size; i++ )
     {
         if( (*s)->_data[i] == c )
-            return true;
+            return i;
     }
-    return false;
+    return -1;
 }
-bool handy_contain_str      ( handy_string * s, char * str )
+int handy_contain_str      ( handy_string * s, char * str )
 {
     // for protection sake
     (*s)->_size = (*s)->length(s);
@@ -145,7 +145,7 @@ bool handy_contain_str      ( handy_string * s, char * str )
                 {
                     // upto last char matches, return true
                     if( j == (str_len - 1) )
-                        return true;
+                        return i;
                 }
                 else
                 {
@@ -155,46 +155,15 @@ bool handy_contain_str      ( handy_string * s, char * str )
             }
         }
     }
-    return false;
+    return -1;
 }
 bool handy_add_char_front   ( handy_string * s, char c )
 {
-    // for protection sake
-    (*s)->_size = (*s)->length(s);
-
-    // add a single char to front of str
-    char * new = (char *)realloc( ((*s)->_data), (1 + (*s)->_size) * sizeof( char ) );
-
-    if( new )
-    {
-        (*s)->_data = new;
-        for( int i = (*s)->_size + 1; i > 0; i-- )
-        {
-            (*s)->_data[i] = (*s)->_data[i - 1];
-        }
-        (*s)->_data[0] = c;
-        (*s)->_size++;
-        return true;
-    }
-    return false;
+    return (*s)->add_char_at( s, c, 0);
 }
 bool handy_add_char_back    ( handy_string * s, char c )
 {
-    // for protection sake
-    (*s)->_size = (*s)->length(s);
-
-    // add a single char to back of str
-    char * new = (char *)realloc( ((*s)->_data), (1 + (*s)->_size) * sizeof( char ) );
-
-    if( new )
-    {
-        (*s)->_data = new;
-        (*s)->_data[(*s)->_size + 1] = c;
-        (*s)->_size++;
-
-        return true;
-    }
-    return false;
+    return (*s)->add_char_at( s, c, (*s)->length(s) );
 }
 bool handy_add_char_at      ( handy_string * s, char c, int at )
 {
@@ -202,12 +171,12 @@ bool handy_add_char_at      ( handy_string * s, char c, int at )
     (*s)->_size = (*s)->length(s);
 
     // add a single char to front of str
-    char * new = (char *)realloc( ((*s)->_data), (1 + (*s)->_size) * sizeof( char ) );
+    char * new = (char *)realloc( ((*s)->_data), (1 + (*s)->_size) );
 
     if( new )
     {
         (*s)->_data = new;
-        for( int i = (*s)->_size + 1; i > 0; i-- )
+        for( int i = (*s)->_size + 1; i >= 0; i-- )
         {
             // if at position add
             if( i == at )
@@ -353,7 +322,6 @@ void handy_free             ( handy_string * s )
 }
 int  handy_length           ( handy_string * s )
 {
-
     return (*s)->_data == NULL? 0: strlen( ((*s)->_data) );
 }
 bool  handy_is_null         ( handy_string * s )
@@ -363,14 +331,14 @@ bool  handy_is_null         ( handy_string * s )
 
     return (*s)->_size == 0? true: false;
 }
-void handy_to_upper        ( handy_string *s )
+void handy_to_upper         ( handy_string *s )
 {
     for( int i = 0; i < (*s)->_size; i++ )
     {
         (*s)->_data[i] = (char)toupper((*s)->_data[i]);
     }
 }
-void handy_to_lower        ( handy_string *s )
+void handy_to_lower         ( handy_string *s )
 {
     for( int i = 0; i < (*s)->_size; i++ )
     {
