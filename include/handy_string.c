@@ -116,7 +116,7 @@ bool handy_equal_str        ( handy_string * s1, char * s2 )
     return false;
     // return  strncmp( (*s1)->_data, s2, strlen( s2) ) == 0;
 }
-int handy_contain_char     ( handy_string * s, char c )
+int handy_contain_char      ( handy_string * s, char c )
 {
     // for protection sake
     (*s)->_size = (*s)->length(s);
@@ -128,7 +128,7 @@ int handy_contain_char     ( handy_string * s, char c )
     }
     return -1;
 }
-int handy_contain_str      ( handy_string * s, char * str )
+int handy_contain_str       ( handy_string * s, char * str )
 {
     // for protection sake
     (*s)->_size = (*s)->length(s);
@@ -204,7 +204,7 @@ char handy_get_back_char    ( handy_string * s )
     // for protection sake
     (*s)->_size = (*s)->length(s);
 
-    return (*s)->_data[(*s)->_size ];
+    return (*s)->_data[(*s)->_size - 1 ];
 }
 char handy_get_char_at      ( handy_string * s, int at )
 {
@@ -286,6 +286,9 @@ int handy_word_count        ( handy_string * s, char * delimiter )
     // count the number of words in between a delimiter
     int word_count = 0;
     int found_word = 0;
+
+    // if delimiter is null("") string, assume space
+    delimiter = ( strlen(delimiter) == 0 )? " ": delimiter;
 
     for( int i = 0; i < (*s)->_size; i++ )
     {

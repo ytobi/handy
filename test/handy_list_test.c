@@ -1,7 +1,7 @@
 #include "CuTest-1.5/CuTest.h"
 #include "../include/handy.h"
 
-void TestListCreate( CuTest * tc )
+void TestListCreate     ( CuTest * tc )
 {
 	handy_list list = handy_create_list();
 	CuAssertPtrNotNull( tc, list );
@@ -9,15 +9,17 @@ void TestListCreate( CuTest * tc )
 	// check if return of function to create list
 	// actually created
 	int actualSize = list->size;
+
 	int expectedSize = 0;
 	CuAssertIntEquals( tc, expectedSize, actualSize );
 
 	list->free(&list);
 	free( list );
 }
-void TestListAddFront( CuTest * tc )
+void TestListAddFront   ( CuTest * tc )
 {
     handy_list list = handy_create_list();
+
     char * input1 = strdup("hello, world!");
     char input2 = 'A';
     int input3 = 10;
@@ -26,7 +28,7 @@ void TestListAddFront( CuTest * tc )
     // Input1
     // test response, if positive and hence item was added
     int actualResponse = list->add_front(&list, input1);
-    int expectedResponse = 1;
+    int expectedResponse = 1; // true
     CuAssertIntEquals( tc, expectedResponse, actualResponse );
 
     // We test the size if a change in size
@@ -39,7 +41,7 @@ void TestListAddFront( CuTest * tc )
     // Input2
     // test response, if positive and hence item was added
     actualResponse = list->add_front(&list, input2);
-    expectedResponse = 1;
+    expectedResponse = 1; // true
     CuAssertIntEquals( tc, expectedResponse, actualResponse );
 
     // We test the size if a change in size
@@ -52,7 +54,7 @@ void TestListAddFront( CuTest * tc )
     // Input3
     // test response, if positive and hence item was added
     actualResponse = list->add_front(&list, input3);
-    expectedResponse = 1;
+    expectedResponse = 1; // true
     CuAssertIntEquals( tc, expectedResponse, actualResponse );
 
     // We test the size if a change in size
@@ -63,55 +65,23 @@ void TestListAddFront( CuTest * tc )
     list->free(&list);
     free( list );
 }
-void TestListAddBack( CuTest * tc )
+void TestListAddBack    ( CuTest * tc )
 {
     handy_list list = handy_create_list();
     char * input1 = strdup("hello, world!");
     char input2 = 'A';
     int input3 = 10;
 
+    for( int i = 0; i < 10; i++ )
+    {
+        CuAssertTrue( tc, list->add_back( &list, i ) );
+        CuAssertIntEquals( tc, i+1, list->size );
+    }
 
-    // Input1
-    // test response, if positive and hence item was added
-    int actualResponse = list->add_back(&list, input1);
-    int expectedResponse = 1;
-    CuAssertIntEquals( tc, expectedResponse, actualResponse );
-
-    // We test the size if a change in size
-    int actualSize = list->size;
-    int expectedSize = 1;
-    CuAssertIntEquals( tc, expectedSize, actualSize );
-
-
-
-    // Input2
-    // test response, if positive and hence item was added
-    actualResponse = list->add_back(&list, input2);
-    expectedResponse = 1;
-    CuAssertIntEquals( tc, expectedResponse, actualResponse );
-
-    // We test the size if a change in size
-    actualSize = list->size;
-    expectedSize++;
-    CuAssertIntEquals( tc, expectedSize, actualSize );
-
-
-
-    // Input3
-    // test response, if positive and hence item was added
-    actualResponse = list->add_back(&list, input3);
-    expectedResponse = 1;
-    CuAssertIntEquals( tc, expectedResponse, actualResponse );
-
-    // We test the size if a change in size
-    actualSize = list->size;
-    expectedSize++;
-    CuAssertIntEquals( tc, expectedSize, actualSize );
-
-    list->free(&list);
-    free( list );
+    // list->free(&list);
+    // free( list );
 }
-void TestListAddAt( CuTest * tc )
+void TestListAddAt      ( CuTest * tc )
 {
     handy_list list = handy_create_list();
     char * input1 = strdup("hello, world!");
@@ -162,7 +132,7 @@ void TestListAddAt( CuTest * tc )
     list->free(&list);
     free( list );
 }
-void TestListContain( CuTest * tc )
+void TestListContain    ( CuTest * tc )
 {
     handy_list list = handy_create_list();
 
@@ -186,7 +156,7 @@ void TestListRemoveFront( CuTest * tc )
     for( int i = 0; i < size_list; i++ )
         list->add_back( &list, i );
 
-    int actualAt = (int)list->remove_front( &list );
+    int actualAt = list->remove_front( &list );
     int expectedAt = 0;
     CuAssertIntEquals( tc, expectedAt, actualAt );
 
@@ -198,7 +168,7 @@ void TestListRemoveFront( CuTest * tc )
     list->free( &list );
     free( list );
 }
-void TestListRemoveBack( CuTest * tc )
+void TestListRemoveBack ( CuTest * tc )
 {
     handy_list list = handy_create_list();
     int size_list = 10;
@@ -218,7 +188,7 @@ void TestListRemoveBack( CuTest * tc )
     list->free( &list );
     free( list );
 }
-void TestListRemoveAt( CuTest * tc )
+void TestListRemoveAt   ( CuTest * tc )
 {
     handy_list list = handy_create_list();
     int size_list = 10;
@@ -238,7 +208,7 @@ void TestListRemoveAt( CuTest * tc )
     list->free( &list );
     free( list );
 }
-void TestListEmpty( CuTest * tc )
+void TestListEmpty      ( CuTest * tc )
 {
     handy_list list = handy_create_list();
 
@@ -254,7 +224,7 @@ void TestListEmpty( CuTest * tc )
     list->free( &list );
     free( list );
 }
-void TestListReverse( CuTest * tc )
+void TestListReverse    ( CuTest * tc )
 {
     handy_list list = handy_create_list();
     CuAssertPtrNotNull( tc, list );
@@ -282,7 +252,7 @@ void TestListReverse( CuTest * tc )
     list->free(&list);
     free( list );
 }
-void TestListGetFront( CuTest * tc )
+void TestListGetFront   ( CuTest * tc )
 {
     handy_list list = handy_create_list();
     int size_list = 10;
@@ -304,7 +274,7 @@ void TestListGetFront( CuTest * tc )
     free( list );
 
 }
-void TestListGetBack( CuTest * tc )
+void TestListGetBack    ( CuTest * tc )
 {
     handy_list list = handy_create_list();
     int size_list = 10;
@@ -325,7 +295,7 @@ void TestListGetBack( CuTest * tc )
     list->free( &list );
     free( list );
 }
-void TestListGetAt( CuTest * tc )
+void TestListGetAt      ( CuTest * tc )
 {
     handy_list list = handy_create_list();
     int size_list = 10;
@@ -346,7 +316,19 @@ void TestListGetAt( CuTest * tc )
     list->free( &list );
     free( list );
 }
+void TestListToString   ( CuTest * tc )
+{
+    handy_list list = handy_create_list();
+    int size_list = 10;
 
+    for( int i = 0; i < size_list; i++ )
+        list->add_back( &list, i );
+
+    CuAssertStrEquals( tc, "0123456789", list->to_string( &list ) );
+
+    list->free( &list );
+    free( list );
+}
 CuSuite * HandyListGetSuit()
 {
 
@@ -364,6 +346,7 @@ CuSuite * HandyListGetSuit()
     SUITE_ADD_TEST( suite, TestListGetFront );
     SUITE_ADD_TEST( suite, TestListGetBack );
     SUITE_ADD_TEST( suite, TestListGetAt );
+    SUITE_ADD_TEST( suite, TestListToString );
 
 	return suite;
 }

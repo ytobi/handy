@@ -2,7 +2,6 @@
 #include <stdlib.h>
 #include <stdio.h>
 
-// #include <zconf.h>
 #include <unistd.h>
 #include <errno.h>
 #include <memory.h>
@@ -18,10 +17,10 @@
 static int MAX_CONNECTION = 10;
 static int MAX_READ       = 1024;
 
-typedef struct handy_client_struct * handy_client;
-typedef struct handy_server_struct * handy_server;
+typedef struct _handy_client_struct * handy_client;
+typedef struct _handy_server_struct * handy_server;
 
-struct handy_client_struct
+struct _handy_client_struct
 {
     bool    (*connect)  ( handy_client * c );
     void    (*disconnect)( handy_client * c );
@@ -34,15 +33,15 @@ struct handy_client_struct
     int     (*send)     ( handy_server * c,  char * msg );
     char *  (*error_msg)( handy_client * c );
 
-    char * error_message;
-    char * recv_message;
+    char * _error_message;
+    char * _recv_message;
 
-    struct addrinfo * destination_struct;
+    struct addrinfo * _destination_struct;
 
-    int connection_fd;
+    int _connection_fd;
 };
 
-struct handy_server_struct
+struct _handy_server_struct
 {
     bool    (*connect)  ( handy_server * s );
     void    (*disconnect)( handy_server * s );
@@ -55,15 +54,15 @@ struct handy_server_struct
     int     (*send)     ( handy_server * s,  char * msg );
     char *  (*error_msg)( handy_server * s );
 
-    char * error_message;
-    char * recv_message;
+    char * _error_message;
+    char * _recv_message;
 
     // a linked list of addrinfo
-    struct addrinfo * server_struct;
-    struct addrinfo client_struct;
+    struct addrinfo * _server_struct;
+    struct addrinfo _client_struct;
 
-    int sick_fd;
-    int connection_fd;
+    int _sick_fd;
+    int _connection_fd;
 };
 
 handy_client handy_create_client ( char * destination, char * port );

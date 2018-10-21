@@ -2,7 +2,7 @@
 #include "../include/handy.h"
 
 
-void TestStackCreate( CuTest * tc )
+void TestStackCreate    ( CuTest * tc )
 {
     handy_stack stack = handy_create_stack();
     CuAssertPtrNotNull( tc, stack );
@@ -16,7 +16,21 @@ void TestStackCreate( CuTest * tc )
     stack->free(&stack);
     free( stack );
 }
-void TestStackPush( CuTest * tc )
+void TestStackContain   ( CuTest * tc )
+{
+    handy_stack stack = handy_create_stack();
+
+    for( int i = 0; i < 10; i++ )
+        stack->push( &stack, i );
+
+    CuAssertTrue( tc, stack->contain(&stack, 5) );
+
+    CuAssertTrue( tc, !stack->contain(&stack, 10) );
+
+    stack->free( &stack );
+    free( stack );
+}
+void TestStackPush      ( CuTest * tc )
 {
     handy_stack stack = handy_create_stack();
     char * input = strdup("hello, world!");
@@ -44,84 +58,118 @@ void TestStackPush( CuTest * tc )
     stack->free(&stack);
     free( stack );
 }
-void TestStackContain( CuTest * tc )
+void TestStackEmpty     ( CuTest * tc )
 {
     handy_stack stack = handy_create_stack();
 
+    //  1 = true, empty is true
+    CuAssertIntEquals( tc, 1, stack->empty( &stack ) );
+
+    // after adding items, stack to be not empty
     for( int i = 0; i < 10; i++ )
         stack->push( &stack, i );
 
-    CuAssertTrue( tc, stack->contain(&stack, 5) );
-
-    CuAssertTrue( tc, !stack->contain(&stack, 10) );
+    // 0 = false
+    CuAssertIntEquals( tc, 0, stack->empty( &stack ) );
 
     stack->free( &stack );
     free( stack );
 }
-void TestStackPop( CuTest * tc )
+void TestStackReverse   ( CuTest * tc )
 {
     handy_stack stack = handy_create_stack();
 
     for( int i = 0; i < 10; i++ )
-        stack->push( &stack, i );
+        stack->push( &stack , i );
 
-    int actualBack = stack->pop( &stack );
-    int expectedBack = 9;
-    CuAssertIntEquals( tc, expectedBack, actualBack );
+    // assume that top does not fail
+    CuAssertIntEquals( tc, 9, (int)stack->top(&stack) );
 
-    int actualFront = stack->pop( &stack );
-    int expectedFront = 8;
-    CuAssertIntEquals( tc, expectedFront, actualFront );
-
-    int actualSize = stack->size;
-    int expectedSize = 8;
-    CuAssertIntEquals( tc, expectedSize, actualSize );
-
-    stack->free( &stack );
-    free( stack );
-}
-void TestStackReverse( CuTest * tc )
-{
-    handy_stack stack = handy_create_stack();
-    CuAssertPtrNotNull( tc, stack );
-
-    stack->push( &stack, "Handy" ); // bottom
-    stack->push( &stack, "is" );
-    stack->push( &stack, "name" );
-    stack->push( &stack, "my" );
-    stack->push( &stack, "world," );
-    stack->push( &stack, "Hello" ); // top
-
-    // now stack has been reversed
+    // after reversing, the top should now have change.
     stack->reverse( &stack );
+    CuAssertIntEquals( tc, 0, (int)stack->top(&stack) );
 
-    char * actualStr = "Hello";
-    char * expectedStr = stack->bottom( &stack );
-    CuAssertStrEquals( tc, expectedStr, actualStr );
+    stack->free(&stack);
+    free( stack );
+}
+void TestStackPop       ( CuTest * tc )
+{
+    handy_stack stack = handy_create_stack();
 
-    actualStr = "Handy";
-    expectedStr = stack->top( &stack );
-    CuAssertStrEquals( tc, expectedStr, actualStr );
+    for( int i = 0; i < 10; i++ )
+        stack->push( &stack, i );
 
-    actualStr = "Hello";
-    expectedStr = stack->pop( &stack );
-    CuAssertStrEquals( tc, expectedStr, actualStr );
+    // pop all item in stack and compare to expected
+    for( int i = 10; i > 0; i-- )
+    CuAssertIntEquals( tc, i - 1, (int)stack->pop(&stack) );
 
+    stack->free( &stack );
+    free( stack );
+}
+void TestStackFree      ( CuTest * tc )
+{
+    handy_stack stack = handy_create_stack();
+
+    for( int i = 0; i < 10; i++ )
+        stack->push( &stack, i );
+
+    // before free, stack top and bottom are not null
+    CuAssertPtrNotNull( tc, stack->top(&stack) );
+    CuAssertPtrNotNull( tc, stack->bottom(&stack) );
+
+    // before free, stack top and bottom are null, safely
+    // assume all positions are now null
+    stack->free( &stack );
+    CuAssertPtrEquals( tc, NULL, stack->top(&stack) );
+    CuAssertPtrEquals( tc, NULL, stack->bottom(&stack) );
+
+    stack->free(&stack);
+    free( stack );
+}
+void TestStackTop       ( CuTest * tc )
+{
+    handy_stack stack = handy_create_stack();
+
+    for( int i = 0; i < 10; i++ )
+        stack->push( &stack, i );
+
+    CuAssertIntEquals( tc, 9, stack->top(&stack) );
+
+    // assume pop passed test, the now top to should 8
+    stack->pop( &stack );
+    CuAssertIntEquals( tc, 8, stack->top(&stack) );
 
 
     stack->free(&stack);
     free( stack );
 }
+void TestStackBottom    ( CuTest * tc )
+{
+    handy_stack stack = handy_create_stack();
+
+    for( int i = 0; i < 10; i++ )
+        stack->push( &stack, i );
+
+    CuAssertIntEquals( tc, 0, stack->bottom(&stack) );
+
+    stack->free(&stack);
+    free( stack );
+}
+
 
 CuSuite * HandyStackGetSuit()
 {
     CuSuite * suite = CuSuiteNew();
 
     SUITE_ADD_TEST( suite, TestStackCreate );
-    SUITE_ADD_TEST( suite, TestStackPush );
     SUITE_ADD_TEST( suite, TestStackContain );
-    SUITE_ADD_TEST( suite, TestStackPop );
+    SUITE_ADD_TEST( suite, TestStackPush );
+    SUITE_ADD_TEST( suite, TestStackEmpty );
     SUITE_ADD_TEST( suite, TestStackReverse );
+    SUITE_ADD_TEST( suite, TestStackPop );
+    SUITE_ADD_TEST( suite, TestStackFree );
+    SUITE_ADD_TEST( suite, TestStackTop );
+    SUITE_ADD_TEST( suite, TestStackBottom );
 
     return suite;
 }

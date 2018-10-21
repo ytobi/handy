@@ -2,21 +2,38 @@
 #include "../include/handy.h"
 
 
-void TestQueueCreate( CuTest * tc )
+void TestQueueCreate    ( CuTest * tc )
 {
-    handy_queue queue = handy_create_queue();
+    handy_queue queue;
+
+    // before initialization, queue is null
+    CuAssertPtrEquals( tc, NULL, queue );
+
+    // after initialization, queue should now not be equal to zero
+    queue = handy_create_queue();
     CuAssertPtrNotNull( tc, queue );
 
-    // check if return of function to create queue
-    // actually created
-    int actualSize = queue->size;
-    int expectedSize = 0;
-    CuAssertIntEquals( tc, expectedSize, actualSize );
+    // validate the size for queue is 0
+    CuAssertIntEquals( tc, 0, queue->size );
 
     queue->free(&queue);
     free( queue );
 }
-void TestQueueEnqueue( CuTest * tc )
+void TestQueueContain   ( CuTest * tc )
+{
+    handy_queue queue = handy_create_queue();
+
+    for( int i = 0; i < 10; i++ )
+        queue->enqueue( &queue, i );
+
+    // test queue contains all enqueued elements
+    for( int i = 0; i < 10; i++ )
+        CuAssertTrue( tc, queue->contain(&queue, i) );
+
+    queue->free( &queue );
+    free( queue );
+}
+void TestQueueEnqueue   ( CuTest * tc )
 {
     handy_queue queue = handy_create_queue();
     char * input = strdup("hello, world!");
@@ -31,32 +48,42 @@ void TestQueueEnqueue( CuTest * tc )
     int expectedSize = 1;
     CuAssertIntEquals( tc, expectedSize, actualSize );
 
-    // we test getting item at back
-    char * actualGetString = (char *)queue->front(&queue);
-    char * expectedGetString = "hello, world!";
-    CuAssertStrEquals( tc, expectedGetString, actualGetString );
+    queue->free(&queue);
+    free( queue );
+}
+void TestQueueEmpty     ( CuTest * tc )
+{
+    handy_queue queue = handy_create_queue();
 
-    // test removing item at back
-    char * actualRemoveString = (char *)queue->dequeue(&queue);
-    char * expectedRemoveString = "hello, world!";
-    CuAssertStrEquals( tc, expectedRemoveString, actualRemoveString );
+    // should be empty
+    CuAssertTrue( tc, queue->empty(&queue) );
+
+    // add things and test not true
+    char * input = strdup("hello, world!");
+    queue->enqueue(&queue, input);
+    CuAssertTrue( tc, !queue->empty(&queue) );
 
     queue->free(&queue);
     free( queue );
 }
-void TestQueueContain( CuTest * tc )
+void TestQueueReverse   ( CuTest * tc )
 {
     handy_queue queue = handy_create_queue();
+    CuAssertPtrNotNull( tc, queue );
 
-    for( int i = 0; i < 10; i++ )
+    for( int i = 0 ; i < 10; i++ )
         queue->enqueue( &queue, i );
 
-    CuAssertTrue( tc, queue->contain(&queue, 5) );
+    CuAssertIntEquals( tc, 9, queue->dequeue(&queue) );
 
-    queue->free( &queue );
+    // Now the queue has been reversed
+    queue->reverse( &queue );
+    CuAssertIntEquals( tc, 0, queue->dequeue(&queue) );
+
+    queue->free(&queue);
     free( queue );
 }
-void TestQueueDequeue( CuTest * tc )
+void TestQueueDequeue   ( CuTest * tc )
 {
     handy_queue queue = handy_create_queue();
 
@@ -78,30 +105,48 @@ void TestQueueDequeue( CuTest * tc )
     queue->free( &queue );
     free( queue );
 }
-void TestQueueReverse( CuTest * tc )
+void TestQueueFree      ( CuTest * tc )
 {
     handy_queue queue = handy_create_queue();
     CuAssertPtrNotNull( tc, queue );
 
-    queue->enqueue( &queue, "Handy" ); // front
-    queue->enqueue( &queue, "is" );
-    queue->enqueue( &queue, "name" );
-    queue->enqueue( &queue, "my" );
-    queue->enqueue( &queue, "world," );
-    queue->enqueue( &queue, "Hello" ); // back
+    for( int i = 0; i < 10; i++ )
+       queue->enqueue( &queue, i );
 
-    // Now the queue has been reversed
-    queue->reverse( &queue );
+    // queue contains items, and hence not null
+    CuAssertPtrNotNull( tc, queue->front(&queue) );
+    CuAssertPtrNotNull( tc, queue->back(&queue) );
 
-    char * actualStr = "Hello";
-    char * expectedStr = queue->dequeue( &queue );
+    queue->free(&queue);
 
-    CuAssertStrEquals( tc, expectedStr, actualStr );
+    // everything should now be null
+    CuAssertPtrEquals( tc, NULL, queue->front(&queue) );
+    CuAssertPtrEquals( tc, NULL, queue->back(&queue) );
 
-    actualStr = "Handy";
-    expectedStr = queue->back( &queue );
+    free( queue );
+}
+void TestQueueFront     ( CuTest * tc )
+{
+    handy_queue queue = handy_create_queue();
+    CuAssertPtrNotNull( tc, queue );
 
-    CuAssertStrEquals( tc, expectedStr, actualStr );
+    for( int i = 0; i < 10; i++ )
+        queue->enqueue( &queue, i );
+
+    CuAssertIntEquals( tc, 0, queue->front(&queue) );
+
+    queue->free(&queue);
+    free( queue );
+}
+void TestQueueBack      ( CuTest * tc )
+{
+    handy_queue queue = handy_create_queue();
+    CuAssertPtrNotNull( tc, queue );
+
+    for( int i = 0; i < 10; i++ )
+        queue->enqueue( &queue, i );
+
+    CuAssertIntEquals( tc, 9, queue->front(&queue) );
 
     queue->free(&queue);
     free( queue );
@@ -111,11 +156,15 @@ CuSuite * HandyQueueGetSuit()
 {
     CuSuite * suite = CuSuiteNew();
 
-    SUITE_ADD_TEST( suite, TestQueueEnqueue );
     SUITE_ADD_TEST( suite, TestQueueCreate );
     SUITE_ADD_TEST( suite, TestQueueContain );
-    SUITE_ADD_TEST( suite, TestQueueDequeue );
+    SUITE_ADD_TEST( suite, TestQueueEnqueue );
+    SUITE_ADD_TEST( suite, TestQueueEmpty );
     SUITE_ADD_TEST( suite, TestQueueReverse );
+    SUITE_ADD_TEST( suite, TestQueueDequeue );
+    SUITE_ADD_TEST( suite, TestQueueFree );
+    SUITE_ADD_TEST( suite, TestQueueFront );
+    SUITE_ADD_TEST( suite, TestQueueBack );
 
     return suite;
 }

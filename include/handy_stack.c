@@ -1,4 +1,3 @@
-
 #include "handy_stack.h"
 
 bool   handy_stack_contain    ( handy_stack * s, void * item );

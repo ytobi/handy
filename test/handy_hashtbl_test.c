@@ -1,7 +1,7 @@
 #include "CuTest-1.5/CuTest.h"
 #include "../include/handy.h"
 
-void TestHashtblAdd( CuTest * tc )
+void TestHashtblAdd     ( CuTest * tc )
 {
     handy_hashtbl table = handy_create_hashtbl();
     CuAssertPtrNotNull( tc, table );
@@ -16,7 +16,7 @@ void TestHashtblAdd( CuTest * tc )
     table->free( &table );
     free( table );
 }
-void TestHashtblContain( CuTest * tc )
+void TestHashtblContain ( CuTest * tc )
 {
     handy_hashtbl table = handy_create_hashtbl();
     CuAssertPtrNotNull( tc, table );
@@ -33,7 +33,7 @@ void TestHashtblContain( CuTest * tc )
     table->free(&table);
     free( table );
 }
-void TestHashtblGet( CuTest * tc )
+void TestHashtblGet     ( CuTest * tc )
 {
     handy_hashtbl table = handy_create_hashtbl();
     CuAssertPtrNotNull( tc, table );
@@ -51,7 +51,7 @@ void TestHashtblGet( CuTest * tc )
     table->free(&table);
     free( table );
 }
-void TestHashtblRemove( CuTest * tc )
+void TestHashtblRemove  ( CuTest * tc )
 {
     handy_hashtbl table = handy_create_hashtbl();
     CuAssertPtrNotNull( tc, table );
@@ -67,6 +67,26 @@ void TestHashtblRemove( CuTest * tc )
     CuAssertStrEquals( tc, expectReturn, actualReturn );
 
     table->free(&table);
+    free( table );
+}
+void TestHashtblFree    ( CuTest * tc )
+{
+    handy_hashtbl table = handy_create_hashtbl();
+
+    // check if return of function to create list
+    // actually created
+    table->add( &table, "123", "Hello,!" );
+    table->add( &table, "124", " world!" );
+
+    // assume table.get passed
+    CuAssertPtrNotNull( tc, table->get(&table, "123") );
+    CuAssertPtrNotNull( tc, table->get(&table, "124") );
+
+    // now that we have freed, all key,values pairs are null
+    table->free( &table );
+    CuAssertPtrEquals( tc, NULL, table->get(&table, "123") );
+    CuAssertPtrEquals( tc, NULL, table->get(&table, "124") );
+
     free( table );
 }
 
@@ -77,6 +97,7 @@ CuSuite * HandyHashtblGetSuit()
     SUITE_ADD_TEST( suite, TestHashtblContain );
     SUITE_ADD_TEST( suite, TestHashtblGet );
     SUITE_ADD_TEST( suite, TestHashtblRemove );
+    SUITE_ADD_TEST( suite, TestHashtblFree );
 
     return suite;
 }

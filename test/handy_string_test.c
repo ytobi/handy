@@ -2,7 +2,7 @@
 #include "../include/handy.h"
 
 
-void TestStringCreate( CuTest * tc )
+void TestStringCreate       ( CuTest * tc )
 {
     handy_string string = handy_create_string();
     CuAssertPtrNotNull( tc, string );
@@ -16,7 +16,7 @@ void TestStringCreate( CuTest * tc )
     string->free(&string);
     free( string );
 }
-void TestStringEqual( CuTest * tc )
+void TestStringEqual        ( CuTest * tc )
 {
     handy_string string1 = handy_create_string();
     handy_string string2 = handy_create_string();
@@ -47,7 +47,7 @@ void TestStringEqual( CuTest * tc )
     free( string1 );
     free( string2 );
 }
-void TestStringEqualStr( CuTest * tc )
+void TestStringEqualStr     ( CuTest * tc )
 {
     handy_string string1 = handy_create_string();
     handy_string string2 = handy_create_string();
@@ -78,7 +78,7 @@ void TestStringEqualStr( CuTest * tc )
     free( string1 );
     free( string2 );
 }
-void TestStringAddCharFront( CuTest * tc )
+void TestStringAddCharFront ( CuTest * tc )
 {
     handy_string str = handy_create_string();
     CuAssertTrue( tc, str->add_char_front(&str, "B") );
@@ -90,7 +90,7 @@ void TestStringAddCharFront( CuTest * tc )
     str->free( &str );
     free( str );
 }
-void TestStringAddCharBack( CuTest * tc )
+void TestStringAddCharBack  ( CuTest * tc )
 {
     handy_string str = handy_create_string();
 
@@ -104,7 +104,7 @@ void TestStringAddCharBack( CuTest * tc )
     str->free(&str);
     free( str );
 }
-void TestStringAddCharAt( CuTest * tc )
+void TestStringAddCharAt    ( CuTest * tc )
 {
     handy_string str = handy_create_string();
 
@@ -117,12 +117,12 @@ void TestStringAddCharAt( CuTest * tc )
     str->free(&str);
     free(str);
 }
-void TestStringContainChar( CuTest * tc ) // TODO fail
+void TestStringContainChar  ( CuTest * tc )
 {
     handy_string str = handy_create_string();
     str->append(&str, "Hello, World" );
 
-    // return postion of first occurrence aka 0
+    // return position of first occurrence aka 0
     CuAssertTrue( tc, str->contain_char( &str, 'H') == 0 );
 
     // return -1 for not found
@@ -131,7 +131,7 @@ void TestStringContainChar( CuTest * tc ) // TODO fail
     str->free(&str);
     free(str);
 }
-void TestStringContainStr( CuTest * tc ) // TODO
+void TestStringContainStr   ( CuTest * tc )
 {
     handy_string str = handy_create_string();
     str->append(&str, "Hello, World" );
@@ -145,14 +145,139 @@ void TestStringContainStr( CuTest * tc ) // TODO
     str->free(&str);
     free(str);
 }
-void TestStringGet( CuTest * tc ) // TODO
+void TestStringGetBackChar  ( CuTest * tc )
 {
+    handy_string str = handy_create_string();
+    str->append( &str, "Hello, World" );
+
+    CuAssertIntEquals( tc, 'd', str->get_back_char(&str) );
+
+    str->free( &str );
+    free( str );
 }
-void TestStringRemove( CuTest * tc ) // TODO
+void TestStringGetFrontChar ( CuTest * tc )
 {
+    handy_string str = handy_create_string();
+    str->append( &str, "Hello, World" );
+
+    CuAssertIntEquals( tc, 'H', str->get_front_char(&str) );
+
+    str->free( &str );
+    free( str );
 }
-void TestStringReverse( CuTest * tc ) // TODO
+void TestStringGetCharAt    ( CuTest * tc )
 {
+    handy_string str = handy_create_string();
+    str->append( &str, "Hello, World" );
+
+    CuAssertIntEquals( tc, 'H', str->get_char_at(&str, 0) );
+
+    CuAssertIntEquals( tc, 'd', str->get_char_at(&str, str->length(&str) - 1) );
+
+    str->free( &str );
+    free( str );
+}
+void TestStringDeleteFrontChar( CuTest * tc )
+{
+    handy_string str = handy_create_string();
+    str->append( &str, "Hello, World" );
+
+    CuAssertTrue( tc, str->delete_front_char(&str) );
+
+    // assume string.get_front_char passed
+    CuAssertTrue( tc, str->get_front_char(&str) != 'H' );
+
+
+    str->free( &str );
+    free( str );
+}
+void TestStringDeleteBackChar( CuTest * tc )
+{
+    handy_string str = handy_create_string();
+    str->append( &str, "Hello, World" );
+
+    CuAssertTrue( tc, str->delete_back_char(&str) );
+
+    // assume string.get_back_char passed
+    CuAssertTrue( tc, str->get_back_char(&str) != 'd' );
+
+    str->free( &str );
+    free( str );
+}
+void TestStringDeleteCharAt ( CuTest * tc )
+{
+    handy_string str = handy_create_string();
+    str->append( &str, "Hello, World" );
+
+    CuAssertTrue( tc, str->delete_char_at(&str, 1) );
+    // assume string.get_char_at passed, position 1 now has l
+    CuAssertTrue( tc, str->get_char_at(&str, 1) != 'e' );
+
+    CuAssertTrue( tc, str->delete_char_at(&str, 2) );
+    // assume string.get_char_at passed, position 2 now has o
+    CuAssertTrue( tc, str->get_char_at(&str, 1) != 'l' );
+
+    str->free( &str );
+    free( str );
+}
+void TestStringReverse      ( CuTest * tc )
+{
+    handy_string str = handy_create_string();
+    str->append( &str, "Hello, World" );
+
+    // assume string.get_char_at passed, before position 0 has 'H'
+    CuAssertTrue( tc, str->get_char_at(&str, 0) == 'H' );
+
+    str->reverse( &str );
+
+    // assume string.get_char_at passed, after reverse position 0 now has d
+    CuAssertTrue( tc, str->get_char_at(&str, 0) == 'd' );
+
+    str->free( &str );
+    free( str );
+}
+void TestStringWordCount    ( CuTest * tc )
+{
+    handy_string str = handy_create_string();
+    str->append( &str, "  I   love    you   " );
+
+    // with ' ' as delimiter, word count should be 3, ignore space(s)
+    str->word_count( &str, " " );
+    CuAssertIntEquals( tc, 3, str->word_count( &str, " " ) );
+
+    // with ',' as delimiter, word count should be 3, ignore space(s)
+    str->word_count( &str, "," );
+    CuAssertIntEquals( tc, 1, str->word_count( &str, "," ) );
+
+    str->free( &str );
+    free( str );
+}
+void TestStringFree         ( CuTest * tc )
+{
+    handy_string str = handy_create_string();
+    str->append( &str, "Hello, World" );
+
+    // before freeing, string is not null
+    CuAssertPtrNotNull( tc, str->string(&str) );
+
+    // after freeing, string is null
+    CuAssertPtrEquals( tc, NULL, str->string(&str) );
+
+    free( str );
+}
+void TestStringLength       ( CuTest * tc )
+{
+    handy_string str = handy_create_string();
+    // before appending, length is 0
+    CuAssertIntEquals( tc, 0, str->length(&str) );
+
+    // after appending, length has now changed to expected.
+    str->append( &str, "Hello, World" );
+    CuAssertIntEquals( tc, strlen("Hello, World"), str->length(&str) );
+
+    str->free( &str );
+    free( str );
+
 }
 
 CuSuite * HandyStringGetSuit()
@@ -166,6 +291,16 @@ CuSuite * HandyStringGetSuit()
     SUITE_ADD_TEST( suite, TestStringAddCharAt );
     SUITE_ADD_TEST( suite, TestStringContainChar );
     SUITE_ADD_TEST( suite, TestStringContainStr );
+    SUITE_ADD_TEST( suite, TestStringGetBackChar );
+    SUITE_ADD_TEST( suite, TestStringGetFrontChar );
+    SUITE_ADD_TEST( suite, TestStringGetCharAt );
+    SUITE_ADD_TEST( suite, TestStringDeleteFrontChar );
+    SUITE_ADD_TEST( suite, TestStringDeleteBackChar );
+    SUITE_ADD_TEST( suite, TestStringDeleteCharAt );
+    SUITE_ADD_TEST( suite, TestStringReverse );
+    SUITE_ADD_TEST( suite, TestStringWordCount );
+    SUITE_ADD_TEST( suite, TestStringFree );
+    SUITE_ADD_TEST( suite, TestStringLength );
 
     return suite;
 }

@@ -1,6 +1,4 @@
-
 #include "handy_hashtbl.h"
-
 
 bool   handy_hashtbl_contain  ( handy_hashtbl * l, char * _key );
 bool   handy_hashtbl_add      ( handy_hashtbl * l, char * _key, void * item );
@@ -27,7 +25,6 @@ unsigned long handy_hash_function( char * _key )
 
     return hashValue;
 }
-
 unsigned long handy_hash_djb2( char * str )
 {
     unsigned long hash = 5381;

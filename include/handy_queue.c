@@ -1,4 +1,3 @@
-
 #include "handy_queue.h"
 
 bool   handy_queue_contain    ( handy_queue * q, void * item );
@@ -12,7 +11,7 @@ void * handy_queue_back       ( handy_queue * q );
 
 handy_queue handy_create_queue()
 {
-    struct queue_struct *  temp_queue = malloc( sizeof(*temp_queue) );
+    handy_queue  temp_queue = malloc( sizeof(*temp_queue) );
 
     temp_queue->size = 0;
 

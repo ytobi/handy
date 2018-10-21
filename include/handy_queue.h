@@ -7,7 +7,7 @@
 #ifndef HANDY_HANDY_QUEUE_H
 #define HANDY_HANDY_QUEUE_H
 
-typedef struct queue_struct * handy_queue;
+typedef struct _queue_struct * handy_queue;
 
 #ifndef HANDY_OBJ_H
 #define HANDY_OBJ_H
@@ -22,7 +22,7 @@ struct _handy_obj
 };
 #endif
 
-struct queue_struct
+struct _queue_struct
 {
     bool (*contain)         ( handy_queue * q, void * item );
     bool (*enqueue)         ( handy_queue * q, void * item );
