@@ -4,7 +4,7 @@
 bool   handy_stack_contain    ( handy_stack * s, void * item );
 bool   handy_stack_push       ( handy_stack * s, void * item );
 bool   handy_stack_empty      ( handy_stack * s );
-void * handy_stack_reverse    ( handy_stack * s );
+void   handy_stack_reverse    ( handy_stack * s );
 void * handy_stack_pop        ( handy_stack * s );
 void   handy_stack_free       ( handy_stack * s );
 void * handy_stack_top        ( handy_stack * s );
@@ -29,12 +29,12 @@ handy_stack handy_create_stack()
 }
 bool   handy_stack_contain    ( handy_stack * s, void * item )
 {
-    handy_Obj iter = (*s)->first;
+    handy_obj iter = (*s)->_first;
     for( int i = 0; i < (*s)->size; i++ )
     {
-        if( memcmp( &(iter->data), &item, iter->size ) == 0 )
+        if( memcmp( &(iter->_data), &item, sizeof(iter->_data) ) == 0 )
             return true;
-        iter = iter->next;
+        iter = iter->_next;
     }
     return false;
 }
@@ -42,12 +42,11 @@ bool   handy_stack_push       ( handy_stack * s, void * item )
 {
     if( (*s)->size == 0 )
     {
-        handy_Obj temp = malloc( sizeof( *temp ) );
+        handy_obj temp = malloc( sizeof( *temp ) );
 
-        temp->data = item;
-        temp->size = sizeof( item );
+        temp->_data = item;
 
-        (*s)->last  = (*s)->first = temp;
+        (*s)->_last  = (*s)->_first = temp;
 
         (*s)->size++;
 
@@ -55,14 +54,13 @@ bool   handy_stack_push       ( handy_stack * s, void * item )
     }
     else if ( (*s)->size > 0 )
     {
-        handy_Obj temp = malloc( sizeof( *temp ) );
+        handy_obj temp = malloc( sizeof( *temp ) );
 
-        temp->size = sizeof( item );;
-        temp->data = item;
-        temp->next = (*s)->first;
+        temp->_data = item;
+        temp->_next = (*s)->_first;
 
-        (*s)->first->prev = temp;
-        (*s)->first = temp;
+        (*s)->_first->_prev = temp;
+        (*s)->_first = temp;
         (*s)->size++;
 
         return true;
@@ -73,25 +71,25 @@ bool   handy_stack_empty      ( handy_stack * s )
 {
     return (*s)->size == 0 ? true : false;
 }
-void * handy_stack_reverse    ( handy_stack * s )
+void handy_stack_reverse    ( handy_stack * s )
 {
-    // The front point the end, and next and prev of every node
+    // The front point the end, and _next and _prev of every node
     // reversed.
 
-    handy_Obj hold_top = (*s)->first;
-    handy_Obj hold_bottom = (*s)->last;
+    handy_obj hold_top = (*s)->_first;
+    handy_obj hold_bottom = (*s)->_last;
 
     void * temp_data;
 
     // exchange front and back till we reach middle
     for( int i = 0 ; i < ((*s)->size / 2); i++ )
     {
-        temp_data = hold_top->data;
-        hold_top->data = hold_bottom->data;
-        hold_top->data = temp_data;
+        temp_data = hold_top->_data;
+        hold_top->_data = hold_bottom->_data;
+        hold_top->_data = temp_data;
 
-        hold_top = hold_top->next;
-        hold_bottom = hold_bottom->prev;
+        hold_top = hold_top->_next;
+        hold_bottom = hold_bottom->_prev;
     }
 }
 void * handy_stack_pop        ( handy_stack * s )
@@ -100,19 +98,20 @@ void * handy_stack_pop        ( handy_stack * s )
         return NULL;
     else if( (*s)->size == 1 )
     {
-        handy_Obj  temp = (*s)->first;
-        (*s)->first = (*s)->last = NULL;
+        handy_obj  temp = (*s)->_first;
+
+        (*s)->_first = (*s)->_last = NULL;
         (*s)->size--;
 
-        return temp->data;
+        return temp->_data;
     }
     else if( (*s)->size > 1 )
     {
-        handy_Obj temp = (*s)->first;
-        (*s)->first = (*s)->first->next;
+        handy_obj temp = (*s)->_first;
+        (*s)->_first = (*s)->_first->_next;
 
         (*s)->size--;
-        return temp->data;
+        return temp->_data;
     }
     return NULL;
 }
@@ -121,7 +120,7 @@ void   handy_stack_free       ( handy_stack * s )
     // free every item in list and then remove them from the list
     while( (*s)->size > 0 )
     {
-        free( (*s)->first );
+        free( (*s)->_first );
         (*s)->pop(s);
     }
 }
@@ -133,7 +132,7 @@ void * handy_stack_top        ( handy_stack * s )
     }
     else if( (*s)->size > 0 )
     {
-        return  (*s)->first->data;
+        return  (*s)->_first->_data;
     }
     return NULL;
 }
@@ -145,7 +144,7 @@ void * handy_stack_bottom     ( handy_stack * s )
     }
     else if( (*s)->size > 0 )
     {
-        return  (*s)->last->data;
+        return  (*s)->_last->_data;
     }
     return NULL;
 }

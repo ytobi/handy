@@ -14,16 +14,14 @@ typedef struct list_struct  * handy_list;
 #ifndef HANDY_OBJ_H
 #define HANDY_OBJ_H
 
-typedef struct handy_obj * handy_Obj;
-struct handy_obj
+typedef struct _handy_obj * handy_obj;
+struct _handy_obj
 {
-    void  * data;
-    void  * key;
+    void  * _data;
+    void  * _key;
 
-    size_t size;
-
-    handy_Obj next;
-    handy_Obj prev;
+    handy_obj _next;
+    handy_obj _prev;
 };
 
 char * handy_str_return;
@@ -31,7 +29,7 @@ char * handy_str_return;
 
 struct list_struct
 {
-    int (*contain)         ( handy_list * l, void * item );
+    int  (*contain)         ( handy_list * l, void * item );
     bool (*add_front)       ( handy_list * l, void * item );
     bool (*add_back)        ( handy_list * l, void * item );
     bool (*add_at)          ( handy_list * l, void * item, int at );
@@ -47,8 +45,8 @@ struct list_struct
     void * (*remove_at)     ( handy_list * l, int at );
     void   (*free)          ( handy_list * l );
 
-    handy_Obj first;
-    handy_Obj last;
+    handy_obj _first;
+    handy_obj _last;
 
     int size;
 };

@@ -11,16 +11,14 @@ typedef struct stack_struct * handy_stack;
 
 #ifndef HANDY_OBJ_H
 #define HANDY_OBJ_H
-typedef struct handy_obj * handy_Obj;
-struct handy_obj
+typedef struct _handy_obj * handy_obj;
+struct _handy_obj
 {
-    void  * data;
-    void  * key;
+    void  * _data;
+    void  * _key;
 
-    size_t size;
-
-    handy_Obj next;
-    handy_Obj prev;
+    handy_obj _next;
+    handy_obj _prev;
 };
 #endif
 
@@ -30,14 +28,14 @@ struct stack_struct
     bool (*push)            ( handy_stack * s, void * item );
     bool (*empty)           ( handy_stack * s );
 
-    void * (*reverse)       ( handy_stack * s );
+    void   (*reverse)       ( handy_stack * s );
     void * (*pop)           ( handy_stack * s );
     void   (*free)          ( handy_stack * s );
     void * (*top)           ( handy_stack * s );
     void * (*bottom)        ( handy_stack * s );
 
-    handy_Obj first;
-    handy_Obj last;
+    handy_obj _first;
+    handy_obj _last;
 
     int size;
 };

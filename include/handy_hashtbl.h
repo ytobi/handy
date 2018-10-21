@@ -16,8 +16,8 @@ typedef struct _hashtbl_obj * hashtbl_obj;
 
 struct _hashtbl_obj
 {
-    void * value;
-    void * key;
+    void * _value;
+    void * _key;
 };
 #endif
 
@@ -32,7 +32,7 @@ struct _hashtbl_struct
 
     int _size;
 
-    handy_list * bucket;
+    handy_list * _bucket;
 };
 
 extern handy_hashtbl handy_create_hashtbl();
