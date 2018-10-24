@@ -6,9 +6,6 @@ void TestQueueCreate    ( CuTest * tc )
 {
     handy_queue queue;
 
-    // before initialization, queue is null
-    CuAssertPtrEquals( tc, NULL, queue );
-
     // after initialization, queue should now not be equal to zero
     queue = handy_create_queue();
     CuAssertPtrNotNull( tc, queue );
@@ -74,11 +71,11 @@ void TestQueueReverse   ( CuTest * tc )
     for( int i = 0 ; i < 10; i++ )
         queue->enqueue( &queue, i );
 
-    CuAssertIntEquals( tc, 9, queue->dequeue(&queue) );
+    CuAssertIntEquals( tc, 0, queue->dequeue(&queue) );
 
     // Now the queue has been reversed
     queue->reverse( &queue );
-    CuAssertIntEquals( tc, 0, queue->dequeue(&queue) );
+    CuAssertIntEquals( tc, 9, queue->dequeue(&queue) );
 
     queue->free(&queue);
     free( queue );
@@ -110,7 +107,7 @@ void TestQueueFree      ( CuTest * tc )
     handy_queue queue = handy_create_queue();
     CuAssertPtrNotNull( tc, queue );
 
-    for( int i = 0; i < 10; i++ )
+    for( int i = 1; i <= 10; i++ )
        queue->enqueue( &queue, i );
 
     // queue contains items, and hence not null
@@ -146,7 +143,7 @@ void TestQueueBack      ( CuTest * tc )
     for( int i = 0; i < 10; i++ )
         queue->enqueue( &queue, i );
 
-    CuAssertIntEquals( tc, 9, queue->front(&queue) );
+    CuAssertIntEquals( tc, 9, queue->back(&queue) );
 
     queue->free(&queue);
     free( queue );

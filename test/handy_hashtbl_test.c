@@ -30,7 +30,7 @@ void TestHashtblContain ( CuTest * tc )
     table->add( &table, "124", " world!" );
     CuAssertTrue( tc, table->contain(&table, "124") );
 
-    table->free(&table);
+    table->free( &table );
     free( table );
 }
 void TestHashtblGet     ( CuTest * tc )
@@ -84,6 +84,7 @@ void TestHashtblFree    ( CuTest * tc )
 
     // now that we have freed, all key,values pairs are null
     table->free( &table );
+
     CuAssertPtrEquals( tc, NULL, table->get(&table, "123") );
     CuAssertPtrEquals( tc, NULL, table->get(&table, "124") );
 

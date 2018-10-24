@@ -10,11 +10,11 @@
 
 typedef struct _hashtbl_struct * handy_hashtbl;
 
-#ifndef HASHTBL_OBJ_H
-#define HASHTBL_OBJ_H
-typedef struct _hashtbl_obj * hashtbl_obj;
+#ifndef HANDY_HASHTBL_OBJ_H
+#define HANDY_HASHTBL_OBJ_H
+typedef struct __handy_hashtbl_obj * _handy_hashtbl_obj;
 
-struct _hashtbl_obj
+struct __handy_hashtbl_obj
 {
     void * _value;
     void * _key;

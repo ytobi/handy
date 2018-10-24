@@ -9,17 +9,19 @@
 
 typedef struct stack_struct * handy_stack;
 
-#ifndef HANDY_OBJ_H
-#define HANDY_OBJ_H
-typedef struct _handy_obj * handy_obj;
-struct _handy_obj
+#ifndef HANDY_STACK_OBJ_H
+#define HANDY_STACK_OBJ_H
+
+typedef struct __handy_stack_obj * _handy_stack_obj;
+
+struct __handy_stack_obj
 {
     void  * _data;
-    void  * _key;
 
-    handy_obj _next;
-    handy_obj _prev;
+    _handy_stack_obj _next;
+    _handy_stack_obj _prev;
 };
+
 #endif
 
 struct stack_struct
@@ -34,8 +36,8 @@ struct stack_struct
     void * (*top)           ( handy_stack * s );
     void * (*bottom)        ( handy_stack * s );
 
-    handy_obj _first;
-    handy_obj _last;
+    _handy_stack_obj _first;
+    _handy_stack_obj _last;
 
     int size;
 };

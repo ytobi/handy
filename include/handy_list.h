@@ -11,20 +11,18 @@
 
 typedef struct _list_struct  * handy_list;
 
-#ifndef HANDY_OBJ_H
-#define HANDY_OBJ_H
+#ifndef HANDY_LIST_OBJ_H
+#define HANDY_LIST_OBJ_H
 
-typedef struct _handy_obj * handy_obj;
-struct _handy_obj
+typedef struct __handy_list_obj * _handy_list_obj;
+struct __handy_list_obj
 {
     void  * _data;
-    void  * _key;
 
-    handy_obj _next;
-    handy_obj _prev;
+    _handy_list_obj _next;
+    _handy_list_obj _prev;
 };
 
-char * handy_str_return;
 #endif
 
 struct _list_struct
@@ -35,18 +33,17 @@ struct _list_struct
     bool (*add_at)          ( handy_list * l, void * item, int at );
     bool (*empty)           ( handy_list * l );
 
-    char * (*to_string)     ( handy_list * l );
     void * (*get_front)     ( handy_list * l );
     void * (*get_back)      ( handy_list * l );
     void * (*get_at)        ( handy_list * l, int at );
-    void * (*remove_front)  ( handy_list * l );
-    void * (*remove_back)   ( handy_list * l );
+    void * (*rem_front)     ( handy_list * l );
+    void * (*rem_back)      ( handy_list * l );
     void * (*reverse)       ( handy_list * l );
-    void * (*remove_at)     ( handy_list * l, int at );
+    void * (*rem_at)        ( handy_list * l, int at );
     void   (*free)          ( handy_list * l );
 
-    handy_obj _first;
-    handy_obj _last;
+    _handy_list_obj _first;
+    _handy_list_obj _last;
 
     int size;
 };

@@ -114,12 +114,11 @@ void TestListAddAt      ( CuTest * tc )
     CuAssertIntEquals( tc, expectedSize, actualSize );
 
 
-
     // Input3
     // test response, if positive and hence item was added
     // Addition to a location past the size of the list should not cause
     // error at all.
-    actualResponse = list->add_at(&list, input3, 1);
+    actualResponse = list->add_at( &list, input3, 1 );
     expectedResponse = 1;
     CuAssertIntEquals( tc, expectedResponse, actualResponse );
 
@@ -156,7 +155,7 @@ void TestListRemoveFront( CuTest * tc )
     for( int i = 0; i < size_list; i++ )
         list->add_back( &list, i );
 
-    int actualAt = list->remove_front( &list );
+    int actualAt = list->rem_front( &list );
     int expectedAt = 0;
     CuAssertIntEquals( tc, expectedAt, actualAt );
 
@@ -176,7 +175,7 @@ void TestListRemoveBack ( CuTest * tc )
     for( int i = 0; i < size_list; i++ )
         list->add_back( &list, i );
 
-    int actualAt = (int)list->remove_back( &list );
+    int actualAt = (int)list->rem_back( &list );
     int expectedAt = 9;
     CuAssertIntEquals( tc, expectedAt, actualAt );
 
@@ -196,7 +195,7 @@ void TestListRemoveAt   ( CuTest * tc )
     for( int i = 0; i < size_list; i++ )
         list->add_back( &list, i );
 
-    int actualAt = (int)list->remove_at( &list, 2 );
+    int actualAt = (int)list->rem_at( &list, 2 );
     int expectedAt = 2;
     CuAssertIntEquals( tc, expectedAt, actualAt );
 
@@ -316,7 +315,7 @@ void TestListGetAt      ( CuTest * tc )
     list->free( &list );
     free( list );
 }
-void TestListToString   ( CuTest * tc )
+void TestListFree       ( CuTest * tc )
 {
     handy_list list = handy_create_list();
     int size_list = 10;
@@ -324,9 +323,15 @@ void TestListToString   ( CuTest * tc )
     for( int i = 0; i < size_list; i++ )
         list->add_back( &list, i );
 
-    CuAssertStrEquals( tc, "0123456789", list->to_string( &list ) );
-
     list->free( &list );
+
+    // everything should now be null
+
+    CuAssertPtrEquals( tc, NULL, list->get_front(&list) );
+    CuAssertPtrEquals( tc, NULL, list->get_back(&list) );
+
+    CuAssertIntEquals( tc, 0, list->size );
+
     free( list );
 }
 CuSuite * HandyListGetSuit()
@@ -346,7 +351,7 @@ CuSuite * HandyListGetSuit()
     SUITE_ADD_TEST( suite, TestListGetFront );
     SUITE_ADD_TEST( suite, TestListGetBack );
     SUITE_ADD_TEST( suite, TestListGetAt );
-    SUITE_ADD_TEST( suite, TestListToString );
+    SUITE_ADD_TEST( suite, TestListFree );
 
 	return suite;
 }

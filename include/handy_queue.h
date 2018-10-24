@@ -9,16 +9,15 @@
 
 typedef struct _queue_struct * handy_queue;
 
-#ifndef HANDY_OBJ_H
-#define HANDY_OBJ_H
-typedef struct _handy_obj * handy_obj;
-struct _handy_obj
+#ifndef HANDY_QUEUE_OBJ_H
+#define HANDY_QUEUE_OBJ_H
+typedef struct __handy_queue_obj * _handy_queue_obj;
+struct __handy_queue_obj
 {
     void  * _data;
-    void  * _key;
 
-    handy_obj _next;
-    handy_obj _prev;
+    _handy_queue_obj _next;
+    _handy_queue_obj _prev;
 };
 #endif
 
@@ -34,8 +33,8 @@ struct _queue_struct
     void * (*front)         ( handy_queue * q );
     void * (*back)          ( handy_queue * q );
 
-    handy_obj _first;
-    handy_obj _last;
+    _handy_queue_obj _first;
+    _handy_queue_obj _last;
 
     int size;
 };

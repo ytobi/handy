@@ -14,8 +14,8 @@ struct string_struct
     bool (*equal)           ( handy_string * s1, handy_string * s2 );
     bool (*equal_str)       ( handy_string * s, char * str );
 
-    int (*contain_char)    ( handy_string * s, char c );
-    int (*contain_str)     ( handy_string * s, char * str );
+    int (*contain_char)     ( handy_string * s, char c );
+    int (*contain_str)      ( handy_string * s, char * str );
     bool (*add_char_front)  ( handy_string * s, char c );
     bool (*add_char_back)   ( handy_string * s, char c );
     bool (*add_char_at)     ( handy_string * s, char c, int at );
@@ -29,9 +29,9 @@ struct string_struct
     char (*get_front_char)  ( handy_string * s );
     char (*get_back_char)   ( handy_string * s );
     char (*get_char_at)     ( handy_string * s, int at );
-    bool (*delete_front_char)( handy_string * s );
-    bool (*delete_back_char)( handy_string * s );
-    bool (*delete_char_at)  ( handy_string * s, int at );
+    bool (*del_front_char)  ( handy_string * s );
+    bool (*del_back_char)   ( handy_string * s );
+    bool (*del_char_at)     ( handy_string * s, int at );
     bool (*reverse)         ( handy_string * s );
     int  (*word_count)      ( handy_string * s, char * delimiter );
     void (*free)            ( handy_string * s );

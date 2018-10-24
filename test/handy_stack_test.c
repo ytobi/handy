@@ -13,7 +13,7 @@ void TestStackCreate    ( CuTest * tc )
     int expectedSize = 0;
     CuAssertIntEquals( tc, expectedSize, actualSize );
 
-    stack->free(&stack);
+    stack->free( &stack );
     free( stack );
 }
 void TestStackContain   ( CuTest * tc )
@@ -110,7 +110,7 @@ void TestStackFree      ( CuTest * tc )
 {
     handy_stack stack = handy_create_stack();
 
-    for( int i = 0; i < 10; i++ )
+    for( int i = 1; i <= 10; i++ )
         stack->push( &stack, i );
 
     // before free, stack top and bottom are not null
@@ -123,7 +123,6 @@ void TestStackFree      ( CuTest * tc )
     CuAssertPtrEquals( tc, NULL, stack->top(&stack) );
     CuAssertPtrEquals( tc, NULL, stack->bottom(&stack) );
 
-    stack->free(&stack);
     free( stack );
 }
 void TestStackTop       ( CuTest * tc )

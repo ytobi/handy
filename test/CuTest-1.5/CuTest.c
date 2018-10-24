@@ -313,6 +313,19 @@ void CuSuiteDetails(CuSuite* testSuite, CuString* details)
 		int passCount = testSuite->count - testSuite->failCount;
 		const char* testWord = passCount == 1 ? "test" : "tests";
 		CuStringAppendFormat(details, "\x1B[32m OK (%d %s) \x1B[0m \n", passCount, testWord);
+
+		for (i = 0 ; i < testSuite->count ; ++i)
+		{
+			CuTest* testCase = testSuite->list[i];
+
+			count++;
+			CuStringAppendFormat(details, "%3d. %s %s\n",
+								 count, "\x1B[32m[passed]\x1B[0m",testCase->name );
+
+		}
+		CuStringAppendFormat(details, "Runs: %d ",   testSuite->count);
+		CuStringAppendFormat(details, "\x1B[32m Passes: %d \x1B[0m ", testSuite->count - testSuite->failCount);
+		CuStringAppendFormat(details, "\x1B[31m Fails: %d \x1B[0m \n",  testSuite->failCount);
 	}
 	else
 	{

@@ -28,7 +28,7 @@ handy_queue handy_create_queue()
 }
 bool   handy_queue_contain    ( handy_queue * q, void * item )
 {
-    handy_obj iter = (*q)->_first;
+    _handy_queue_obj iter = (*q)->_first;
     for( int i = 0; i < (*q)->size; i++ )
     {
         if( memcmp( &iter->_data, &item, sizeof(iter->_data) ) == 0 )
@@ -41,10 +41,11 @@ bool   handy_queue_enqueue    ( handy_queue * q, void * item )
 {
     if( (*q)->size == 0 )
     {
-        handy_obj temp = malloc( sizeof( * temp ) );
-
+        // create and assign new item to add
+        _handy_queue_obj temp = malloc( sizeof( * temp ) );
         temp->_data = item;
 
+        // first item in queue, _first and _last point to same item
         (*q)->_last  = (*q)->_first = temp;
 
         (*q)->size++;
@@ -53,7 +54,7 @@ bool   handy_queue_enqueue    ( handy_queue * q, void * item )
     }
     else if ( (*q)->size > 0 )
     {
-        handy_obj temp = malloc( sizeof( * temp ) );
+        _handy_queue_obj temp = malloc( sizeof( * temp ) );
 
         temp->_data = item;
 
@@ -76,8 +77,8 @@ void handy_queue_reverse      ( handy_queue * q )
     // The front point the end, and _next and _prev of every node
     // reversed.
 
-    handy_obj hold_front = (*q)->_first;
-    handy_obj hold_back = (*q)->_last;
+    _handy_queue_obj hold_front = (*q)->_first;
+    _handy_queue_obj hold_back = (*q)->_last;
 
     void * temp_data;
 
@@ -98,7 +99,7 @@ void * handy_queue_dequeue    ( handy_queue * q )
         return NULL;
     else if( (*q)->size == 1 )
     {
-        handy_obj  temp = (*q)->_first;
+        _handy_queue_obj  temp = (*q)->_first;
         (*q)->_first = (*q)->_last = NULL;
         (*q)->size--;
 
@@ -106,7 +107,7 @@ void * handy_queue_dequeue    ( handy_queue * q )
     }
     else if( (*q)->size > 1 )
     {
-        handy_obj temp = (*q)->_first;
+        _handy_queue_obj temp = (*q)->_first;
         (*q)->_first = (*q)->_first->_next;
 
         (*q)->size--;
@@ -118,11 +119,14 @@ void * handy_queue_dequeue    ( handy_queue * q )
 void   handy_queue_free       ( handy_queue * q )
 {
     // free every item in list and then remove them from the queue
-    while( (*q)->size > 0 )
+    while( (*q)->_first != (*q)->_last )
     {
-        free( (*q)->_first );
-        (*q)->dequeue(q);
+        (*q)->_first = (*q)->_first->_next;
+
+        (*q)->_first->_prev = (free( (*q)->_first->_prev ), NULL);
     }
+    (*q)->_first = (free( (*q)->_first ), NULL);
+    (*q)->size = 0;
 }
 void * handy_queue_front      ( handy_queue * q )
 {
