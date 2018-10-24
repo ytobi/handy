@@ -19,6 +19,7 @@ handy_list handy_create_list    ()
 {
     handy_list  temp_list = malloc( sizeof(*temp_list) );
 
+    temp_list->_first = temp_list->_last = NULL;
     temp_list->size = 0;
 
     temp_list->contain       = handy_list_contain;
@@ -26,7 +27,6 @@ handy_list handy_create_list    ()
     temp_list->add_back      = handy_list_add_back;
     temp_list->add_at        = handy_list_add_at;
     temp_list->empty         = handy_list_empty;
-
     temp_list->get_front     = handy_list_get_front;
     temp_list->get_back      = handy_list_get_back;
     temp_list->get_at        = handy_list_get_at;

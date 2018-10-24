@@ -11,20 +11,20 @@ void * handy_stack_bottom     ( handy_stack * s );
 
 handy_stack handy_create_stack()
 {
-    handy_stack  temp_list = malloc( sizeof(*temp_list) );
+    handy_stack  temp_stack = malloc( sizeof(*temp_stack) );
+    temp_stack->size = 0;
+    temp_stack->_first = temp_stack->_last = NULL;
 
-    temp_list->size = 0;
-    
-    temp_list->contain       = handy_stack_contain;
-    temp_list->push          = handy_stack_push;
-    temp_list->empty         = handy_stack_empty;
-    temp_list->reverse       = handy_stack_reverse;
-    temp_list->pop           = handy_stack_pop;
-    temp_list->free          = handy_stack_free;
-    temp_list->top           = handy_stack_top;
-    temp_list->bottom        = handy_stack_bottom;
+    temp_stack->contain       = handy_stack_contain;
+    temp_stack->push          = handy_stack_push;
+    temp_stack->empty         = handy_stack_empty;
+    temp_stack->reverse       = handy_stack_reverse;
+    temp_stack->pop           = handy_stack_pop;
+    temp_stack->free          = handy_stack_free;
+    temp_stack->top           = handy_stack_top;
+    temp_stack->bottom        = handy_stack_bottom;
 
-    return temp_list;
+    return temp_stack;
 }
 bool   handy_stack_contain    ( handy_stack * s, void * item )
 {
@@ -117,12 +117,6 @@ void * handy_stack_pop        ( handy_stack * s )
 }
 void   handy_stack_free       ( handy_stack * s )
 {
-    // free every item in list and then remove them from the list
-   /* while( (*s)->size > 0 )
-    {
-        free( (*s)->_first );
-        (*s)->pop(s);
-    }*/
    while( (*s)->_first != (*s)->_last )
     {
         (*s)->_first = (*s)->_first->_next;

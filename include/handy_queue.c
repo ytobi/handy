@@ -13,6 +13,7 @@ handy_queue handy_create_queue()
 {
     handy_queue  temp_queue = malloc( sizeof(*temp_queue) );
 
+    temp_queue->_first = temp_queue->_last = NULL;
     temp_queue->size = 0;
 
     temp_queue->contain       = handy_queue_contain;
