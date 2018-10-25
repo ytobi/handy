@@ -214,6 +214,7 @@ void * handy_list_rem_front     ( handy_list * l )
         void * return_data = (*l)->_first->_data;
         (*l)->_first = (*l)->_first->_next;
 
+        (*l)->_first->_prev = ( free((*l)->_first->_prev), NULL );
         (*l)->size--;
         return  return_data;
     }
@@ -236,17 +237,13 @@ void * handy_list_rem_back      ( handy_list * l )
     }
     else if( (*l)->size > 1 )
     {
-        // don't know if this is the best thing to do
-        // would want to free a removed node and not allocate
-        // any more memory.
         void * return_data = (*l)->_last->_data;
         (*l)->_last = (*l)->_last->_prev;
 
         (*l)->size--;
 
         // free removed node
-        free( (*l)->_last->_next );
-
+        (*l)->_last->_next = ( free((*l)->_last->_next), NULL );
 
         return return_data;
     }
@@ -269,10 +266,13 @@ void * handy_list_rem_at        ( handy_list * l, int at )
         {
             if( i == at )
             {
+                void * return_data = iter->_data;
                 iter->_prev->_next = iter->_next;
                 iter->_next->_prev = iter->_prev;
                 (*l)->size--;
-                return iter->_data;
+
+                iter = ( free(iter), NULL );
+                return return_data;
             }
             iter = iter->_next;
         }

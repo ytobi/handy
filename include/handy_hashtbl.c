@@ -55,7 +55,9 @@ handy_hashtbl handy_create_hashtbl()
 
     temp_tbl->_bucket = malloc( sizeof(*(temp_tbl->_bucket)) * temp_tbl->_size );
 
-    memset( temp_tbl->_bucket, NULL, 1024 );
+    for( int i = 0; i < temp_tbl->_size; i++ )
+        temp_tbl->_bucket[i] = NULL;
+    // memset( temp_tbl->_bucket, NULL, 1024 );
 
     return temp_tbl;
 }

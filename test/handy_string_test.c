@@ -92,10 +92,10 @@ void TestStringEqualStr     ( CuTest * tc )
 void TestStringAddCharFront ( CuTest * tc )
 {
     handy_string str = handy_create_string();
-    CuAssertTrue( tc, str->add_char_front(&str, "B") );
+    CuAssertTrue( tc, str->add_char_front(&str, 'B') );
     CuAssertTrue( tc, str->length(&str) == 1 );
 
-    CuAssertTrue( tc, str->add_char_front(&str, "A") );
+    CuAssertTrue( tc, str->add_char_front(&str, 'A') );
     CuAssertTrue( tc, str->length(&str) == 2 );
 
     str->free( &str );

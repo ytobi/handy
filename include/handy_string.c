@@ -26,8 +26,8 @@ bool handy_del_back_char   ( handy_string * s );
 bool handy_del_char_at     ( handy_string * s, int at );
 bool handy_reverse         ( handy_string * s );
 int handy_word_count       ( handy_string * s, char * delimiter );
-void handy_free            ( handy_string * s );
-int  handy_length          ( handy_string * s );
+void handy_string_free     ( handy_string * s );
+int  handy_string_length   ( handy_string * s );
 
 handy_string handy_create_string( )
 {
@@ -57,8 +57,8 @@ handy_string handy_create_string( )
     temp->del_char_at   = handy_del_char_at;
     temp->reverse       = handy_reverse;
     temp->word_count    = handy_word_count;
-    temp->free          = handy_free;
-    temp->length        = handy_length;
+    temp->free          = handy_string_free;
+    temp->length        = handy_string_length;
 
     return temp;
 }
@@ -175,13 +175,13 @@ bool handy_add_char_at      ( handy_string * s, char c, int at )
     // 1 + size to account for null terminated string
     (*s)->_size = (*s)->length(s) + 1;
 
-    // add a single char to front of str
-    char * new = (char *)realloc( ((*s)->_data), ((*s)->_size) * sizeof(char) );
+    // add a single char to front of str + 1 for char to add
+    char * new = (char *)realloc( ((*s)->_data), ((*s)->_size + 1) * sizeof(char) );
 
     if( new )
     {
         (*s)->_data = new;
-        for( int i = (*s)->_size + 1; i >= 0; i-- )
+        for( int i = ((*s)->_size -1); i >= 0; i-- )
         {
             // if at position add
             if( i == at )
@@ -192,7 +192,8 @@ bool handy_add_char_at      ( handy_string * s, char c, int at )
                 return true;
             }
             // continue shitting backwards
-            (*s)->_data[i] = (*s)->_data[i - 1];
+            else if( i > 0 )
+                (*s)->_data[i] = (*s)->_data[i - 1];
         }
     }
     return false;
@@ -228,7 +229,7 @@ bool handy_del_front_char   ( handy_string * s )
     // since we iterating from zero
     (*s)->_size = (*s)->length(s);
 
-    // add a single char to front of str
+    // shift all char to fill front
     for( int i = 0; i < (*s)->_size; i++ )
     {
         (*s)->_data[i] = (*s)->_data[i + 1];
@@ -275,9 +276,18 @@ bool handy_del_char_at      ( handy_string * s, int at )
     {
         // if found position to delete, shift all char from right to left
         // and fill position with left most char form position.
-        for( int i = at; i < (*s)->_size; i++ )
+        for( int i = at; i < ((*s)->_size - 1); i++ )
         {
             (*s)->_data[i] = (*s)->_data[i + 1];
+        }
+        // fill last location which is not empty to null
+        (*s)->_data[(*s)->_size - 1] = NULL;
+
+        char * new = (char *)realloc( ((*s)->_data), (((*s)->_size) - 1) * sizeof( char ) );
+
+        if( new )
+        {
+            (*s)->_data = new;
         }
     }
     return true;
@@ -333,13 +343,13 @@ int handy_word_count        ( handy_string * s, char * delimiter )
     }
     return count;
 }
-void handy_free             ( handy_string * s )
+void handy_string_free      ( handy_string * s )
 {
     // after freeing, string is maybe not null, but size should reflect that fact
     (*s)->_data = ( free( (*s)->_data ), NULL );
     (*s)->_size = 0;
 }
-int  handy_length           ( handy_string * s )
+int  handy_string_length    ( handy_string * s )
 {
     return (*s)->_data == NULL? 0: strlen( ((*s)->_data) );
 }
