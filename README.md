@@ -20,7 +20,7 @@ Here is a simple usage of **handy_list**, this list container:
 
 NOTE. Always call the property free on the object to clean up some memory and finally free the object itself.
 
-``` 
+```C
     handy_list my_list = handy_create_list(); 
     
     
