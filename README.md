@@ -1,26 +1,60 @@
 # handy
 
-A generic header-only data structure library for enthusiasts.
+A generic header-only data structure library for c.
 
-This library of common data structure, functions, "services" and more, is meant to serve and fill the immediate need of code, programs, projects that require them.
+This library of common data structure, functions, services and more, is meant to serve and fill the immediate need of programs that require them. It is often common to be in need of a simple data structure to serve an immediate need without the need to expand, compile or build external code and programs in your code. Handy will come in "handy" during this times.
 
-It is often common to be in need of simple data structure to serve an immediate purpose/need, without the need to expend or compile/build external code and programs in your code. Handy will come in "handy" during this times.
+Handy has a simple and straightforward object-oriented API, this means objects have functions which are the property of the object and operates on them.
 
-Handy is header-only, that implies can easily include or copied into your project, code etc. Handy is generic, hence will permit working with, and manipulating data of all types.
+Handy is modular, i.e can be used on the go.
 
-Feel free to contribute to making handy as complete as it needs to be.
+## Instalations
 
-If you like to see a feature in handy or found a defect, feel free to raise an issue for them.
+All you need to do is copy the header and implementation file for the container or services from the include directory to your project directory.
 
-It is often common to be in need of simple data structure to serve an immediate purpose/need, without the need to expend or
-compile/build external code and programs in your code. Handy will come in "handy" during this times.
+## Usage
 
-Handy is header-only, that implies can easily include or copied into your project, code etc.
-Handy is generic, hence will permit working with, and manipulating data of all types.
+First thing first, create an object of the container to be used.
 
-Feel free to contribute to making handy as complete as it needs to be.
+NOTE. Always call the property free on the object to clean up some memory and finally free the object itself.
 
-If you like to see a feature in handy or found a defect, feel free to raise an issue for them.
+Here is a simple usage of **handy_list**, this list container:
+
+``` 
+    handy_list my_list = handy_create_list(); 
+    
+    
+    my_list->add_front( &my_list, "Hello, world" );
+    my_list->add_front( &my_list, 'A' );        
+   
+
+    printf( "Item at front: %c\n", my_list->rem_front(&my_list) ); // expect a char, prints 'A' 
+    
+    printf( "Item at front: %s\n", my_list->rem_front(&my_list) ); // expect char *, prints "Hello, world"
+    
+    my_list.free( &my_list ); // free item(s) in list
+    free( my_list );          // free my_list itself
+
+```
+
+###### Here is a list of already implemented(ticked) or to be implemented feature:
+
+
+- [x] **handy_list   ( list ):** Dynamically sized list of generic items.
+- [x] **handy_hashtbl( hashtable ):** A dictionary, map: a collection of key,value pairs.
+- [x] **handy_stack  ( stack ):** Dynamically sized, odered collection of generic items that afford stack operations.
+- [x] **handy_queue  ( queue ):** Dynamically sized, odered collection of generic items that afford queue operations.
+- [x] **handy_string ( string ):** A stucture for string maninipulations.
+- [x] **handy_vector ( vector ):** Dynamically sized collection of generic items with constant insertion and  deletion.
+- [ ] **handy_time   ( time ):** A structure for time keeping.
+- [ ] **handy_serialize( serialize ):** Reading and writing generic data to disk.
+- [ ] **handy_numeric( numeric ):** For working with all types of numeric data eg decimal, binary, hexadecimal, octal etc.
+- [ ] **handy_sick   ( sockets ):** sick - socket interface communication kit.
+
+## Contributions
+
+I commit to handy as a hobby, if you like to see a feature or you found a defect, feel free to raise an issue for them and if feel further motivate submit a pull request for them, they are highly welcome.
+
 
 [![](https://sourcerer.io/fame/ytobi/ytobi/handy/images/0)](https://sourcerer.io/fame/ytobi/ytobi/handy/links/0)[![](https://sourcerer.io/fame/ytobi/ytobi/handy/images/1)](https://sourcerer.io/fame/ytobi/ytobi/handy/links/1)[![](https://sourcerer.io/fame/ytobi/ytobi/handy/images/2)](https://sourcerer.io/fame/ytobi/ytobi/handy/links/2)[![](https://sourcerer.io/fame/ytobi/ytobi/handy/images/3)](https://sourcerer.io/fame/ytobi/ytobi/handy/links/3)[![](https://sourcerer.io/fame/ytobi/ytobi/handy/images/4)](https://sourcerer.io/fame/ytobi/ytobi/handy/links/4)[![](https://sourcerer.io/fame/ytobi/ytobi/handy/images/5)](https://sourcerer.io/fame/ytobi/ytobi/handy/links/5)[![](https://sourcerer.io/fame/ytobi/ytobi/handy/images/6)](https://sourcerer.io/fame/ytobi/ytobi/handy/links/6)[![](https://sourcerer.io/fame/ytobi/ytobi/handy/images/7)](https://sourcerer.io/fame/ytobi/ytobi/handy/links/7)
 
