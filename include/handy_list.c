@@ -9,9 +9,9 @@ bool   handy_list_empty         ( handy_list * l );
 void * handy_list_get_front     ( handy_list * l );
 void * handy_list_get_back      ( handy_list * l );
 void * handy_list_get_at        ( handy_list * l, int at );
-void * handy_list_rem_front     ( handy_list * l );
-void * handy_list_rem_back      ( handy_list * l );
-void * handy_list_rem_at        ( handy_list * l, int at );
+bool   handy_list_rem_front     ( handy_list * l );
+bool   handy_list_rem_back      ( handy_list * l );
+bool   handy_list_rem_at        ( handy_list * l, int at );
 void * handy_list_reverse       ( handy_list * l );
 void   handy_list_free          ( handy_list * l );
 
@@ -197,59 +197,48 @@ void * handy_list_get_at        ( handy_list * l, int at )
     }
     return NULL;
 }
-void * handy_list_rem_front     ( handy_list * l )
+bool  handy_list_rem_front      ( handy_list * l )
 {
-    if( (*l)->size == 0 )
-        return NULL;
-    else if( (*l)->size == 1 )
+    if( (*l)->size == 1 )
     {
-        void * return_data = (*l)->_first->_data;
+        (*l)->_first = ( free( (*l)->_first ), NULL );
         (*l)->_first = (*l)->_last = NULL;
-        (*l)->size--;
-
-        return return_data;
+        return true;
     }
     else if( (*l)->size > 1 )
     {
-        void * return_data = (*l)->_first->_data;
         (*l)->_first = (*l)->_first->_next;
 
         (*l)->_first->_prev = ( free((*l)->_first->_prev), NULL );
         (*l)->size--;
-        return  return_data;
+        return true;
     }
-    return NULL;
+    return false;
 }
-void * handy_list_rem_back      ( handy_list * l )
+bool  handy_list_rem_back       ( handy_list * l )
 {
-    if( (*l)->size == 0 )
-    {
-        return NULL;
-    }
-    else if( (*l)->size == 1 )
-    {
-        void * return_data = (*l)->_last->_data;
 
+    if( (*l)->size == 1 )
+    {
+        (*l)->_first = ( free((*l)->_first), NULL );
         (*l)->_first = (*l)->_last = NULL;
         (*l)->size--;
 
-        return return_data;
+        return true;
     }
     else if( (*l)->size > 1 )
     {
-        void * return_data = (*l)->_last->_data;
         (*l)->_last = (*l)->_last->_prev;
 
         (*l)->size--;
 
-        // free removed node
         (*l)->_last->_next = ( free((*l)->_last->_next), NULL );
 
-        return return_data;
+        return true;
     }
-    return NULL;
+    return false;
 }
-void * handy_list_rem_at        ( handy_list * l, int at )
+bool  handy_list_rem_at         ( handy_list * l, int at )
 {
     _handy_list_obj iter;
     iter = (*l)->_first;
@@ -258,27 +247,25 @@ void * handy_list_rem_at        ( handy_list * l, int at )
         return ((*l)->rem_front(l) );
     else if( at == (*l)->size - 1 )
         return ((*l)->rem_back(l) );
-    else if( at < 0 || at >= (*l)->size  )
-        return NULL;
     else if( at > 0 || at < (*l)->size - 1 )
     {
         for( int i = 0; i < (*l)->size; i++ )
         {
             if( i == at )
             {
-                void * return_data = iter->_data;
+
                 iter->_prev->_next = iter->_next;
                 iter->_next->_prev = iter->_prev;
                 (*l)->size--;
 
                 iter = ( free(iter), NULL );
-                return return_data;
+                return true;
             }
             iter = iter->_next;
         }
     }
 
-    return NULL;
+    return false;
 }
 void * handy_list_reverse       ( handy_list  * l )
 {

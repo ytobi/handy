@@ -36,10 +36,10 @@ struct _list_struct
     void * (*get_front)     ( handy_list * l );
     void * (*get_back)      ( handy_list * l );
     void * (*get_at)        ( handy_list * l, int at );
-    void * (*rem_front)     ( handy_list * l );
-    void * (*rem_back)      ( handy_list * l );
+    bool   (*rem_front)     ( handy_list * l );
+    bool   (*rem_back)      ( handy_list * l );
     void * (*reverse)       ( handy_list * l );
-    void * (*rem_at)        ( handy_list * l, int at );
+    bool   (*rem_at)        ( handy_list * l, int at );
     void   (*free)          ( handy_list * l );
 
     _handy_list_obj _first;
