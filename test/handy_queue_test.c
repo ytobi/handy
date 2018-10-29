@@ -13,7 +13,7 @@ void TestQueueCreate    ( CuTest * tc )
     // validate the size for queue is 0
     CuAssertIntEquals( tc, 0, queue->size );
 
-    queue->free(&queue);
+    queue->free( &queue );
     free( queue );
 }
 void TestQueueContain   ( CuTest * tc )
@@ -33,7 +33,7 @@ void TestQueueContain   ( CuTest * tc )
 void TestQueueEnqueue   ( CuTest * tc )
 {
     handy_queue queue = handy_create_queue();
-    char * input = strdup("hello, world!");
+    char * input = "hello, world!";
 
     // test response, if positive and hence item was added
     int actualResponse = queue->enqueue(&queue, input);
@@ -56,7 +56,7 @@ void TestQueueEmpty     ( CuTest * tc )
     CuAssertTrue( tc, queue->empty(&queue) );
 
     // add things and test not true
-    char * input = strdup("hello, world!");
+    char * input = "hello, world!";
     queue->enqueue(&queue, input);
     CuAssertTrue( tc, !queue->empty(&queue) );
 

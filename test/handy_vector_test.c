@@ -63,7 +63,7 @@ void TestVectorContain  ( CuTest * tc )
     handy_vector v = handy_create_vector();
 
     // noting in vector, should be not-true
-    CuAssertTrue( tc, !v->contain(&v, "hello") );
+    CuAssertTrue( tc, v->contain(&v, "hello") == -1 );
 
     // assume set_at and capacity passed.
     for( int i = 0; i < v->capacity( &v ); i++ )
@@ -75,11 +75,11 @@ void TestVectorContain  ( CuTest * tc )
     for( int i = 0; i < v->capacity( &v ); i++ )
     {
         // should contain all item recently add
-        CuAssertTrue( tc, v->contain(&v, i) );
+        CuAssertTrue( tc, v->contain(&v, i) == i );
     }
 
     // after addition of item, still does not contain hello
-    CuAssertTrue( tc, !v->contain(&v, "hello") );
+    CuAssertTrue( tc, v->contain(&v, "hello") == -1 );
 
     v->free( &v );
     free( v );
@@ -89,7 +89,7 @@ void TestVectorRemoveAT ( CuTest * tc )
     handy_vector v = handy_create_vector();
 
     // noting in vector, is same as removed
-    CuAssertTrue( tc, !v->rem_at(&v, 1) );
+    CuAssertTrue( tc, v->rem_at(&v, 1) );
 
     // assume set_at and capacity passed.
     for( int i = 0; i < v->capacity( &v ); i++ )
@@ -130,10 +130,10 @@ void TestVectorCapacity ( CuTest * tc )
     // we add passed capacity, capacity should expand by 1/4
     CuAssertTrue( tc, v->capacity(&v) == (originalCapacity + (originalCapacity + 4) / 4) );
 
-    // this is more the 1/4 + capacity, hence capacity should be 1000
-    int at = 1000;
-    v->set_at( &v, 'hello', v->capacity(&v) + 1000 );
-    CuAssertTrue( tc, v->capacity(&v) == 1000 );
+    // this is more the 1/4 + capacity, hence capacity should be 5000
+    int at = 5000;
+    v->set_at( &v, 'hello',  5000 );
+    CuAssertTrue( tc, v->capacity(&v) == 5000 );
 
     v->free( &v );
     free( v );
@@ -166,10 +166,10 @@ CuSuite * HandyVectorGetSuit()
     SUITE_ADD_TEST( suite, TestVectorCreate );
     SUITE_ADD_TEST( suite, TestVectorSetAt );
     SUITE_ADD_TEST( suite, TestVectorGetAt );
-    // SUITE_ADD_TEST( suite, TestVectorContain );
-    // SUITE_ADD_TEST( suite, TestVectorRemoveAT );
-    // SUITE_ADD_TEST( suite, TestVectorFree );
-    // SUITE_ADD_TEST( suite, TestVectorCapacity );
+    SUITE_ADD_TEST( suite, TestVectorContain );
+    SUITE_ADD_TEST( suite, TestVectorRemoveAT );
+    SUITE_ADD_TEST( suite, TestVectorFree );
+    SUITE_ADD_TEST( suite, TestVectorCapacity );
 
     return suite;
 }

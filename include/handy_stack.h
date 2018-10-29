@@ -7,7 +7,7 @@
 #ifndef HANDY_HANDY_STACK_H
 #define HANDY_HANDY_STACK_H
 
-typedef struct stack_struct * handy_stack;
+typedef struct _handy_stack_struct * handy_stack;
 
 #ifndef HANDY_STACK_OBJ_H
 #define HANDY_STACK_OBJ_H
@@ -24,7 +24,7 @@ struct __handy_stack_obj
 
 #endif
 
-struct stack_struct
+struct _handy_stack_struct
 {
     bool (*contain)         ( handy_stack * s, void * item );
     bool (*push)            ( handy_stack * s, void * item );
@@ -38,6 +38,8 @@ struct stack_struct
 
     _handy_stack_obj _first;
     _handy_stack_obj _last;
+
+    void ** _handy_poped;
 
     int size;
 };

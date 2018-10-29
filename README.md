@@ -16,7 +16,11 @@ All you need to do is copy the header and implementation file for the container 
 
 First thing first, create an object of the container to be used.
 
+<<<<<<< HEAD
 Here is a simple usage of **handy_list**, this list container:
+=======
+Here is a simple usage of **handy_list**, the list container:
+>>>>>>> 0ea562c9ba36424ece000369eedd9ebdc5aabf92
 
 NOTE. Always call the property free on the object to clean up some memory and finally free the object itself.
 

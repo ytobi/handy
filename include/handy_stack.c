@@ -12,7 +12,9 @@ void * handy_stack_bottom     ( handy_stack * s );
 handy_stack handy_create_stack()
 {
     handy_stack  temp_stack = malloc( sizeof(*temp_stack) );
+
     temp_stack->size = 0;
+    temp_stack->_handy_poped = malloc( sizeof(*temp_stack->_handy_poped) );
     temp_stack->_first = temp_stack->_last = NULL;
 
     temp_stack->contain       = handy_stack_contain;
@@ -93,27 +95,34 @@ void   handy_stack_reverse    ( handy_stack * s )
 }
 void * handy_stack_pop        ( handy_stack * s )
 {
+    // set temp storage to null in case something goes wrong
+
+    memset( &((*s)->_handy_poped), NULL, sizeof(*(*s)->_handy_poped) );
+
     if( (*s)->size == 0 )
         return NULL;
     else if( (*s)->size == 1 )
     {
-        void * r_d  = (*s)->_first->_data;
+        // memcpy( (*s)->_handy_poped, (*s)->_first->_data, sizeof(*(*s)->_handy_poped) );
+        memcpy( &(*s)->_handy_poped, &(*s)->_first->_data, sizeof(*(*s)->_handy_poped) );
 
+        // free the memory of the item to remove
+        (*s)->_first = ( free((*s)->_first), NULL );
         (*s)->_first = (*s)->_last = NULL;
-        (*s)->size--;
 
-        return r_d;
+        (*s)->size--;
     }
     else if( (*s)->size > 1 )
     {
-        void * r_d = (*s)->_first->_data;
+        memcpy( &(*s)->_handy_poped, &(*s)->_first->_data, sizeof(*(*s)->_handy_poped) );
 
+        // free the memory of the item to remove
+        (*s)->_first = ( free((*s)->_first), NULL );
         (*s)->_first = (*s)->_first->_next;
 
         (*s)->size--;
-        return r_d;
     }
-    return NULL;
+    return (*s)->_handy_poped;
 }
 void   handy_stack_free       ( handy_stack * s )
 {
@@ -125,6 +134,8 @@ void   handy_stack_free       ( handy_stack * s )
     }
     (*s)->_first = ( free( (*s)->_first ), NULL );
     (*s)->size = 0;
+
+    (*s)->_handy_poped = ( free((*s)->_handy_poped), NULL );
 }
 void * handy_stack_top        ( handy_stack * s )
 {

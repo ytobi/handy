@@ -66,7 +66,7 @@ void TestHashtblRemove  ( CuTest * tc )
     char * expectReturn = " world!";
     CuAssertStrEquals( tc, expectReturn, actualReturn );
 
-    table->free(&table);
+    table->free( &table );
     free( table );
 }
 void TestHashtblFree    ( CuTest * tc )

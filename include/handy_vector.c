@@ -14,7 +14,7 @@ handy_vector handy_create_vector()
 
     temp_vector->_capacity = 1024;
     temp_vector->_size = 0;
-    temp_vector->_bucket = malloc( sizeof(*temp_vector->_bucket) * temp_vector->_size );
+    temp_vector->_bucket = malloc( sizeof(*temp_vector->_bucket) * temp_vector->_capacity );
 
     temp_vector->get_at = handy_get_at;
     temp_vector->set_at = handy_set_at;
@@ -24,7 +24,11 @@ handy_vector handy_create_vector()
     temp_vector->free   = handy_free;
 
     for( int i = 0; i < temp_vector->_capacity; i++ )
+    {
+        temp_vector->_bucket[i] = malloc( sizeof(void*) );
         temp_vector->_bucket[i] = NULL;
+    }
+
 
     return temp_vector;
 }
@@ -145,9 +149,8 @@ int handy_contain   ( handy_vector * v, void * item )
 }
 bool handy_rem_at   ( handy_vector * v, int at )
 {
-    if( at < 0 || at > (*v)->_size )
+    if( at < 0 || at > (*v)->_capacity )
         return false;
-
     else if( (*v)->_bucket[at] == NULL )
         return true; // don't know, but since noting is there is as well as removed
     else
@@ -170,8 +173,8 @@ int handy_capacity  ( handy_vector * v )
 void handy_free     ( handy_vector * v )
 {
     //
-    for( int i = 0; i < (*v)->_size; i++ )
+    for( int i = 0; i < (*v)->_capacity; i++ )
         (*v)->_bucket[i] = ( free((*v)->_bucket[i]), NULL );
 
-    // (*v)->_bucket = (free( (*v)->_bucket ), NULL );
+    (*v)->_bucket = (free( (*v)->_bucket ), NULL );
 }

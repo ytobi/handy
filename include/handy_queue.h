@@ -33,6 +33,8 @@ struct _queue_struct
     void * (*front)         ( handy_queue * q );
     void * (*back)          ( handy_queue * q );
 
+    void ** _handy_dequeued;
+
     _handy_queue_obj _first;
     _handy_queue_obj _last;
 

@@ -139,7 +139,7 @@ void TestStackTop       ( CuTest * tc )
     CuAssertIntEquals( tc, 8, stack->top(&stack) );
 
 
-    stack->free(&stack);
+    stack->free( &stack );
     free( stack );
 }
 void TestStackBottom    ( CuTest * tc )
@@ -163,12 +163,12 @@ CuSuite * HandyStackGetSuit()
     SUITE_ADD_TEST( suite, TestStackCreate );
     SUITE_ADD_TEST( suite, TestStackContain );
     SUITE_ADD_TEST( suite, TestStackPush );
-    SUITE_ADD_TEST( suite, TestStackEmpty );
-    SUITE_ADD_TEST( suite, TestStackReverse );
-    SUITE_ADD_TEST( suite, TestStackPop );
-    SUITE_ADD_TEST( suite, TestStackFree );
-    SUITE_ADD_TEST( suite, TestStackTop );
-    SUITE_ADD_TEST( suite, TestStackBottom );
+    // SUITE_ADD_TEST( suite, TestStackEmpty );
+    // SUITE_ADD_TEST( suite, TestStackReverse );
+    // SUITE_ADD_TEST( suite, TestStackPop );
+    // SUITE_ADD_TEST( suite, TestStackFree );
+    // SUITE_ADD_TEST( suite, TestStackTop );
+    // SUITE_ADD_TEST( suite, TestStackBottom );
 
     return suite;
 }
