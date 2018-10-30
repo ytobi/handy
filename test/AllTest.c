@@ -15,7 +15,7 @@ void RunAllTests(void)
 	
 	CuSuiteAddSuite( suite, HandyListGetSuit() );
 	CuSuiteAddSuite( suite, HandyStackGetSuit() );
-	// CuSuiteAddSuite( suite, HandyQueueGetSuit() );
+	CuSuiteAddSuite( suite, HandyQueueGetSuit() );
 	CuSuiteAddSuite( suite, HandyStringGetSuit() );
 	CuSuiteAddSuite( suite, HandyHashtblGetSuit() );
 	CuSuiteAddSuite( suite, HandyVectorGetSuit() );

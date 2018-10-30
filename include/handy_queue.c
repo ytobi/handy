@@ -98,11 +98,11 @@ void handy_queue_reverse      ( handy_queue * q )
 }
 void * handy_queue_dequeue    ( handy_queue * q )
 {
-    memset( &(*q)->_handy_dequeued, NULL, sizeof(*(*q)->_handy_dequeued) );
+    memset( &((*q)->_handy_dequeued[0]), NULL, sizeof(*((*q)->_handy_dequeued)) );
 
     if( (*q)->size == 1 )
     {
-        memcpy( &((*q)->_handy_dequeued), &((*q)->_first->_data), sizeof(*(*q)->_handy_dequeued) );
+        memcpy( &((*q)->_handy_dequeued[0]), &((*q)->_first->_data), sizeof(*(*q)->_handy_dequeued) );
 
         (*q)->_first = ( free((*q)->_first), NULL );
         (*q)->_first = (*q)->_last = NULL;
@@ -111,7 +111,7 @@ void * handy_queue_dequeue    ( handy_queue * q )
     }
     else if( (*q)->size > 1 )
     {
-        memcpy( &((*q)->_handy_dequeued), &((*q)->_first->_data), sizeof(*(*q)->_handy_dequeued) );
+        memcpy( &((*q)->_handy_dequeued[0]), &(*q)->_first->_data, sizeof(*(*q)->_handy_dequeued) );
 
         (*q)->_first = (*q)->_first->_next;
         (*q)->_first->_prev = ( free((*q)->_first->_prev), NULL );
@@ -119,7 +119,7 @@ void * handy_queue_dequeue    ( handy_queue * q )
         (*q)->size--;
     }
 
-    return (*q)->_handy_dequeued;
+    return *((*q)->_handy_dequeued);
 }
 void   handy_queue_free       ( handy_queue * q )
 {

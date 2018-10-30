@@ -96,15 +96,13 @@ void   handy_stack_reverse    ( handy_stack * s )
 void * handy_stack_pop        ( handy_stack * s )
 {
     // set temp storage to null in case something goes wrong
-
-    memset( &((*s)->_handy_poped), NULL, sizeof(*(*s)->_handy_poped) );
+    memset( &((*s)->_handy_poped[0]), NULL, sizeof(*(*s)->_handy_poped) );
 
     if( (*s)->size == 0 )
         return NULL;
     else if( (*s)->size == 1 )
     {
-        // memcpy( (*s)->_handy_poped, (*s)->_first->_data, sizeof(*(*s)->_handy_poped) );
-        memcpy( &(*s)->_handy_poped, &(*s)->_first->_data, sizeof(*(*s)->_handy_poped) );
+        memcpy( &((*s)->_handy_poped[0]), &(*s)->_first->_data, sizeof(*(*s)->_handy_poped) );
 
         // free the memory of the item to remove
         (*s)->_first = ( free((*s)->_first), NULL );
@@ -114,7 +112,7 @@ void * handy_stack_pop        ( handy_stack * s )
     }
     else if( (*s)->size > 1 )
     {
-        memcpy( &(*s)->_handy_poped, &(*s)->_first->_data, sizeof(*(*s)->_handy_poped) );
+        memcpy( &((*s)->_handy_poped[0]), &(*s)->_first->_data, sizeof(*(*s)->_handy_poped) );
 
         // free the memory of the item to remove
         (*s)->_first = ( free((*s)->_first), NULL );
@@ -122,7 +120,7 @@ void * handy_stack_pop        ( handy_stack * s )
 
         (*s)->size--;
     }
-    return (*s)->_handy_poped;
+    return *(*s)->_handy_poped;
 }
 void   handy_stack_free       ( handy_stack * s )
 {

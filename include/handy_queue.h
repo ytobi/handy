@@ -11,7 +11,9 @@ typedef struct _queue_struct * handy_queue;
 
 #ifndef HANDY_QUEUE_OBJ_H
 #define HANDY_QUEUE_OBJ_H
+
 typedef struct __handy_queue_obj * _handy_queue_obj;
+
 struct __handy_queue_obj
 {
     void  * _data;
