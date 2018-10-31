@@ -22,19 +22,19 @@ Here is a simple usage of **handy_list**: list container:
 NOTE. Always call the property free on the object to clean up some memory and finally free the object itself.
 
 ```C
-    handy_list my_list = handy_create_list(); 
+    handy_list my_list = handy_create_list();                       // create a handy_list
     
     
-    my_list->add_front( &my_list, "Hello, world" );
-    my_list->add_front( &my_list, 'A' );        
+    my_list->add_front( &my_list, "Hello, world" );                 // add first item at front of list
+    my_list->add_front( &my_list, 'A' );                            // add another item at front of list
    
 
-    printf( "Item at front: %c\n", my_list->get_front(&my_list) ); // expect a char, prints 'A' 
+    printf( "Item at front: %c\n", my_list->get_front(&my_list) );  // expect a char, prints 'A' 
     
-    printf( "Item at back: %s\n", my_list->get_back(&my_list) ); // expect char *, prints "Hello, world"
+    printf( "Item at back: %s\n", my_list->get_back(&my_list) );    // expect char *, prints "Hello, world"
     
-    my_list.free( &my_list ); // free item(s) in list
-    free( my_list );          // free my_list itself
+    my_list.free( &my_list );                                       // free item(s) in list
+    free( my_list );                                                // free my_list itself
 
 ```
 
