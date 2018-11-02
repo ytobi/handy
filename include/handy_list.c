@@ -203,6 +203,7 @@ bool  handy_list_rem_front      ( handy_list * l )
     {
         (*l)->_first = ( free( (*l)->_first ), NULL );
         (*l)->_first = (*l)->_last = NULL;
+        (*l)->size--;
         return true;
     }
     else if( (*l)->size > 1 )

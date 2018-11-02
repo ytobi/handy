@@ -22,7 +22,7 @@ typedef struct _handy_server_struct * handy_server;
 
 struct _handy_client_struct
 {
-    bool    (*connect)  ( handy_client * c );
+    bool    (*connect)  ( handy_client * c, char * addr, int port );
     void    (*disconnect)( handy_client * c );
     char *  (*name)     ( handy_client * c );
     char *  (*ip)       ( handy_client * c );
@@ -35,7 +35,8 @@ struct _handy_client_struct
 
     char * _error_message;
     char * _recv_message;
-
+    char * destination_ip;
+    char * destination_port;
     struct addrinfo * _destination_struct;
 
     int _connection_fd;
@@ -65,7 +66,7 @@ struct _handy_server_struct
     int _connection_fd;
 };
 
-handy_client handy_create_client ( char * destination, char * port );
+handy_client handy_create_client ();
 handy_server handy_create_server ( char * host, char * port );
 
 

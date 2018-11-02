@@ -66,6 +66,10 @@ void TestHashtblRemove  ( CuTest * tc )
     char * expectReturn = " world!";
     CuAssertStrEquals( tc, expectReturn, actualReturn );
 
+    // now that we have removed, should contain noting.
+    table->remove( &table, "124" );
+    CuAssertStrEquals( tc, NULL, table->get( &table, "124" ) );
+
     table->free( &table );
     free( table );
 }

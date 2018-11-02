@@ -115,8 +115,9 @@ void * handy_stack_pop        ( handy_stack * s )
         memcpy( &((*s)->_handy_poped[0]), &(*s)->_first->_data, sizeof(*(*s)->_handy_poped) );
 
         // free the memory of the item to remove
-        (*s)->_first = ( free((*s)->_first), NULL );
         (*s)->_first = (*s)->_first->_next;
+        (*s)->_first->_prev = ( free((*s)->_first->_prev), NULL );
+
 
         (*s)->size--;
     }

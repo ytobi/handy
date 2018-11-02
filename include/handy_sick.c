@@ -3,7 +3,7 @@
 void   handy_destroy_client( handy_client * c );
 void   handy_destroy_server( handy_server * s );
 
-bool   handy_connect_client( handy_client * h );
+bool   handy_connect_client( handy_client * h, char * addr, int port );
 bool   handy_connect_server( handy_server * h );
 
 void   handy_disconnect_client ( handy_client * h );
@@ -19,7 +19,7 @@ char * handy_recv       ( handy_server * h );
 int    handy_send       ( handy_server * h, char * msg );
 char * handy_error_msg  ( handy_server * h );
 
-handy_client handy_create_client( char * destination, char * port )
+handy_client handy_create_client()
 {
     handy_client temp_client = malloc( sizeof(*temp_client) );
 
@@ -29,11 +29,12 @@ handy_client handy_create_client( char * destination, char * port )
     temp_client->disconnect = handy_disconnect_client;
     temp_client->name   = handy_client_name;
 
-    temp_client->_error_message = malloc(1024);
+    temp_client->_error_message = malloc(1024 * sizeof(char));
 
-    struct addrinfo hints, *result;
+    // struct addrinfo hints, *result;
 
-    memset( &hints, 0, sizeof(hints) );
+    /*memset( &hints, 0, sizeof(hints) );
+
     hints.ai_family = AF_UNSPEC;
     hints.ai_socktype = SOCK_STREAM;
 
@@ -42,7 +43,7 @@ handy_client handy_create_client( char * destination, char * port )
     // find the correct one in hints and assign to (*s).sick_struct
     // result  is a linkedlist of addrinfo check for correct one
     // assign to (*c)._client_struct
-    (temp_client)->_destination_struct = result;
+    (temp_client)->_destination_struct = result;*/
 
     return temp_client;
 
@@ -79,40 +80,34 @@ void       handy_destroy_client ( handy_client * c )
 void       handy_destroy_server ( handy_server * s )
 {}
 
-bool   handy_connect_client     ( handy_client * c )
+bool   handy_connect_client     ( handy_client * c, char * adrr, int port )
 {
     // check make sure were are connected to a port, probably force it.
     // and that we got the fd
 
-    for( ; (*c)->_destination_struct != NULL; (*c)->_destination_struct->ai_next )
+    (*c)->_connection_fd = socket( AF_INET, SOCK_STREAM, 0 );
+
+    if( (*c)->_connection_fd < 0 )
     {
-        (*c)->_connection_fd = socket( (*c)->_destination_struct->ai_family, (*c)->_destination_struct->ai_socktype,
-                                (*c)->_destination_struct->ai_protocol );
-        if( (*c)->_connection_fd < 0 )
-        {
-            (*c)->_error_message = strcat( ((*c)->_error_message), "Error!, Could not create sockect for" );
-            (*c)->_error_message = strcat( ((*c)->_error_message), (*c)->name(c) );
-            continue;
-        }
-        else
-            break;
+        (*c)->_error_message = strcat( ((*c)->_error_message), "Error!, Could not create socket for:" );
+        (*c)->_error_message = strcat( ((*c)->_error_message), (*c)->name(c) );
+        return false;
     }
-    struct sockaddr_in sin;
-    socklen_t  len = sizeof(sin);
+    else
+    {
+        (*c)->_error_message = strcat( ((*c)->_error_message), "Created socket for:" );
+        (*c)->_error_message = strcat( ((*c)->_error_message), (*c)->name(c) );
+    }
 
-    getsockname( (*c)->_connection_fd, (struct sockaddr *)&sin, &len);
-    printf("port number %d\n", ntohs(sin.sin_port));
 
-    sin;
-    len = sizeof(sin);
+    struct sockaddr_in server_addr;
+    server_addr.sin_family = AF_INET;
+    server_addr.sin_port   = htons( port );
+    server_addr.sin_addr.s_addr = "127.0.0.1";
 
-    getsockname((*c)->_destination_struct->ai_addr, (struct sockaddr *)&sin, &len);
-    printf("port number %d\n", ntohs(sin.sin_port));
-    // connect
-    // this is for client to connect, servers will listen and accept
 
     // if( connect((*c)->_connection_fd, (struct sockaddr *) &((*c)->_destination_struct), sizeof((*c)->_destination_struct)) );
-    if( connect( (*c)->_connection_fd, (*c)->_destination_struct->ai_addr, (*c)->_destination_struct->ai_addrlen ) )
+    if( connect( (*c)->_connection_fd, (struct sockaddr *)&server_addr, sizeof(server_addr) ) == -1 )
     {
         (*c)->_error_message = strcat( ((*c)->_error_message), "Error!, Could not create connection to " );
         (*c)->_error_message = strcat( ((*c)->_error_message), (*c)->name(c) );
@@ -120,6 +115,14 @@ bool   handy_connect_client     ( handy_client * c )
         return false;
     }
 
+    (*c)->_error_message = strcat( ((*c)->_error_message), "\nCreated connection to:  " );
+    (*c)->_error_message = strcat( ((*c)->_error_message), server_addr.sin_addr.s_addr );
+
+    char cnn_r[1024];
+
+    recv( (*c)->_connection_fd, &cnn_r, sizeof(cnn_r), 0 );
+    printf( "Got message from sever: %s\n", cnn_r );
+    close( (*c)->_connection_fd );
     return true;
     // we are surely connected
 }
@@ -192,7 +195,7 @@ char * handy_server_name        ( handy_server * s )
 char * handy_client_name        ( handy_client * c )
 {
     char * ip = malloc( 1024 );
-    inet_ntop( (*c)->_destination_struct->ai_family, (*c)->_destination_struct->ai_addr->sa_data, ip, 1024 );
+    // inet_ntop( (*c)->_destination_struct->ai_family, (*c)->_destination_struct->ai_addr->sa_data, ip, 1024 );
     return ip;
 }
 

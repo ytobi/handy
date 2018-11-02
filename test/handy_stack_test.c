@@ -33,7 +33,7 @@ void TestStackContain   ( CuTest * tc )
 void TestStackPush      ( CuTest * tc )
 {
     handy_stack stack = handy_create_stack();
-    char * input = strdup("hello, world!");
+    char * input = "hello, world!";
 
     // test response, if positive and hence item was added
     int actualResponse = stack->push(&stack, input);
@@ -155,7 +155,6 @@ void TestStackBottom    ( CuTest * tc )
     free( stack );
 }
 
-
 CuSuite * HandyStackGetSuit()
 {
     CuSuite * suite = CuSuiteNew();
@@ -163,10 +162,10 @@ CuSuite * HandyStackGetSuit()
     SUITE_ADD_TEST( suite, TestStackCreate );
     SUITE_ADD_TEST( suite, TestStackContain );
     SUITE_ADD_TEST( suite, TestStackPush );
-    // SUITE_ADD_TEST( suite, TestStackEmpty );
-    // SUITE_ADD_TEST( suite, TestStackReverse );
-    // SUITE_ADD_TEST( suite, TestStackPop );
-    // SUITE_ADD_TEST( suite, TestStackFree );
+    SUITE_ADD_TEST( suite, TestStackEmpty );
+    SUITE_ADD_TEST( suite, TestStackReverse );
+    SUITE_ADD_TEST( suite, TestStackPop );
+    SUITE_ADD_TEST( suite, TestStackFree );
     // SUITE_ADD_TEST( suite, TestStackTop );
     // SUITE_ADD_TEST( suite, TestStackBottom );
 

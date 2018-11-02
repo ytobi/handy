@@ -27,7 +27,7 @@ struct _hashtbl_struct
     bool (*add)             ( handy_hashtbl * l, char * key, void * item );
 
     void * (*get)           ( handy_hashtbl * l, char * key );
-    void * (*remove)        ( handy_hashtbl * l, char * key );
+    void   (*remove)        ( handy_hashtbl * l, char * key );
     void   (*free)          ( handy_hashtbl * l );
 
     int _size;

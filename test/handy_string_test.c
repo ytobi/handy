@@ -332,6 +332,7 @@ void TestStringToLower      ( CuTest * tc )
     str->free( &str );
     free( str );
 }
+
 CuSuite * HandyStringGetSuit()
 {
     CuSuite * suite = CuSuiteNew();

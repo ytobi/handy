@@ -23,9 +23,9 @@ handy_vector handy_create_vector()
     temp_vector->capacity= handy_capacity;
     temp_vector->free   = handy_free;
 
+    // Initialise all memory location before using them
     for( int i = 0; i < temp_vector->_capacity; i++ )
     {
-        temp_vector->_bucket[i] = malloc( sizeof(void*) );
         temp_vector->_bucket[i] = NULL;
     }
 
@@ -35,7 +35,7 @@ handy_vector handy_create_vector()
 
 void * handy_get_at ( handy_vector * v, int at )
 {
-    if( at < 0 || at > (*v)->_capacity )
+    if( at < 0 || at > (*v)->_capacity || (*v)->_bucket[at] == NULL )
         return NULL;
     return (*v)->_bucket[at];
 }
@@ -63,9 +63,13 @@ bool handy_set_at   ( handy_vector * v, void * item, int at )
                 {
                     (*v)->_bucket[c] = NULL;
                 }
+
                 (*v)->_capacity = ((*v)->_capacity + (((*v)->_capacity + 4) / 4));
+
                 (*v)->_bucket[at] = item;
+
                 (*v)->_size++;
+
                 return true;
             }
         }
@@ -82,11 +86,16 @@ bool handy_set_at   ( handy_vector * v, void * item, int at )
                 // we do it increase not.
                 for( int c = (*v)->_capacity; c < at; c++ )
                 {
+                    // (*v)->_bucket[c] = malloc( sizeof((*v)->_bucket[c]) );
                     (*v)->_bucket[c] = NULL;
                 }
+
                 (*v)->_capacity = at;
+
                 (*v)->_bucket[at] = item;
+
                 (*v)->_size++;
+
                 return true;
             }
         }
@@ -98,7 +107,9 @@ bool handy_set_at   ( handy_vector * v, void * item, int at )
         if( (*v)->_bucket[at] == NULL )
         {
             (*v)->_bucket[at] = item;
+
             (*v)->_size++;
+
             return true;
         }
         else
@@ -107,6 +118,7 @@ bool handy_set_at   ( handy_vector * v, void * item, int at )
             // shift all item at location one place to the right.
             // resize vector to capacity + 1
             void ** new = realloc( ((*v)->_bucket), ((*v)->_capacity + 1) * sizeof(*new) );
+
             if( new )
             {
                 (*v)->_bucket = new;
@@ -123,8 +135,10 @@ bool handy_set_at   ( handy_vector * v, void * item, int at )
                     // if at position add, stop shifting and place item
                     if( i == at )
                     {
-                        (*v)->_bucket[i] = item;
+                        (*v)->_bucket[at] = item;
+
                         (*v)->_size++;
+
                         return true;
                     }
                         // continue shitting all items before position to the right
@@ -141,7 +155,7 @@ int handy_contain   ( handy_vector * v, void * item )
 {
     for( int i = 0; i < (*v)->_size; i++ )
     {
-        if( memcmp( &((*v)->_bucket[i]), &item, sizeof(&((*v)->_bucket[i])) ) == 0 )
+        if( memcmp( &((*v)->_bucket[i]), &item, sizeof(item) ) == 0 )
             return i;
     }
     return -1;
@@ -162,7 +176,8 @@ bool handy_rem_at   ( handy_vector * v, int at )
         {
             (*v)->_bucket[i] = (*v)->_bucket[i + 1];
         }
-        (*v)->_bucket[(*v)->_size--] = NULL;
+        (*v)->_bucket[(*v)->_capacity - 1 ] = NULL;
+        (*v)->_size--;
     }
     return true;
 }
@@ -172,9 +187,7 @@ int handy_capacity  ( handy_vector * v )
 }
 void handy_free     ( handy_vector * v )
 {
-    //
-    for( int i = 0; i < (*v)->_capacity; i++ )
-        (*v)->_bucket[i] = ( free((*v)->_bucket[i]), NULL );
+    // free all items in list
 
     (*v)->_bucket = (free( (*v)->_bucket ), NULL );
 }

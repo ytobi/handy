@@ -21,13 +21,14 @@ void TestVectorSetAt    ( CuTest * tc )
         CuAssertTrue( tc, v->set_at( &v, i, i ) );
     }
 
+
     // adding item to index less than zero: Not possible, assert we get a not-true
     CuAssertTrue( tc, !v->set_at( &v, "hello", -1 ) );
 
     // adding past capacity of v, will cause v to resize properly
     CuAssertTrue( tc, v->set_at(&v, "hello", v->capacity(&v) + 100) );
 
-    // addition and position already filed should be possible.
+    // addition at position already filed should be possible.
     CuAssertTrue( tc, v->set_at(&v, "hello, world", v->capacity(&v) + 0) );
 
     v->free( &v );
@@ -125,14 +126,14 @@ void TestVectorCapacity ( CuTest * tc )
     // should still be the same
     CuAssertTrue( tc, v->capacity(&v) == originalCapacity );
 
-    v->set_at( &v, 'hello', v->capacity(&v) + 1 );
+    v->set_at( &v, "hello", v->capacity(&v) + 1 );
 
     // we add passed capacity, capacity should expand by 1/4
     CuAssertTrue( tc, v->capacity(&v) == (originalCapacity + (originalCapacity + 4) / 4) );
 
     // this is more the 1/4 + capacity, hence capacity should be 5000
     int at = 5000;
-    v->set_at( &v, 'hello',  5000 );
+    v->set_at( &v, "hello",  5000 );
     CuAssertTrue( tc, v->capacity(&v) == 5000 );
 
     v->free( &v );
@@ -163,6 +164,7 @@ CuSuite * HandyVectorGetSuit()
 {
 
     CuSuite * suite = CuSuiteNew();
+
     SUITE_ADD_TEST( suite, TestVectorCreate );
     SUITE_ADD_TEST( suite, TestVectorSetAt );
     SUITE_ADD_TEST( suite, TestVectorGetAt );

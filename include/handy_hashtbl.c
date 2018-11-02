@@ -3,7 +3,7 @@
 bool   handy_hashtbl_contain  ( handy_hashtbl * l, char * _key );
 bool   handy_hashtbl_add      ( handy_hashtbl * l, char * _key, void * item );
 void * handy_hashtbl_get      ( handy_hashtbl * l, char * _key );
-void * handy_hashtbl_remove   ( handy_hashtbl * l, char * _key );
+void   handy_hashtbl_remove   ( handy_hashtbl * l, char * _key );
 void   handy_hashtbl_free     ( handy_hashtbl * l );
 
 
@@ -135,18 +135,16 @@ void * handy_hashtbl_get      ( handy_hashtbl * t, char * _key )
 
             if( memcmp( &(temp_obj->_key), &hash_key, sizeof(_key) ) == 0 )
             {
-                return ((_handy_hashtbl_obj)(*t)->_bucket[hash_key]->get_at( &((*t)->_bucket[hash_key]), i ))->_value;
+                return ( (_handy_hashtbl_obj)(*t)->_bucket[hash_key]->get_at( &((*t)->_bucket[hash_key]), i ) )->_value;
             }
         }
     }
 
     return NULL;
 }
-void * handy_hashtbl_remove   ( handy_hashtbl * t, char * _key )
+void   handy_hashtbl_remove   ( handy_hashtbl * t, char * _key )
 {
     unsigned long hash_key = handy_hash_djb2(_key) % (*t)->_size;
-
-    void * temp_item_return = malloc( sizeof(void*) );
 
     _handy_hashtbl_obj temp_obj;
 
@@ -156,16 +154,11 @@ void * handy_hashtbl_remove   ( handy_hashtbl * t, char * _key )
 
         if( memcmp( &(temp_obj->_key), &hash_key, sizeof(_key) ) == 0 )
         {
-            memcpy( temp_item_return, ((_handy_hashtbl_obj)(*t)->_bucket[hash_key]->get_at( &((*t)->_bucket[hash_key]), i ))->_value,
-                    sizeof(temp_item_return) );
-
             (*t)->_bucket[hash_key]->rem_at( &((*t)->_bucket[hash_key]), i );
-
-            return temp_item_return;
         }
     }
 
-    return NULL;
+    return;
 }
 void   handy_hashtbl_free     ( handy_hashtbl * t )
 {

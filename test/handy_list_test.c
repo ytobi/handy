@@ -324,6 +324,7 @@ void TestListFree       ( CuTest * tc )
 
     free( list );
 }
+
 CuSuite * HandyListGetSuit()
 {
 
