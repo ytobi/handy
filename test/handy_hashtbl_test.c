@@ -13,6 +13,9 @@ void TestHashtblAdd     ( CuTest * tc )
     int expectedReturn = 1; // true
     CuAssertIntEquals( tc, expectedReturn, actualReturn );
 
+    // should not add, already in list.
+    CuAssertIntEquals( tc, 0, table->add( &table, "123", "Hello, world!" ) );
+
     table->free( &table );
     free( table );
 }

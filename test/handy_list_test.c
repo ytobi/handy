@@ -37,7 +37,6 @@ void TestListAddFront   ( CuTest * tc )
     CuAssertIntEquals( tc, expectedSize, actualSize );
 
 
-
     // Input2
     // test response, if positive and hence item was added
     actualResponse = list->add_front(&list, input2);
@@ -48,7 +47,6 @@ void TestListAddFront   ( CuTest * tc )
     actualSize = list->size;
     expectedSize++;
     CuAssertIntEquals( tc, expectedSize, actualSize );
-
 
 
     // Input3
@@ -139,7 +137,6 @@ void TestListContain    ( CuTest * tc )
     // check if it contain all items added
     for( int i = 0; i < 10; i++ )
         CuAssertTrue( tc, list->contain(&list, 1) > -1 );
-
 
     list->free( &list );
     free( list );

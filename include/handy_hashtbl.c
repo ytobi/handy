@@ -92,9 +92,6 @@ bool handy_hashtbl_add        ( handy_hashtbl * t, char * _key, void * _value )
 
     _handy_hashtbl_obj add_item = malloc( sizeof(*add_item) );
 
-    // int actualAt = list->rem_back( &list );
-    // int expectedAt = 9;
-    // CuAssertIntEquals( tc, expectedAt, actualAt );
     add_item->_value = _value;
     add_item->_key = hash_key;
 
@@ -102,18 +99,19 @@ bool handy_hashtbl_add        ( handy_hashtbl * t, char * _key, void * _value )
     {
         (*t)->_bucket[hash_key] = handy_create_list();
 
-        (*t)->_bucket[hash_key]->add_back( &((*t)->_bucket[hash_key]), add_item );
-        return true;
+        return (*t)->_bucket[hash_key]->add_back( &((*t)->_bucket[hash_key]), add_item );
     }
     else
     {
         // contain return index of item if found and return -1 if not found
         // added identical item
+
         if( (*t)->_bucket[hash_key]->contain( &((*t)->_bucket[hash_key]), add_item ) == -1 )
         {
-            (*t)->_bucket[hash_key]->add_back( &((*t)->_bucket[hash_key]), add_item );
-            return true;
+            return (*t)->_bucket[hash_key]->add_back( &((*t)->_bucket[hash_key]), add_item );
         }
+
+        add_item = ( free(add_item), NULL );
     }
 
     return false;
