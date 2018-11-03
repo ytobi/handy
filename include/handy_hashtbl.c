@@ -70,7 +70,7 @@ bool handy_hashtbl_contain    ( handy_hashtbl * t, char * _key )
 
     _handy_hashtbl_obj current_item;
 
-    for( int i = 0; i < (*t)->_bucket[hash_key]->size; i++ )
+    for( int i = 0; i < (*t)->_bucket[hash_key]->length( &((*t)->_bucket[hash_key])); i++ )
     {
         current_item = (*t)->_bucket[hash_key]->get_at( &((*t)->_bucket[hash_key]), i );
 
@@ -127,7 +127,7 @@ void * handy_hashtbl_get      ( handy_hashtbl * t, char * _key )
 
     if( (*t)->_bucket[hash_key] != NULL )
     {
-        for( int i = 0; i < (*t)->_bucket[hash_key]->size; i++ )
+        for( int i = 0; i < (*t)->_bucket[hash_key]->length( &((*t)->_bucket[hash_key])); i++ )
         {
             temp_obj = (*t)->_bucket[hash_key]->get_at( &((*t)->_bucket[hash_key]), i );
 
@@ -146,7 +146,7 @@ void   handy_hashtbl_remove   ( handy_hashtbl * t, char * _key )
 
     _handy_hashtbl_obj temp_obj;
 
-    for( int i = 0; i < (*t)->_bucket[hash_key]->size; i++ )
+    for( int i = 0; i < (*t)->_bucket[hash_key]->length( &((*t)->_bucket[hash_key])); i++ )
     {
         temp_obj = (*t)->_bucket[hash_key]->get_at( &((*t)->_bucket[hash_key]), i );
 

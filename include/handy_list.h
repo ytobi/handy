@@ -41,11 +41,12 @@ struct _list_struct
     void * (*reverse)       ( handy_list * l );
     bool   (*rem_at)        ( handy_list * l, int at );
     void   (*free)          ( handy_list * l );
+    int    (*length)        ( handy_list * l );
 
     _handy_list_obj _first;
     _handy_list_obj _last;
 
-    int size;
+    int _size;
 };
 
 extern handy_list handy_create_list();
