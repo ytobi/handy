@@ -10,13 +10,13 @@ Start by creating a `handy_hashtbl` object:
     handy_hashtbl my_hashtbl;
 ```
 
-initialize handy_hashtbl object:
+Initialize `handy_hashtbl` object:
 
 ```c
     my_hashtbl = handy_create_hashtbl();
 ```
 
-A handy_hashtbl object has fields that affords hash table, dictionary, map,  operation, they are listed below.
+A `handy_hashtbl` object has fields that affords hash table, dictionary, map,  operation, they are listed below.
 
 **For best performance and for predictable behavior, fields whose name
 begins with underscore(_) should not be use**.

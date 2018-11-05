@@ -10,7 +10,7 @@ Start by creating a `handy_queue` object:
     handy_queue my_queue;
 ```
 
-Initialize handy_queue object:
+Initialize `handy_queue` object:
 
 ```c
     my_queue = handy_create_queue();

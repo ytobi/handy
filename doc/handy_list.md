@@ -11,7 +11,7 @@ Start by creating a `handy_list` object:
     handy_list my_list;
 ```
 
-initialize handy_list object:
+Initialize `handy_list` object:
 
 ```c
     my_list = handy_create_list();

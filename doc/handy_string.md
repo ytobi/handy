@@ -10,7 +10,7 @@ Start by creating a `handy_string` object:
     handy_string my_string;
 ```
 
-initialize handy_string object:
+Initialize `handy_string` object:
 
 ```c
     my_string = handy_create_string();

@@ -10,7 +10,7 @@ Start by creating a `handy_vector` object:
     handy_vector my_vector;
 ```
 
-Initialize handy_vector object:
+Initialize `handy_vector` object:
 
 ```c
     my_vector = handy_create_vector();
