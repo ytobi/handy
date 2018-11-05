@@ -11,7 +11,7 @@ void TestQueueCreate    ( CuTest * tc )
     CuAssertPtrNotNull( tc, queue );
 
     // validate the size for queue is 0
-    CuAssertIntEquals( tc, 0, queue->size );
+    CuAssertIntEquals( tc, 0, queue->length(&queue) );
 
     queue->free( &queue );
     free( queue );
@@ -25,7 +25,7 @@ void TestQueueContain   ( CuTest * tc )
 
     // test queue contains all enqueued elements
     for( int i = 0; i < 10; i++ )
-        CuAssertTrue( tc, queue->contain(&queue, i) );
+        CuAssertTrue( tc, queue->contain(&queue, i) != -1 );
 
     queue->free( &queue );
     free( queue );
@@ -41,7 +41,7 @@ void TestQueueEnqueue   ( CuTest * tc )
     CuAssertIntEquals( tc, expectedResponse, actualResponse );
 
     // We test the size if a change in size
-    int actualSize = queue->size;
+    int actualSize = queue->length( &queue );
     int expectedSize = 1;
     CuAssertIntEquals( tc, expectedSize, actualSize );
 
@@ -95,7 +95,7 @@ void TestQueueDequeue   ( CuTest * tc )
     int expectedFront = 0;
     CuAssertIntEquals( tc, expectedFront, actualFront );
 
-    int actualSize = queue->size;
+    int actualSize = queue->length( &queue );
     int expectedSize = 9;
     CuAssertIntEquals( tc, expectedSize, actualSize );
 
@@ -148,6 +148,23 @@ void TestQueueBack      ( CuTest * tc )
     queue->free(&queue);
     free( queue );
 }
+void TestQueueLength    ( CuTest * tc )
+{
+    handy_queue queue = handy_create_queue();
+
+    CuAssertIntEquals( tc, 0, queue->length(&queue) );
+
+    for( int i = 0; i < 10; i++ )
+        queue->enqueue( &queue, i );
+
+    CuAssertIntEquals( tc, 10, queue->length(&queue) );
+
+    queue->free(&queue);
+
+    CuAssertIntEquals( tc, 0, queue->length(&queue) );
+
+    free( queue );
+}
 
 CuSuite * HandyQueueGetSuit()
 {
@@ -162,6 +179,7 @@ CuSuite * HandyQueueGetSuit()
     SUITE_ADD_TEST( suite, TestQueueFree );
     SUITE_ADD_TEST( suite, TestQueueFront );
     SUITE_ADD_TEST( suite, TestQueueBack );
+    SUITE_ADD_TEST( suite, TestQueueLength );
 
     return suite;
 }

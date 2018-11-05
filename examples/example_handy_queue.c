@@ -10,10 +10,10 @@ int main()
 
     for( int i = 0 ; i < 10; i++ )                          // add, aka enqueue 10 item in queue
     {
-        queue->enqueue( &queue, i );
+        if( queue->enqueue( &queue, i ) );
     }
 
-    queue->contain( &queue, 7 );                            // if find '7' return 1, else 0
+    int pos_of_sev = queue->contain( &queue, 7 );           // if find '7' return 6, else -1
 
     int zero = queue->front( &queue );                      // get item at front aka '0'
 

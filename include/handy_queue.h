@@ -25,7 +25,7 @@ struct __handy_queue_obj
 
 struct _queue_struct
 {
-    bool (*contain)         ( handy_queue * q, void * item );
+    int (*contain)         ( handy_queue * q, void * item );
     bool (*enqueue)         ( handy_queue * q, void * item );
     bool (*empty)           ( handy_queue * q );
 
@@ -34,13 +34,14 @@ struct _queue_struct
     void   (*free)          ( handy_queue * q );
     void * (*front)         ( handy_queue * q );
     void * (*back)          ( handy_queue * q );
+    int (*length)           ( handy_queue * q );
 
     void ** _handy_dequeued;
 
     _handy_queue_obj _first;
     _handy_queue_obj _last;
 
-    int size;
+    int _size;
 };
 
 extern handy_queue handy_create_queue();
