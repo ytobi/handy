@@ -35,13 +35,14 @@ struct _handy_stack_struct
     void   (*free)          ( handy_stack * s );
     void * (*top)           ( handy_stack * s );
     void * (*bottom)        ( handy_stack * s );
+    int    (*length)        ( handy_stack * s );
 
     _handy_stack_obj _first;
     _handy_stack_obj _last;
 
     void ** _handy_poped;
 
-    int size;
+    int _size;
 };
 
 extern handy_stack handy_create_stack();

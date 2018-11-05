@@ -9,7 +9,7 @@ void TestStackCreate    ( CuTest * tc )
 
     // check if return of function to create stack
     // actually created
-    int actualSize = stack->size;
+    int actualSize = stack->length( &stack );
     int expectedSize = 0;
     CuAssertIntEquals( tc, expectedSize, actualSize );
 
@@ -41,7 +41,7 @@ void TestStackPush      ( CuTest * tc )
     CuAssertIntEquals( tc, expectedResponse, actualResponse );
 
     // We test the size if a change in size
-    int actualSize = stack->size;
+    int actualSize = stack->length( &stack );
     int expectedSize = 1;
     CuAssertIntEquals( tc, expectedSize, actualSize );
 
@@ -154,6 +154,23 @@ void TestStackBottom    ( CuTest * tc )
     stack->free(&stack);
     free( stack );
 }
+void TestStackLength    ( CuTest * tc )
+{
+    handy_stack stack = handy_create_stack();
+
+    CuAssertIntEquals( tc, 0, stack->length(&stack) );
+
+    for( int i = 0; i < 10; i++ )
+        stack->push( &stack, i );
+
+    CuAssertIntEquals( tc, 10, stack->length(&stack) );
+
+    stack->free(&stack);
+
+    CuAssertIntEquals( tc, 0, stack->length(&stack) );
+
+    free( stack );
+}
 
 CuSuite * HandyStackGetSuit()
 {
@@ -166,8 +183,9 @@ CuSuite * HandyStackGetSuit()
     SUITE_ADD_TEST( suite, TestStackReverse );
     SUITE_ADD_TEST( suite, TestStackPop );
     SUITE_ADD_TEST( suite, TestStackFree );
-    // SUITE_ADD_TEST( suite, TestStackTop );
-    // SUITE_ADD_TEST( suite, TestStackBottom );
+    SUITE_ADD_TEST( suite, TestStackTop );
+    SUITE_ADD_TEST( suite, TestStackBottom );
+    SUITE_ADD_TEST( suite, TestStackLength );
 
     return suite;
 }
