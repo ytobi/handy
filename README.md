@@ -41,12 +41,12 @@ NOTE. Always call the property free on the object to clean up some memory and fi
 ##### Here is a list of already implemented(ticked) or to be implemented feature:
 
 
-- [x] **handy_list   ( list ):** Dynamically sized list of generic items.
-- [x] **handy_hashtbl( hashtable ):** A dictionary, map: a collection of key,value pairs.
-- [x] **handy_stack  ( stack ):** Dynamically sized, odered collection of generic items that afford stack operations.
-- [x] **handy_queue  ( queue ):** Dynamically sized, odered collection of generic items that afford queue operations.
-- [x] **handy_string ( string ):** A stucture for string maninipulations.
-- [x] **handy_vector ( vector ):** Dynamically sized collection of generic items with constant insertion and  deletion.
+- [x] **[handy_list](doc/handy_list.md)   ( list ):** Dynamically sized list of generic items.
+- [x] **[handy_hashtbl](doc/handy_hastble.md) ( hashtable ):** A dictionary, map: a collection of key,value pairs.
+- [x] **[handy_stack](doc/handy_stact.md)  ( stack ):** Dynamically sized, odered collection of generic items that afford stack operations.
+- [x] **[handy_queue](doc/handy_queue.md)  ( queue ):** Dynamically sized, odered collection of generic items that afford queue operations.
+- [x] **[handy_string](doc/handy_string.md) ( string ):** A stucture for string maninipulations.
+- [x] **[handy_vector](doc/handy_vector.md) ( vector ):** Dynamically sized collection of generic items with constant insertion and  deletion.
 - [ ] **handy_time   ( time ):** A structure for time keeping.
 - [ ] **handy_serialize( serialize ):** Reading and writing generic data to disk.
 - [ ] **handy_numeric( numeric ):** For working with all types of numeric data eg decimal, binary, hexadecimal, octal etc.
