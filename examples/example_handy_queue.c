@@ -13,7 +13,7 @@ int main()
         if( queue->enqueue( &queue, i ) );
     }
 
-    int pos_of_sev = queue->contain( &queue, 7 );           // if find '7' return 6, else -1
+    int pos_of_sev = queue->contain( &queue, 7 );           // find 7 returns position of 7 (6), else -1
 
     int zero = queue->front( &queue );                      // get item at front aka '0'
 

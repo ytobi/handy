@@ -42,7 +42,7 @@ NOTE. Always call the property free on the object to clean up some memory and fi
 
 
 - [x] **[handy_list](doc/handy_list.md)   ( list ):** Dynamically sized list of generic items.
-- [x] **[handy_hashtbl](doc/handy_hastble.md) ( hashtable ):** A dictionary, map: a collection of key,value pairs.
+- [x] **[handy_hashtbl](doc/handy_hastble.md) ( hashtable ):** A dictionary, map: a collection of key-value pairs.
 - [x] **[handy_stack](doc/handy_stact.md)  ( stack ):** Dynamically sized, odered collection of generic items that afford stack operations.
 - [x] **[handy_queue](doc/handy_queue.md)  ( queue ):** Dynamically sized, odered collection of generic items that afford queue operations.
 - [x] **[handy_string](doc/handy_string.md) ( string ):** A stucture for string maninipulations.
