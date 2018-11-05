@@ -12,7 +12,7 @@ void * handy_list_get_at        ( handy_list * l, int at );
 bool   handy_list_rem_front     ( handy_list * l );
 bool   handy_list_rem_back      ( handy_list * l );
 bool   handy_list_rem_at        ( handy_list * l, int at );
-void * handy_list_reverse       ( handy_list * l );
+void   handy_list_reverse       ( handy_list * l );
 void   handy_list_free          ( handy_list * l );
 int    handy_list_length        ( handy_list * l );
 
@@ -270,7 +270,7 @@ bool  handy_list_rem_at         ( handy_list * l, int at )
 
     return false;
 }
-void * handy_list_reverse       ( handy_list  * l )
+void handy_list_reverse       ( handy_list  * l )
 {
     // The front point the end, and _next and _prev of every node
     // reversed.

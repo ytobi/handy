@@ -38,7 +38,7 @@ struct _list_struct
     void * (*get_at)        ( handy_list * l, int at );
     bool   (*rem_front)     ( handy_list * l );
     bool   (*rem_back)      ( handy_list * l );
-    void * (*reverse)       ( handy_list * l );
+    void   (*reverse)       ( handy_list * l );
     bool   (*rem_at)        ( handy_list * l, int at );
     void   (*free)          ( handy_list * l );
     int    (*length)        ( handy_list * l );
