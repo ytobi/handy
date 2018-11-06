@@ -347,6 +347,7 @@ CuSuite * HandyListGetSuit()
 {
 
 	CuSuite * suite = CuSuiteNew();
+
     SUITE_ADD_TEST( suite, TestListCreate );
 	SUITE_ADD_TEST( suite, TestListAddFront );
     SUITE_ADD_TEST( suite, TestListAddBack );

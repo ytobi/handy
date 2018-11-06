@@ -24,7 +24,7 @@ char handy_get_char_at     ( handy_string * s, int at );
 bool handy_del_front_char  ( handy_string * s );
 bool handy_del_back_char   ( handy_string * s );
 bool handy_del_char_at     ( handy_string * s, int at );
-bool handy_reverse         ( handy_string * s );
+void handy_reverse         ( handy_string * s );
 int handy_word_count       ( handy_string * s, char * delimiter );
 void handy_string_free     ( handy_string * s );
 int  handy_string_length   ( handy_string * s );
@@ -292,7 +292,7 @@ bool handy_del_char_at      ( handy_string * s, int at )
     }
     return true;
 }
-bool handy_reverse          ( handy_string * s )
+void handy_reverse          ( handy_string * s )
 {
     // for protection sake
     (*s)->_size = (*s)->length(s);

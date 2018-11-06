@@ -12,6 +12,7 @@ typedef struct _hashtbl_struct * handy_hashtbl;
 
 #ifndef HANDY_HASHTBL_OBJ_H
 #define HANDY_HASHTBL_OBJ_H
+
 typedef struct __handy_hashtbl_obj * _handy_hashtbl_obj;
 
 struct __handy_hashtbl_obj

@@ -1,6 +1,6 @@
 #include "handy_queue.h"
 
-int   handy_queue_contain    ( handy_queue * q, void * item );
+int   handy_queue_contain     ( handy_queue * q, void * item );
 bool   handy_queue_enqueue    ( handy_queue * q, void * item );
 bool   handy_queue_empty      ( handy_queue * q );
 void   handy_queue_reverse    ( handy_queue * q );

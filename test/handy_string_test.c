@@ -336,6 +336,7 @@ void TestStringToLower      ( CuTest * tc )
 CuSuite * HandyStringGetSuit()
 {
     CuSuite * suite = CuSuiteNew();
+
     SUITE_ADD_TEST( suite, TestStringCreate );
     SUITE_ADD_TEST( suite, TestStringAppend );
     SUITE_ADD_TEST( suite, TestStringEqual );

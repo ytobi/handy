@@ -15,6 +15,7 @@ typedef struct _list_struct  * handy_list;
 #define HANDY_LIST_OBJ_H
 
 typedef struct __handy_list_obj * _handy_list_obj;
+
 struct __handy_list_obj
 {
     void  * _data;
@@ -23,7 +24,7 @@ struct __handy_list_obj
     _handy_list_obj _prev;
 };
 
-#endif
+#endif // HANDY_LIST_OBJ_H
 
 struct _list_struct
 {

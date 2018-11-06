@@ -101,6 +101,7 @@ void TestHashtblFree    ( CuTest * tc )
 CuSuite * HandyHashtblGetSuit()
 {
     CuSuite * suite = CuSuiteNew();
+
     SUITE_ADD_TEST( suite, TestHashtblAdd );
     SUITE_ADD_TEST( suite, TestHashtblContain );
     SUITE_ADD_TEST( suite, TestHashtblGet );

@@ -5,9 +5,6 @@
 #include "handy_queue.h"
 #include "handy_stack.h"
 #include "handy_hashtbl.h"
-
-#include "handy_sick.h"
-
 #include "handy_string.h"
 #include "handy_vector.h"
 

@@ -3,7 +3,7 @@ TARGET_EXEC ?= AllTest
 BUILD_DIR ?= .
 SRC_DIRS ?= ./ ../include ./CuTest-1.5
 
-SRCS := $(shell find $(SRC_DIRS) -name *.cpp -or -name *.c -or -name *.s)
+SRCS := $(shell find $(SRC_DIRS) -name *.c -or -name *.s)
 OBJS := $(SRCS:%=$(BUILD_DIR)/%.o)
 DEPS := $(OBJS:.o=.d)
 

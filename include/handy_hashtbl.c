@@ -60,6 +60,7 @@ handy_hashtbl handy_create_hashtbl()
 
     return temp_tbl;
 }
+
 bool handy_hashtbl_contain    ( handy_hashtbl * t, char * _key )
 {
     // iterate through all item in linked list at position  of hashed _key
