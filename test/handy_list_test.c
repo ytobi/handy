@@ -8,12 +8,12 @@ void TestListCreate     ( CuTest * tc )
 
 	// check if return of function to create list
 	// actually created
-	int actualSize = list->length( &list );
+	int actualSize = list->length( list );
 
 	int expectedSize = 0;
 	CuAssertIntEquals( tc, expectedSize, actualSize );
 
-	list->free(&list);
+	list->free(list);
 	free( list );
 }
 void TestListAddFront   ( CuTest * tc )
@@ -27,40 +27,40 @@ void TestListAddFront   ( CuTest * tc )
 
     // Input1
     // test response, if positive and hence item was added
-    int actualResponse = list->add_front(&list, input1);
+    int actualResponse = list->add_front(list, input1);
     int expectedResponse = 1; // true
     CuAssertIntEquals( tc, expectedResponse, actualResponse );
 
     // We test the size if a change in size
-    int actualSize = list->length( &list );
+    int actualSize = list->length( list );
     int expectedSize = 1;
     CuAssertIntEquals( tc, expectedSize, actualSize );
 
 
     // Input2
     // test response, if positive and hence item was added
-    actualResponse = list->add_front(&list, input2);
+    actualResponse = list->add_front(list, input2);
     expectedResponse = 1; // true
     CuAssertIntEquals( tc, expectedResponse, actualResponse );
 
     // We test the size if a change in size
-    actualSize = list->length( &list );
+    actualSize = list->length( list );
     expectedSize++;
     CuAssertIntEquals( tc, expectedSize, actualSize );
 
 
     // Input3
     // test response, if positive and hence item was added
-    actualResponse = list->add_front(&list, input3);
+    actualResponse = list->add_front(list, input3);
     expectedResponse = 1; // true
     CuAssertIntEquals( tc, expectedResponse, actualResponse );
 
     // We test the size if a change in size
-    actualSize = list->length( &list );
+    actualSize = list->length( list );
     expectedSize++;
     CuAssertIntEquals( tc, expectedSize, actualSize );
 
-    list->free(&list);
+    list->free(list);
     free( list );
 }
 void TestListAddBack    ( CuTest * tc )
@@ -69,11 +69,11 @@ void TestListAddBack    ( CuTest * tc )
 
     for( int i = 0; i < 10; i++ )
     {
-        CuAssertTrue( tc, list->add_back( &list, i ) );
-        CuAssertIntEquals( tc, i+1, list->length( &list ) );
+        CuAssertTrue( tc, list->add_back( list, i ) );
+        CuAssertIntEquals( tc, i+1, list->length( list ) );
     }
 
-    list->free( &list );
+    list->free( list );
     free( list );
 }
 void TestListAddAt      ( CuTest * tc )
@@ -86,12 +86,12 @@ void TestListAddAt      ( CuTest * tc )
 
     // Input1
     // test response, if 1 and hence item was added
-    int actualResponse = list->add_at( &list, input1, 0 );
+    int actualResponse = list->add_at( list, input1, 0 );
     int expectedResponse = 1;
     CuAssertIntEquals( tc, expectedResponse, actualResponse );
 
     // We test the size if a change in size
-    int actualSize = list->length( &list );
+    int actualSize = list->length( list );
     int expectedSize = 1;
     CuAssertIntEquals( tc, expectedSize, actualSize );
 
@@ -99,12 +99,12 @@ void TestListAddAt      ( CuTest * tc )
 
     // Input2
     // test response, if positive and hence item was added
-    actualResponse = list->add_at(&list, input2, 1);
+    actualResponse = list->add_at(list, input2, 1);
     expectedResponse = 1;
     CuAssertIntEquals( tc, expectedResponse, actualResponse );
 
     // We test the size if a change in size
-    actualSize = list->length( &list );
+    actualSize = list->length( list );
     expectedSize++;
     CuAssertIntEquals( tc, expectedSize, actualSize );
 
@@ -113,17 +113,17 @@ void TestListAddAt      ( CuTest * tc )
     // test response, if positive and hence item was added
     // Addition to a location past the size of the list should not cause
     // error at all.
-    actualResponse = list->add_at( &list, input3, 1 );
+    actualResponse = list->add_at( list, input3, 1 );
     expectedResponse = 1;
     CuAssertIntEquals( tc, expectedResponse, actualResponse );
 
     // We test the size if a change in size
-    actualSize = list->length( &list );
+    actualSize = list->length( list );
     expectedSize++;
     CuAssertIntEquals( tc, expectedSize, actualSize );
 
 
-    list->free(&list);
+    list->free(list);
     free( list );
 }
 void TestListContain    ( CuTest * tc )
@@ -131,14 +131,14 @@ void TestListContain    ( CuTest * tc )
     handy_list list = handy_create_list();
 
     for( int i = 0; i < 10; i++ )
-        list->add_front( &list, i );
+        list->add_front( list, i );
 
     // contain return location of item in list if found or -1 if not found
     // check if it contain all items added
     for( int i = 0; i < 10; i++ )
-        CuAssertTrue( tc, list->contain(&list, 1) > -1 );
+        CuAssertTrue( tc, list->contain(list, 1) > -1 );
 
-    list->free( &list );
+    list->free( list );
     free( list );
 }
 void TestListRemoveFront( CuTest * tc )
@@ -147,16 +147,16 @@ void TestListRemoveFront( CuTest * tc )
     int size_list = 10;
 
     for( int i = 0; i < size_list; i++ )
-        list->add_back( &list, i );
+        list->add_back( list, i );
 
-    CuAssertTrue( tc, list->rem_back( &list ) );
+    CuAssertTrue( tc, list->rem_back( list ) );
 
-    int actualSize = list->length( &list );
+    int actualSize = list->length( list );
     int expectedSize = size_list - 1;
     CuAssertIntEquals( tc, expectedSize, actualSize );
 
 
-    list->free( &list );
+    list->free( list );
     free( list );
 }
 void TestListRemoveBack ( CuTest * tc )
@@ -165,16 +165,16 @@ void TestListRemoveBack ( CuTest * tc )
     int size_list = 10;
 
     for( int i = 0; i < size_list; i++ )
-        list->add_back( &list, i );
+        list->add_back( list, i );
 
-    CuAssertTrue( tc, list->rem_back( &list ) );
+    CuAssertTrue( tc, list->rem_back( list ) );
 
-    int actualSize = list->length( &list );
+    int actualSize = list->length( list );
     int expectedSize = size_list - 1;
     CuAssertIntEquals( tc, expectedSize, actualSize );
 
 
-    list->free( &list );
+    list->free( list );
     free( list );
 }
 void TestListRemoveAt   ( CuTest * tc )
@@ -183,15 +183,15 @@ void TestListRemoveAt   ( CuTest * tc )
     int size_list = 10;
 
     for( int i = 0; i < size_list; i++ )
-        list->add_back( &list, i );
+        list->add_back( list, i );
 
-    CuAssertTrue( tc, list->rem_at( &list, 2 ) );
+    CuAssertTrue( tc, list->rem_at( list, 2 ) );
 
-    int actualSize = list->length( &list );
+    int actualSize = list->length( list );
     int expectedSize = size_list - 1;
     CuAssertIntEquals( tc, expectedSize, actualSize );
 
-    list->free( &list );
+    list->free( list );
     free( list );
 }
 void TestListEmpty      ( CuTest * tc )
@@ -199,15 +199,15 @@ void TestListEmpty      ( CuTest * tc )
     handy_list list = handy_create_list();
 
     // should originally be empty(true)
-    CuAssertTrue( tc, list->empty(&list) );
+    CuAssertTrue( tc, list->empty(list) );
 
-    list->add_front( &list, 1 );
+    list->add_front( list, 1 );
 
     // should not(false) be empty
-    CuAssertTrue( tc, !(list->empty(&list)) );
+    CuAssertTrue( tc, !(list->empty(list)) );
 
 
-    list->free( &list );
+    list->free( list );
     free( list );
 }
 void TestListReverse    ( CuTest * tc )
@@ -215,27 +215,27 @@ void TestListReverse    ( CuTest * tc )
     handy_list list = handy_create_list();
     CuAssertPtrNotNull( tc, list );
 
-    list->add_back( &list, "Handy" ); // first
-    list->add_back( &list, "is" );
-    list->add_back( &list, "name" );
-    list->add_back( &list, "my" );
-    list->add_back( &list, "world," );
-    list->add_back( &list, "Hello" ); // last
+    list->add_back( list, "Handy" ); // first
+    list->add_back( list, "is" );
+    list->add_back( list, "name" );
+    list->add_back( list, "my" );
+    list->add_back( list, "world," );
+    list->add_back( list, "Hello" ); // last
 
     // now list has been reversed
-    list->reverse( &list );
+    list->reverse( list );
 
     char * actualStr = "Hello";
-    char * expectedStr = list->get_front( &list );
+    char * expectedStr = list->get_front( list );
 
     CuAssertStrEquals( tc, expectedStr, actualStr );
 
     actualStr = "Handy";
-    expectedStr = list->get_back( &list );
+    expectedStr = list->get_back( list );
 
     CuAssertStrEquals( tc, expectedStr, actualStr );
 
-    list->free(&list);
+    list->free(list);
     free( list );
 }
 void TestListGetFront   ( CuTest * tc )
@@ -244,19 +244,19 @@ void TestListGetFront   ( CuTest * tc )
     int size_list = 10;
 
     for( int i = 0; i < size_list; i++ )
-        list->add_back( &list, i );
+        list->add_back( list, i );
 
-    int actualAt = (int)list->get_front( &list );
+    int actualAt = (int)list->get_front( list );
     int expectedAt = 0;
     CuAssertIntEquals( tc, expectedAt, actualAt );
 
     // size does not change
-    int actualSize = list->length( &list );
+    int actualSize = list->length( list );
     int expectedSize = size_list;
     CuAssertIntEquals( tc, expectedSize, actualSize );
 
 
-    list->free( &list );
+    list->free( list );
     free( list );
 
 }
@@ -266,19 +266,19 @@ void TestListGetBack    ( CuTest * tc )
     int size_list = 10;
 
     for( int i = 0; i < size_list; i++ )
-        list->add_back( &list, i );
+        list->add_back( list, i );
 
-    int actualAt = (int)list->get_back( &list );
+    int actualAt = (int)list->get_back( list );
     int expectedAt = 9;
     CuAssertIntEquals( tc, expectedAt, actualAt );
 
     // size does not change
-    int actualSize = list->length( &list );
+    int actualSize = list->length( list );
     int expectedSize = size_list;
     CuAssertIntEquals( tc, expectedSize, actualSize );
 
 
-    list->free( &list );
+    list->free( list );
     free( list );
 }
 void TestListGetAt      ( CuTest * tc )
@@ -287,19 +287,19 @@ void TestListGetAt      ( CuTest * tc )
     int size_list = 10;
 
     for( int i = 0; i < size_list; i++ )
-        list->add_back( &list, i );
+        list->add_back( list, i );
 
-    int actualAt = (int)list->get_at( &list, 5 );
+    int actualAt = (int)list->get_at( list, 5 );
     int expectedAt = 5;
     CuAssertIntEquals( tc, expectedAt, actualAt );
 
     // size does not change
-    int actualSize = list->length( &list );
+    int actualSize = list->length( list );
     int expectedSize = size_list;
     CuAssertIntEquals( tc, expectedSize, actualSize );
 
 
-    list->free( &list );
+    list->free( list );
     free( list );
 }
 void TestListFree       ( CuTest * tc )
@@ -308,16 +308,16 @@ void TestListFree       ( CuTest * tc )
     int size_list = 10;
 
     for( int i = 0; i < size_list; i++ )
-        list->add_back( &list, i );
+        list->add_back( list, i );
 
-    list->free( &list );
+    list->free( list );
 
     // everything should now be null
 
-    CuAssertPtrEquals( tc, NULL, list->get_front(&list) );
-    CuAssertPtrEquals( tc, NULL, list->get_back(&list) );
+    CuAssertPtrEquals( tc, NULL, list->get_front(list) );
+    CuAssertPtrEquals( tc, NULL, list->get_back(list) );
 
-    CuAssertIntEquals( tc, 0, list->length( &list ) );
+    CuAssertIntEquals( tc, 0, list->length( list ) );
 
     free( list );
 }
@@ -326,19 +326,19 @@ void TestListLength     ( CuTest * tc )
     handy_list list = handy_create_list();
 
     // not added any item, length should be 0
-    CuAssertIntEquals( tc, 0, list->length( &list) );
+    CuAssertIntEquals( tc, 0, list->length( list) );
 
     for( int i = 0; i < 10; i++ )
-        list->add_back( &list, i );
+        list->add_back( list, i );
 
 
     // added ten items, assume add_back passed
-    CuAssertIntEquals( tc, 10, list->length( &list) );
+    CuAssertIntEquals( tc, 10, list->length( list) );
 
-    list->free( &list );
+    list->free( list );
 
     // after free, length equal null
-    CuAssertIntEquals( tc, 0, list->length( &list) );
+    CuAssertIntEquals( tc, 0, list->length( list) );
 
     free( list );
 }

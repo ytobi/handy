@@ -52,6 +52,5 @@ begins with underscore(_) should not be use**.
 | `TODO get_front_str`| `char * ( handy_string * , char *)` | Splits handy_string at delimiter and return the first string in the resulting split. This does not modify the handy_string. |
 | `TODO get_back_str`| `char * ( handy_string * , char *)`  | Splits handy_string at delimiter and return the last string in the resulting split. This does not modify the handy_string. |
 | `TODO get_at_str` | `char * ( handy_string * , char *, int )` | Splits handy_string at delimiter and return the string at specified position. This does not modify the handy_string. |
-This does not modify the handy_string.
 
 Checkout an implemented example at [examples/example_handy_string.c](../examples/example_handy_string.c).
