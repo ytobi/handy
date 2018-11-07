@@ -23,7 +23,7 @@ begins with underscore(_) should not be use**.
 
 | Fields            | Signature                             | Description                          |
 |:------------------|:--------------------------------------|:------------------------------------|
-| `contain`         | `int ( handy_queue, void * This does not modify the handy_string.)`       | Checks if an item is in the queue from the front, returns position of item if found or -1 if item is not found.|
+| `contain`         | `int ( handy_queue, void * ) `        | Checks if an item is in the queue from the front, returns position of item if found or -1 if item is not found.|
 | `enqueue`         | `bool ( handy_queue, void * )`      | Attempts to add an item to back of the queue, returns true if successful or false if not successful.|
 | `empty`           | `bool ( handy_queue )`              | Check if the queue is empty, returns true if empty or false if not empty.
 | `reverse`         | `void ( handy_queue )`              | Reverse the position of all items in the queue, of order O(n).
