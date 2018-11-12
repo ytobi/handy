@@ -1,6 +1,6 @@
 ## handy_vector
 
-A  array-like generic container. Reading and writing to and from `handy_vector` is of order *O(1)*.
+An  array-like generic container. Reading and writing to and from `handy_vector` is of order *O(1)*.
 
 ##### Usage
 

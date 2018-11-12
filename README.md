@@ -6,7 +6,7 @@ This library of common data structure, functions, services and more, is meant to
 
 Handy has a simple and straightforward object-oriented API, this means objects have functions which are the property of the object and operates on them.
 
-Handy is modular, i.e can be used on the go.
+Handy is modular, i.e can be copied and used on the go.
 
 ## Instalations
 
