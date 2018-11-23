@@ -52,6 +52,9 @@ NOTE. Always call the property free on the object to clean up some memory and fi
 - [ ] **handy_numeric ( numeric ):** For working with all types of numeric data eg decimal, binary, hexadecimal, octal etc.
 - [ ] **handy_sick ( sockets ):** sick - Socket Interface Communication Kit.
 
+#### Executing Test
+
+Run `make` in the test directory to compile all tests. An executable "AllTest" is generated, run "AllTest" to see test results.
 ## Contributions
 
 I commit to handy as a hobby, if you like to see a feature or you found a defect, feel free to raise an issue for them and if you feel further motivated submit a pull request for them. Contributions are highly welcome.
