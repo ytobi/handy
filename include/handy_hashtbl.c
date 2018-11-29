@@ -65,12 +65,15 @@ bool handy_hashtbl_contain    ( handy_hashtbl t, char * _key )
 {
     // iterate through all item in linked list at position  of hashed _key
     // compare keys and return true if found, return false if not found
+    
+    if( strlen(_key) <= 0 )
+        return false;
 
     unsigned long hash_key = handy_hash_djb2( _key ) % t->_size;
 
     _handy_hashtbl_obj current_item;
 
-    for( int i = 0; i < t->_bucket[hash_key]->length( t->_bucket[hash_key]); i++ )
+    for( int i = 0; t->_bucket[hash_key] != NULL && i < t->_bucket[hash_key]->length( t->_bucket[hash_key]); i++ )
     {
         current_item = t->_bucket[hash_key]->get_at( t->_bucket[hash_key], i );
 
