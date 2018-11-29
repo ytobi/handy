@@ -33,7 +33,7 @@ NOTE. Always call the property free on the object to clean up some memory and fi
     
     printf( "Item at back: %s\n", my_list->get_back(my_list) );    // expect char *, prints "Hello, world"
     
-    my_list.free( my_list );                                       // free item(s) in list
+    my_list->free( my_list );                                       // free item(s) in list
     free( my_list );                                                // free my_list itself
 
 ```
@@ -43,10 +43,11 @@ NOTE. Always call the property free on the object to clean up some memory and fi
 
 - [x] **[handy_list](doc/handy_list.md) ( list ):** Dynamically sized list of generic items.
 - [x] **[handy_hashtbl](doc/handy_hashtbl.md) ( hashtable ):** A dictionary, map: a collection of key-value pairs.
-- [x] **[handy_stack](doc/handy_stack.md)  ( stack ):** Dynamically sized, odered collection of generic items that afford stack operations.
-- [x] **[handy_queue](doc/handy_queue.md)  ( queue ):** Dynamically sized, odered collection of generic items that afford queue operations.
-- [x] **[handy_string](doc/handy_string.md) ( string ):** A stucture for string maninipulations.
+- [x] **[handy_stack](doc/handy_stack.md)  ( stack ):** Dynamically sized, ordered collection of generic items that afford stack operations.
+- [x] **[handy_queue](doc/handy_queue.md)  ( queue ):** Dynamically sized, ordered collection of generic items that afford queue operations.
+- [x] **[handy_string](doc/handy_string.md) ( string ):** A structure for string manipulations.
 - [x] **[handy_vector](doc/handy_vector.md) ( vector ):** Dynamically sized collection of generic items with constant insertion and  deletion.
+- [x] **[handy_btree](doc/handy_btree.md) ( btree ):** Binary-tree: A container for working with trees with at two children.
 - [ ] **handy_time ( time ):** A structure for time keeping.
 - [ ] **handy_serialize ( serialize ):** Reading and writing generic data to disk.
 - [ ] **handy_numeric ( numeric ):** For working with all types of numeric data eg decimal, binary, hexadecimal, octal etc.
