@@ -9,7 +9,7 @@
 #ifndef HANDY_LIST_H
 #define HANDY_LIST_H
 
-typedef struct _list_struct  * handy_list;
+typedef struct _handy_list_struct  * handy_list;
 
 #ifndef HANDY_LIST_OBJ_H
 #define HANDY_LIST_OBJ_H
@@ -26,7 +26,7 @@ struct __handy_list_obj
 
 #endif // HANDY_LIST_OBJ_H
 
-struct _list_struct
+struct _handy_list_struct
 {
     int  (*contain)         ( handy_list l, void * item );
     bool (*add_front)       ( handy_list l, void * item );

@@ -3,10 +3,10 @@
 
 int main()
 {
-    handy_list alphabet_list;                                   // create a handy_list object "alphabet_list"
+    handy_list alphabet_list;                                  // create a handy_list object "alphabet_list"
 
 
-    alphabet_list = handy_create_list();                        // initialize handy_list object
+    alphabet_list = handy_create_list();                       // initialize handy_list object
 
 
     for( int i = 0; i < 26; i++ )
@@ -28,7 +28,7 @@ int main()
 
     alphabet_list->free( alphabet_list );                      // free all memory allocated to items in list
 
-    free( alphabet_list );                                      // finally clean up, free alphabet itself
+    free( alphabet_list );                                     // finally clean up, free alphabet itself
 
 
     return 0;

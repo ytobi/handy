@@ -10,7 +10,9 @@ typedef struct string_struct  * handy_string;
 
 struct string_struct
 {
-    bool (*append)          ( handy_string s, char * data );
+    void (*append_int)      ( handy_string s, long long num );
+    void (*append_double)   ( handy_string s, double num );
+    bool (*append)          ( handy_string s, char * str );
     bool (*equal)           ( handy_string s1, handy_string s2 );
     bool (*equal_str)       ( handy_string s, char * str );
 
@@ -36,6 +38,7 @@ struct string_struct
     int  (*word_count)      ( handy_string s, char * delimiter );
     void (*free)            ( handy_string s );
     int  (*length)          ( handy_string s );
+
 
     char * _data;
 

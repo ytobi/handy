@@ -63,6 +63,30 @@ handy_string handy_create_string( )
     return temp;
 }
 
+char * _handy_string_dict_value[2][10] = {
+        { "0", "1", "2", "3", "4", "5", "6", "7", "8", "9" },
+        { "0-", "1-", "2-", "-3", "4-", "5-", "6-", "7-", "8-", "9-" } };
+
+void handy_append_int       ( handy_string s, long long num )
+{
+    long long back = 0;
+    while( num != 0 )
+    {
+        back = num % 10;
+
+        if( back < 0 )
+            s->append(s, _handy_string_dict_value[1][back*-1] );
+        else
+            s->append(s, _handy_string_dict_value[0][back] );
+
+        num /= 10;
+    }
+    s->reverse(s);
+}
+void handy_append_double    ( handy_string s, double num )
+{
+
+}
 bool handy_append           ( handy_string s, char * str )
 {
     // for protection sake
