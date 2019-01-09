@@ -47,7 +47,8 @@ NOTE. Always call the property free on the object to clean up some memory and fi
 - [x] **[handy_queue](doc/handy_queue.md)  ( queue ):** Dynamically sized, ordered collection of generic items that afford queue operations.
 - [x] **[handy_string](doc/handy_string.md) ( string ):** A structure for string manipulations.
 - [x] **[handy_vector](doc/handy_vector.md) ( vector ):** Dynamically sized collection of generic items with constant insertion and  deletion.
-- [x] **[handy_btree](doc/handy_btree.md) ( btree ):** Binary-tree: A container for working with trees with at two children.
+- [x] **[handy_btree](doc/handy_btree.md) ( btree ):** A container for working with binary trees.
+- [x] **[handy_argparser](doc/handy_argparser.md) ( argparser ):** Utility for parsing command line arguments.
 - [ ] **handy_time ( time ):** A structure for time keeping.
 - [ ] **handy_serialize ( serialize ):** Reading and writing generic data to disk.
 - [ ] **handy_numeric ( numeric ):** For working with all types of numeric data eg decimal, binary, hexadecimal, octal etc.
