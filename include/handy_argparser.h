@@ -23,6 +23,8 @@ typedef struct _handy_argparser_arg_obj * handy_argparser_arg;
 
 struct _handy_argparser_arg_obj
 {
+    void *  (*get_value) ( handy_argparser_arg self );
+
     char * __name;
     char * __description;
     void * __value;
@@ -34,7 +36,6 @@ struct _handy_argparser_arg_obj
 struct _handy_argparser_struct
 {
     void    (*add_argument) ( handy_argparser self, handy_argparser_arg arg );
-    void *  (*get_argument) ( handy_argparser self, char * name );
     void    (*print_help)   ( handy_argparser self );
     void    (*free)         ( handy_argparser self );
     handy_list arg_list;

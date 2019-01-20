@@ -3,26 +3,27 @@
 #include "handy_argparser.h"
 
 
-int handy_argparser_get_arg_name_indx( handy_argparser self, char * name )
+int _handy_argparser_get_arg_name_indx( handy_argparser self, char * name )
 {
     for( int i = 1; i < self->__argc; i++ )
     {
         if( strcmp(self->__argv[i], name) == 0 )
             return i;
     }
+
     printf( "\nError, could not parse argument: {%s}", name );
     exit( 0 );
 }
 
-void handy_argparser_add_argument   ( handy_argparser self, handy_argparser_arg arg )
+void _handy_argparser_add_argument   ( handy_argparser self, handy_argparser_arg arg )
 {
-    int idx = handy_argparser_get_arg_name_indx( self, arg->__name );
+    int idx = _handy_argparser_get_arg_name_indx( self, arg->__name );
 
     for( int i = idx + 1; i < self->__argc; i++ )
     {
         if( arg->__type == handy_argparser_single_arg )
         {
-            memcpy( arg->__value, self->__argv[i], sizeof(self->__argv[i]) );
+            memcpy( arg->__value, self->__argv[i], strlen(self->__argv[i]) );
             break;
         }
         else if( arg->__type == handy_argparser_multiple_arg )
@@ -40,22 +41,11 @@ void handy_argparser_add_argument   ( handy_argparser self, handy_argparser_arg 
 
     return;
 }
-void * handy_argparser_get_argument ( handy_argparser self, char * name )
+void * _handy_argparser_arg_get_value( handy_argparser_arg self  )
 {
-    handy_argparser_arg iter;
-
-    for( int i = 0; i < self->arg_list->length(self->arg_list); i++ )
-    {
-        iter = self->arg_list->get_at( self->arg_list , i );
-        // found the arg with name
-        if( strcmp(iter->__name, name) == 0 )
-        {
-            return iter->__value;
-        }
-    }
-    return NULL;
+    return self->__value;
 }
-void handy_argparser_print_help     ( handy_argparser self )
+void _handy_argparser_print_help     ( handy_argparser self )
 {
     // print the argparser and display all argument
     // in nice format.
@@ -78,7 +68,7 @@ void handy_argparser_print_help     ( handy_argparser self )
 
     return;
 }
-void handy_argparser_free           ( handy_argparser self )
+void _handy_argparser_free           ( handy_argparser self )
 {
     handy_argparser_arg iter;
     for (int i = 0; i < self->arg_list->length(self->arg_list) ; ++i)
@@ -105,10 +95,9 @@ handy_argparser handy_create_argparser(  char * description, int argc, char ** a
 
     temp->arg_list = handy_create_list();
 
-    temp->print_help = handy_argparser_print_help;
-    temp->add_argument = handy_argparser_add_argument;
-    temp->get_argument = handy_argparser_get_argument;
-    temp->free = handy_argparser_free;
+    temp->print_help = _handy_argparser_print_help;
+    temp->add_argument = _handy_argparser_add_argument;
+    temp->free = _handy_argparser_free;
 
 
     return temp;
@@ -118,6 +107,8 @@ handy_argparser_arg handy_create_argparser_arg( char * name, char * des,
                                                 enum handy_argparser_type type )
 {
     handy_argparser_arg temp = malloc( sizeof(*temp) );
+
+    temp->get_value = _handy_argparser_arg_get_value;
 
     temp->__name = name;
     temp->__description = des;
@@ -132,7 +123,6 @@ handy_argparser_arg handy_create_argparser_arg( char * name, char * des,
         temp->__value = malloc( sizeof(temp->__value) );
         memset( temp->__value, 0, sizeof(temp->__value) );
     }
-
 
     return temp;
 }
