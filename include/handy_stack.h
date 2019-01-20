@@ -26,16 +26,16 @@ struct __handy_stack_obj
 
 struct _handy_stack_struct
 {
-    bool (*contain)         ( handy_stack s, void * item );
-    bool (*push)            ( handy_stack s, void * item );
-    bool (*empty)           ( handy_stack s );
+    bool (*contain)         ( handy_stack self, void * item );
+    bool (*push)            ( handy_stack self, void * item );
+    bool (*empty)           ( handy_stack self );
 
-    void   (*reverse)       ( handy_stack s );
-    void * (*pop)           ( handy_stack s );
-    void   (*free)          ( handy_stack s );
-    void * (*top)           ( handy_stack s );
-    void * (*bottom)        ( handy_stack s );
-    int    (*length)        ( handy_stack s );
+    void   (*reverse)       ( handy_stack self );
+    void * (*pop)           ( handy_stack self );
+    void   (*free)          ( handy_stack self );
+    void * (*top)           ( handy_stack self );
+    void * (*bottom)        ( handy_stack self );
+    int    (*length)        ( handy_stack self );
 
     _handy_stack_obj _first;
     _handy_stack_obj _last;

@@ -1,12 +1,12 @@
 #include <string.h>
 #include "handy_vector.h"
 
-void * handy_get_at ( handy_vector v, int at );
-bool handy_set_at   ( handy_vector v, void * item, int at );
-int handy_contain   ( handy_vector v, void * item );
-bool handy_rem_at   ( handy_vector v, int at );
-int handy_capacity  ( handy_vector v );
-void handy_free     ( handy_vector v );
+void * handy_get_at ( handy_vector self, int at );
+bool handy_set_at   ( handy_vector self, void * item, int at );
+int handy_contain   ( handy_vector self, void * item );
+bool handy_rem_at   ( handy_vector self, int at );
+int handy_capacity  ( handy_vector self );
+void handy_free     ( handy_vector self );
 
 handy_vector handy_create_vector()
 {
@@ -33,42 +33,42 @@ handy_vector handy_create_vector()
     return temp_vector;
 }
 
-void * handy_get_at ( handy_vector v, int at )
+void * handy_get_at ( handy_vector self, int at )
 {
-    if( at < 0 || at > v->_capacity || v->_bucket[at] == NULL )
+    if( at < 0 || at > self->_capacity || self->_bucket[at] == NULL )
         return NULL;
-    return v->_bucket[at];
+    return self->_bucket[at];
 }
-bool handy_set_at   ( handy_vector v, void * item, int at )
+bool handy_set_at   ( handy_vector self, void * item, int at )
 {
     // if at is less than 0, then we can't add item, must specify a
     // location greater than 0
     if( at < 0 )
         return false;
 
-    else if( at >= v->_capacity )
+    else if( at >= self->_capacity )
     {
         // if we have used all our capacity and at is such that we can expand to + 1/4 of original
         // capacity, then expand. +4 is because of integer division
-        if( v->_size >= v->_capacity && at < (v->_capacity + ((v->_capacity + 4) / 4)) )
+        if( self->_size >= self->_capacity && at < (self->_capacity + ((self->_capacity + 4) / 4)) )
         {
-            void ** new = realloc( (v->_bucket), ((v->_capacity + ((v->_capacity + 4) / 4)) * sizeof(*new)) );
+            void ** new = realloc( (self->_bucket), ((self->_capacity + ((self->_capacity + 4) / 4)) * sizeof(*new)) );
 
             if( new )
             {
-                v->_bucket = new;
+                self->_bucket = new;
                 // don't know if realloc initialise the newly allocated memory,
                 // we do in case not.
-                for( int c = v->_capacity; c < (v->_capacity + ((v->_capacity + 4) / 4)); c++ )
+                for( int c = self->_capacity; c < (self->_capacity + ((self->_capacity + 4) / 4)); c++ )
                 {
-                    v->_bucket[c] = NULL;
+                    self->_bucket[c] = NULL;
                 }
 
-                v->_capacity = (v->_capacity + ((v->_capacity + 4) / 4));
+                self->_capacity = (self->_capacity + ((self->_capacity + 4) / 4));
 
-                v->_bucket[at] = item;
+                self->_bucket[at] = item;
 
-                v->_size++;
+                self->_size++;
 
                 return true;
             }
@@ -77,24 +77,24 @@ bool handy_set_at   ( handy_vector v, void * item, int at )
         {
             // at is more than our capacity, hence increase size up to at, then insert
             // count from zero, hence add +1
-            void ** new = realloc( (v->_bucket), ((at + 1) * sizeof(*new)) );
+            void ** new = realloc( (self->_bucket), ((at + 1) * sizeof(*new)) );
 
             if( new )
             {
-                v->_bucket = new;
+                self->_bucket = new;
                 // don't know if realloc initialise the newly allocated memory,
                 // we do it increase not.
-                for( int c = v->_capacity; c < at; c++ )
+                for( int c = self->_capacity; c < at; c++ )
                 {
-                    // (*v)->_bucket[c] = malloc( sizeof((*v)->_bucket[c]) );
-                    v->_bucket[c] = NULL;
+                    // (*self)->_bucket[c] = malloc( sizeof((*self)->_bucket[c]) );
+                    self->_bucket[c] = NULL;
                 }
 
-                v->_capacity = at;
+                self->_capacity = at;
 
-                v->_bucket[at] = item;
+                self->_bucket[at] = item;
 
-                v->_size++;
+                self->_size++;
 
                 return true;
             }
@@ -104,11 +104,11 @@ bool handy_set_at   ( handy_vector v, void * item, int at )
     else
     {
         // if location(at) is empty, just insert at location
-        if( v->_bucket[at] == NULL )
+        if( self->_bucket[at] == NULL )
         {
-            v->_bucket[at] = item;
+            self->_bucket[at] = item;
 
-            v->_size++;
+            self->_size++;
 
             return true;
         }
@@ -117,33 +117,33 @@ bool handy_set_at   ( handy_vector v, void * item, int at )
             // if location is not empty, but contain another item, then, resize vector and
             // shift all item at location one place to the right.
             // resize vector to capacity + 1
-            void ** new = realloc( (v->_bucket), (v->_capacity + 1) * sizeof(*new) );
+            void ** new = realloc( (self->_bucket), (self->_capacity + 1) * sizeof(*new) );
 
             if( new )
             {
-                v->_bucket = new;
+                self->_bucket = new;
 
                 // initialise allocated space to null
-                v->_bucket[v->_capacity] = NULL;
+                self->_bucket[self->_capacity] = NULL;
 
                 // shift all items one-place to the right
                 // assign new capacity
-                v->_capacity = (v->_capacity + 1);
+                self->_capacity = (self->_capacity + 1);
 
-                for( int i = (v->_capacity -1); i >= 0; i-- )
+                for( int i = (self->_capacity -1); i >= 0; i-- )
                 {
                     // if at position add, stop shifting and place item
                     if( i == at )
                     {
-                        v->_bucket[at] = item;
+                        self->_bucket[at] = item;
 
-                        v->_size++;
+                        self->_size++;
 
                         return true;
                     }
                         // continue shitting all items before position to the right
                     else if( i > 0 )
-                        v->_bucket[i] = v->_bucket[i - 1];
+                        self->_bucket[i] = self->_bucket[i - 1];
                 }
             }
         }
@@ -151,42 +151,42 @@ bool handy_set_at   ( handy_vector v, void * item, int at )
     }
     return false;
 }
-int handy_contain   ( handy_vector v, void * item )
+int handy_contain   ( handy_vector self, void * item )
 {
-    for( int i = 0; i < v->_size; i++ )
+    for( int i = 0; i < self->_size; i++ )
     {
-        if( memcmp( &(v->_bucket[i]), &item, sizeof(item) ) == 0 )
+        if( memcmp( &(self->_bucket[i]), &item, sizeof(item) ) == 0 )
             return i;
     }
     return -1;
 
 }
-bool handy_rem_at   ( handy_vector v, int at )
+bool handy_rem_at   ( handy_vector self, int at )
 {
-    if( at < 0 || at > v->_capacity )
+    if( at < 0 || at > self->_capacity )
         return false;
-    else if( v->_bucket[at] == NULL )
+    else if( self->_bucket[at] == NULL )
         return true; // don't know, but since noting is there is as well as removed
     else
     {
         // found position to delete, shift all item from right to left
         // and fill position with left most item form position.
         // we go to capacity - 1 since we are deleting
-        for( int i = at; i < (v->_capacity - 1); i++ )
+        for( int i = at; i < (self->_capacity - 1); i++ )
         {
-            v->_bucket[i] = v->_bucket[i + 1];
+            self->_bucket[i] = self->_bucket[i + 1];
         }
-        v->_bucket[v->_capacity - 1 ] = NULL;
-        v->_size--;
+        self->_bucket[self->_capacity - 1 ] = NULL;
+        self->_size--;
     }
     return true;
 }
-int handy_capacity  ( handy_vector v )
+int handy_capacity  ( handy_vector self )
 {
-    return v->_capacity;
+    return self->_capacity;
 }
-void handy_free     ( handy_vector v )
+void handy_free     ( handy_vector self )
 {
     // free all items in list
-    v->_bucket = (free( v->_bucket ), NULL );
+    self->_bucket = (free( self->_bucket ), NULL );
 }

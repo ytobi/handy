@@ -10,34 +10,34 @@ typedef struct string_struct  * handy_string;
 
 struct string_struct
 {
-    void (*append_int)      ( handy_string s, long long num );
-    void (*append_double)   ( handy_string s, double num );
-    bool (*append)          ( handy_string s, char * str );
-    bool (*equal)           ( handy_string s1, handy_string s2 );
-    bool (*equal_str)       ( handy_string s, char * str );
+    void (*append_int)      ( handy_string self, long long num );
+    void (*append_double)   ( handy_string self, double num );
+    bool (*append)          ( handy_string self, char * str );
+    bool (*equal)           ( handy_string self, handy_string str );
+    bool (*equal_str)       ( handy_string self, char * str );
 
-    int (*contain_char)     ( handy_string s, char c );
-    int (*contain_str)      ( handy_string s, char * str );
-    bool (*add_char_front)  ( handy_string s, char c );
-    bool (*add_char_back)   ( handy_string s, char c );
-    bool (*add_char_at)     ( handy_string s, char c, int at );
-    bool (*is_null)         ( handy_string s );
+    int (*contain_char)     ( handy_string self, char c );
+    int (*contain_str)      ( handy_string self, char * str );
+    bool (*add_char_front)  ( handy_string self, char c );
+    bool (*add_char_back)   ( handy_string self, char c );
+    bool (*add_char_at)     ( handy_string self, char c, int at );
+    bool (*is_null)         ( handy_string self );
     bool (*copy)            ( handy_string des, handy_string src );
 
-    void (*to_upper)        ( handy_string s );
-    void (*to_lower)        ( handy_string s );
+    void (*to_upper)        ( handy_string self );
+    void (*to_lower)        ( handy_string self );
 
-    char * (*string)        ( handy_string s );
-    char (*get_front_char)  ( handy_string s );
-    char (*get_back_char)   ( handy_string s );
-    char (*get_char_at)     ( handy_string s, int at );
-    bool (*del_front_char)  ( handy_string s );
-    bool (*del_back_char)   ( handy_string s );
-    bool (*del_char_at)     ( handy_string s, int at );
-    void (*reverse)         ( handy_string s );
-    int  (*word_count)      ( handy_string s, char * delimiter );
-    void (*free)            ( handy_string s );
-    int  (*length)          ( handy_string s );
+    char * (*string)        ( handy_string self );
+    char (*get_front_char)  ( handy_string self );
+    char (*get_back_char)   ( handy_string self );
+    char (*get_char_at)     ( handy_string self, int at );
+    bool (*del_front_char)  ( handy_string self );
+    bool (*del_back_char)   ( handy_string self );
+    bool (*del_char_at)     ( handy_string self, int at );
+    void (*reverse)         ( handy_string self );
+    int  (*word_count)      ( handy_string self, char * delimiter );
+    void (*free)            ( handy_string self );
+    int  (*length)          ( handy_string self );
 
 
     char * _data;

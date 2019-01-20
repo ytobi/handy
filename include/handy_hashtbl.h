@@ -24,12 +24,12 @@ struct __handy_hashtbl_obj
 
 struct _hashtbl_struct
 {
-    bool (*contain)         ( handy_hashtbl t, char * key );
-    bool (*add)             ( handy_hashtbl t, char * key, void * item );
+    bool (*contain)         ( handy_hashtbl self, char * key );
+    bool (*add)             ( handy_hashtbl self, char * key, void * item );
 
-    void * (*get)           ( handy_hashtbl t, char * key );
-    void   (*remove)        ( handy_hashtbl t, char * key );
-    void   (*free)          ( handy_hashtbl t );
+    void * (*get)           ( handy_hashtbl self, char * key );
+    void   (*remove)        ( handy_hashtbl self, char * key );
+    void   (*free)          ( handy_hashtbl self );
 
     int _size;
 

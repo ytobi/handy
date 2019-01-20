@@ -25,16 +25,16 @@ struct __handy_queue_obj
 
 struct _queue_struct
 {
-    int (*contain)          ( handy_queue q, void * item );
-    bool (*enqueue)         ( handy_queue q, void * item );
-    bool (*empty)           ( handy_queue q );
+    int (*contain)          ( handy_queue self, void * item );
+    bool (*enqueue)         ( handy_queue self, void * item );
+    bool (*empty)           ( handy_queue self );
 
-    void   (*reverse)       ( handy_queue q );
-    void * (*dequeue)       ( handy_queue q );
-    void   (*free)          ( handy_queue q );
-    void * (*front)         ( handy_queue q );
-    void * (*back)          ( handy_queue q );
-    int (*length)           ( handy_queue q );
+    void   (*reverse)       ( handy_queue self );
+    void * (*dequeue)       ( handy_queue self );
+    void   (*free)          ( handy_queue self );
+    void * (*front)         ( handy_queue self );
+    void * (*back)          ( handy_queue self );
+    int (*length)           ( handy_queue self );
 
     void ** _handy_dequeued;
 

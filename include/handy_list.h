@@ -28,21 +28,21 @@ struct __handy_list_obj
 
 struct _handy_list_struct
 {
-    int  (*contain)         ( handy_list l, void * item );
-    bool (*add_front)       ( handy_list l, void * item );
-    bool (*add_back)        ( handy_list l, void * item );
-    bool (*add_at)          ( handy_list l, void * item, int at );
-    bool (*empty)           ( handy_list l );
+    int  (*contain)         ( handy_list self, void * item );
+    bool (*add_front)       ( handy_list self, void * item );
+    bool (*add_back)        ( handy_list self, void * item );
+    bool (*add_at)          ( handy_list self, void * item, int at );
+    bool (*empty)           ( handy_list self );
 
-    void * (*get_front)     ( handy_list l );
-    void * (*get_back)      ( handy_list l );
-    void * (*get_at)        ( handy_list l, int at );
-    bool   (*rem_front)     ( handy_list l );
-    bool   (*rem_back)      ( handy_list l );
-    void   (*reverse)       ( handy_list l );
-    bool   (*rem_at)        ( handy_list l, int at );
-    void   (*free)          ( handy_list l );
-    int    (*length)        ( handy_list l );
+    void * (*get_front)     ( handy_list self );
+    void * (*get_back)      ( handy_list self );
+    void * (*get_at)        ( handy_list self, int at );
+    bool   (*rem_front)     ( handy_list self );
+    bool   (*rem_back)      ( handy_list self );
+    void   (*reverse)       ( handy_list self );
+    bool   (*rem_at)        ( handy_list self, int at );
+    void   (*free)          ( handy_list self );
+    int    (*length)        ( handy_list self );
 
     _handy_list_obj _first;
     _handy_list_obj _last;
